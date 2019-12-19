@@ -1,0 +1,329 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/03-efficiency/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:49:04 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<title>Reading 3: Efficiency</title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_3_efficiency">Reading 3: Efficiency</a></li><li><a href="#chunking">Chunking</a></li><li><a href="#pointing_and_steering">Pointing and Steering</a></li><li><a href="#shortcuts">Shortcuts</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_3_efficiency">Reading 3: Efficiency</h1>
+
+<div data-outline="reading_3_efficiency"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="handout-info alert alert-info"><p><strong>Reading exercises are due by 10pm the night before class.</strong></p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<img src="figures/01.png">
+<p class="caption"></p><p>Source: Interface Hall of Shame</p><p></p></div>
+
+<p>This message used to appear when you tried to delete the contents of your Internet Explorer cache from inside Windows Explorer (i.e., you browse to the cache directory, select a file containing one of IE’s browser cookies, and delete it).</p>
+
+<p>Put aside the fact that the message is almost tautological (“Cookie… is a Cookie”) and overexcited (“!!”).</p>
+
+<p>Does it give the user enough information to make a decision?</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hall of Shame</p></div>
+<img src="figures/02.png">
+<p class="caption"></p><p>Source: Interface Hall of Shame</p><p></p></div>
+
+<p>Suppose you selected all your cookie files and tried to delete them all in one go. You get one dialog for every cookie you tried to delete! What button is missing from this dialog?</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hall of Fame or Shame?</p></div>
+<img src="figures/03.png">
+<p class="caption"></p><p>Source: Interface Hall of Shame</p><p></p></div>
+
+<p>One way to fix the too-many-questions problem is Yes To All and No To All buttons, which short-circuit the rest of the questions by giving a blanket answer. That’s a helpful shortcut, which improves <strong>efficiency</strong>, but this example shows that it’s not a panacea.</p>
+
+<p>This dialog is from Microsoft’s Web Publishing Wizard, which uploads local files to a remote web site. Since the usual mode of operation in web publishing is to develop a complete copy of the web site locally, and then upload it to the web server all at once, the wizard suggests deleting files on the host that don’t appear in the local files, since they may be orphans in the new version of the web site.</p>
+
+<p>But what if you know there’s a file on the host that you <strong>don’t</strong> want to delete? What would you have to do?</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hall of Fame</p></div>
+<img src="figures/04.png"></div>
+
+<p>If your interface has a potentially large number of related questions to ask the user, it’s much better to aggregate them into a single dialog. Provide a list of the files, and ask the user to select which ones should be deleted. Select All and Unselect All buttons would serve the role of Yes to All and No to All.</p>
+
+<p>Here’s an example of how to do it right, found in Eclipse. If there’s anything to criticize in Eclipse’s dialog box, it might be the fact that it initially doesn’t show the filenames, just their count – you have to press
+Details to see the whole dialog box. Simply knowing the <em>number</em> of files not under version control is rarely enough information to decide whether you want to say yes or no, so most users are likely to press Details anyway.</p></div>
+
+<h2 id="chunking">Chunking</h2>
+
+<div data-outline="chunking"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Chunking</p></div>
+<ul><li><p>“Chunk” is a unit of memory or perception</p>
+
+<ul><li><p>Depends both on presentation and on what you already know</p></li></ul></li>
+<img src="figures/05.png">
+<img src="figures/06.png">
+<img src="figures/07.png"></ul></div>
+
+<p>The elements of perception and memory are called <strong>chunks</strong>. In one sense, chunks are defined symbols; in another sense, a chunk represents the activation of past experience. Chunking is illustrated well by a famous study of chess players. Novices and chess masters were asked to study chess board configurations and recreate them from memory. The novices could only remember the positions of a few pieces. Masters, on the other hand, could remember entire boards, but only when the pieces were arranged in <em>legal</em> configurations. When the pieces were arranged randomly, masters were no better than novices. The ability of a master to remember board configurations derives from their ability to chunk the board, recognizing patterns from their past experience of playing and studying games. (De Groot, A. D., <em>Thought and choice in chess</em>, 1965.)</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Working Memory</p></div>
+<ul><li><p>Small: 4 ± 1 “chunks”</p></li>
+<li><p>Short-lived: ~10 sec</p></li>
+<li><p>Maintenance rehearsal fends off decay (but costs attention)</p></li></ul></div>
+
+<p>Working memory is where you do your conscious thinking. The currently favored model in cognitive science holds that working memory is not actually a separate place in the brain, but rather a pattern of <strong>activation</strong> of elements in the long-term memory. A famous old result is that the capacity of working memory is roughly 7 ± 2 chunks. A recent reanalysis of the same experiment has amended that estimate to 4 ± 1 chunks (Parker, “Acta is a four-letter word,” Acta Psychiatrica Scandinavica, 2012). Either way, it’s pretty small! Although working memory size can be increased by practice (if the user consciously applies mnemonic techniques that convert arbitrary data into more memorable chunks), it’s not a good idea to expect the user to do that. A good interface won’t put heavy demands on the user’s working memory.</p>
+
+<p>Data put in working memory disappears in a short time–a few seconds or tens of seconds. Maintenance rehearsal—repeating the items to yourself—fends off this decay, but maintenance rehearsal requires attention.
+So distractions can easily destroy working memory.</p>
+
+<p>Long-term memory is probably the least understood part of human cognition. It contains the mass of our memories. Its capacity is huge, and it exhibits little decay. Long-term memories are apparently not intentionally erased; they just become inaccessible.</p>
+
+<p>Maintenance rehearsal (repetition) appears to be useless for moving information into long-term memory.
+Instead, the mechanism seems to be <strong>elaborative rehearsal</strong>, which seeks to make connections with existing chunks. Elaborative rehearsal lies behind the power of mnemonic techniques like associating things you need to remember with familiar places, like rooms in your childhood home. But these techniques take hard work and attention on the part of the user. One key to good learnability is making the connections as easy as possible to make–and consistency is a good way to do that.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Improve Efficiency of Output</p></div>
+<ul><li><p>Present information in easily-recognized chunks</p></li></ul>
+<p></p><p>Hard: M W B C R A L O A B I M B F I<br>
+Easier: MWB / CRA / LOA / BIM / BFI<br>
+Easiest: BMW / RCA / AOL / IBM / FBI</p><p></p>
+<p></p><p>Hard: 9405510200793831994315<br>
+Easier: 9405 / 5102 / 0079 / 3831 / 994 / 315<br>
+Easiest: klar / fonz / apek / uwer</p><p></p></div>
+
+<p>Our ability to form chunks in working memory depends strongly on <strong>how the information is presented</strong>: a sequence of individual letters tend to be chunked as letters, but a sequence of three-letter groups tend to be chunked as groups. It also depends on what we already know. If the three letter groups are well-known TLAs (three-letter acronyms) with well-established chunks in long-term memory, we are better able to retain them in working memory.</p>
+
+<p>Take advantage of this as a designer: don’t present information as long undifferentiated strings of random characters or numbers. At the very least, break them up into 3- or 4-character groups. Still better, find a way to make the chunks more familiar. This applies not just to random numbers or hashes, but to all kinds of data displayed in an interface.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Example</p></div>
+<img src="figures/08.png"></div>
+
+<p>You probably saw this example when you signed up for your MIT Athena account. The keywords that you use to prove you have this account coupon are words–much easier to remember and type than the 10-digit, unchunked MIT identifier right above them. (Thanks to Kyle Murray for this example.)</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="chunking/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-03-efficiency"><div class="panel-body"><p>Which of the following sequences fit easily in working memory? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="2012, because it consists of 1 chunk"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">2012, because it consists of 1 chunk</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="617-253-1000, because it’s presented as 3 chunks"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">617-253-1000, because it’s presented as 3 chunks</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="cghjnswxz, because it’s presented in alphabetical order"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">cghjnswxz, because it’s presented in alphabetical order</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="7893632940, because it’s Justin Bieber’s social security number"><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">7893632940, because it’s Justin Bieber’s social security number</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+<h2 id="pointing_and_steering">Pointing and Steering</h2>
+
+<div data-outline="pointing_and_steering"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Fitts’s Law</p></div>
+
+<ul>
+<li>Time <strong><em>T</em></strong> to move your hand to a target of size <strong><em>S</em></strong> at distance <strong><em>D</em></strong> away is:
+<br><strong><em>T</em></strong> = <em>Reaction Time</em> + <em>Movement Time</em> = a + b log (<strong><em>D</em></strong>/<strong><em>S</em></strong> + 1)</li>
+</ul>
+
+<img src="figures/09.png">
+
+<ul>
+<li>Depends only on index of difficulty log(D/S + 1)</li>
+</ul></div>
+
+<p>Fitts’s Law specifies how fast you can move your hand to a target of a certain size at a certain distance away (within arm’s length, of course).
+It’s a fundamental law of the human sensory-motor system, which has been replicated by numerous studies.
+Fitts’s Law applies equally well to using a mouse to point at a target on a screen.
+In the equation shown here, reaction time is the time to get your hand moving, and movement time is the time spent moving your hand.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Explanation of Fitts’s Law</p></div>
+<ul><li><p>Moving your hand to a target is closed-loop control</p></li>
+<li><p>Each cycle covers remaining distance D with error εD</p></li></ul>
+<img src="figures/10.png"></div>
+
+<p>We can explain Fitts’s Law by appealing to a simplified model of human information processing.
+Fitts’s Law relies on <strong>closed-loop control</strong>.
+Assume that <strong><em>D</em></strong> &gt;&gt; <strong><em>S</em></strong>, so your hand is initially far away from the target.
+In each cycle, your motor system instructs your hand to move the entire remaining distance <strong><em>D</em></strong>.</p>
+
+<p>Your motor system can do that in one big motion of roughly constant time, <strong><em>T<sub class="no-markdown">m</sub></em></strong>,
+    but the accuracy of that single motion is proportional to the distance moved, so your hand gets within some error <strong><em>εD</em></strong> of the target
+    (possibly undershooting, possibly overshooting).
+Your perceptual system perceives where your hand arrived in constant time <strong><em>T<sub class="no-markdown">p</sub></em></strong>,
+and your cognitive system compares that location with the target in time <strong><em>T<sub class="no-markdown">c</sub></em></strong>.
+Then your motor system issues a correction to move the remaining distance <strong><em>εD</em></strong> — which it does, but again with proportional error,
+so your hand is now within <strong><em>ε<sup class="no-markdown">2</sup>D</em></strong>.
+This process repeats, with the error decreasing geometrically, until n iterations have brought your hand within the target — i.e.,
+<strong><em>ε<sup class="no-markdown">n</sup>D</em></strong> ≤ <strong><em>S</em></strong>.</p>
+
+<p class="no-markdown">Solving for n, and letting the total time T = n (T<sub>p</sub> + T<sub>c</sub> + T<sub>m</sub>), we get:</p>
+
+<blockquote>
+  <p>T = a + b log (D/S)</p>
+</blockquote>
+
+<p class="no-markdown">where <strong><em>a</em></strong> is the reaction time for getting your hand moving, and <strong><em>b</em></strong> = - (T<sub>p</sub> + T<sub>c</sub> + T<sub>m</sub>)/log ε.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Implications of Fitts’s Law</p></div>
+<ul><li><p>Targets at screen edge are easy to hit</p>
+
+<ul><li><p>Mac menubar beats Windows menubar</p></li>
+<li><p>Unclickable margins are foolish</p></li></ul></li>
+<li><p>Linear popup menus vs. pie menus</p></li></ul>
+<img src="figures/11.png">
+<img src="figures/12.png"></div>
+
+<p>Fitts’s Law has some interesting implications.</p>
+
+<p>The edge of the screen stops the mouse pointer, so you don’t need more than one correcting cycle to hit it.
+Essentially, <strong>the edge of the screen acts like a target with infinite size</strong>.
+(More precisely, the distance D to the center of the target is virtually equal to S, so T = a + b log (D/S + 1) solves to the minimum time T = a.)
+So edge-of-screen real estate is precious. The Macintosh menu bar, positioned at the top of the screen, is faster to use than a Windows menu bar (which, even when a window is maximized, is displaced by the title bar).</p>
+
+<p>Similarly, if you put controls at the edges of the screen, they should be active all the way to the edge to take advantage of this effect.
+<strong>Don’t put an unclickable margin beside them.</strong></p>
+
+<p>Fitts’s Law also explains why <strong>pie menus are faster to use than linear popup menus</strong>.
+With a pie menu, every menu item is a slice of a pie centered on the mouse pointer.
+As a result, <strong>each menu item is the same distance D away from the mouse pointer, and its size S</strong> (in the radial direction) <strong>is comparable to D</strong>.
+Contrast that with a linear menu, where items further down the menu have larger D, and all items have a small S (height).</p>
+
+<p>According to one study, <strong>pie menus are 15-20% faster than linear menus</strong> (Callahan et al. “<a href="http://doi.acm.org/10.1145/57167.57182">An empirical comparison of pie vs. linear menus</a>,” CHI 1991). Pie menus are used occasionally in practice–in some computer games, for example, and in the Sugar GUI created for the One-
+Laptop-Per-Child project. The picture here shows a pie menu for Firefox available as an extension. Pie menus are not widely used, however, perhaps because the efficiency benefits aren’t large enough to overcome the external consistency and layout simplicity of linear menus.</p>
+
+<p>Related to efficiency in general (though not to Fitts’s Law) is the idea of a <strong>gesture</strong>, a particular movement of the mouse (or stylus or finger) that triggers a command. For example, swiping the mouse to the left might trigger the Back command in a web browser. Pie menus can help you learn gestures, when the same movement of your mouse is used for triggering the pie menu command (note that the Back icon is on the left of the pie menu shown). The combination of pie menus and gestures is called “marking menus”, which have been used with good results in some research systems (Kurtenbach &amp; Buxton, “<a href="http://www.billbuxton.com/MMUserLearn.html">User Learning and Performance with
+Marking Menus</a>,” CHI 1994.)</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Steering Tasks</p></div>
+<ul><li><p>Time T to move your hand through a tunnel of length D and width S is: T = a + b D/S</p></li>
+<img src="figures/13.png">
+<li><p>Index of difficulty is now linear, not logarithmic</p>
+
+<ul><li><p>So steering is much harder than pointing</p></li></ul></li>
+<li><p>Thus cascading submenus are hard to use</p></li></ul></div>
+
+<p>As we discussed in the first reading, cascading submenus are hard to use, because the mouse pointer is constrained to a narrow tunnel in order to get over into the submenu.
+Unlike the pointing tasks that Fitts’s Law applies to, this steering task puts a strong requirement on the error your hand is allowed to make:
+<strong>instead of iteratively reducing the error until it falls below the size of the target, you have to continuously keep the error smaller than the size of the tunnel.</strong>
+The figure shows an intuition for why this works. Each cycle of the motor system can only move a small distance d such that the error εd is kept below S.
+The total distance D therefore takes D/d = εD/S cycles to cover. As a result, the time is proportional to D/S, not log D/S.
+It takes <em>exponentially longer</em> to hit a menu item on a cascading submenu than it would if you weren’t constrained to move down the tunnel to it.</p>
+
+<p>Windows tries to solve this problem with a 500 ms timeout before opening a submenu, but this means reduced efficiency when the user actually <em>wants</em> to open that submenu.</p>
+
+<p>The Mac gets a Hall of Fame nod here: when a submenu opens, it provides an <strong>invisible triangular zone</strong>, spreading from the mouse to the submenu, in which the mouse pointer can move without losing the submenu.
+The user can point straight to the submenu without unusual corrections, and without even noticing that there might be a problem.
+(Hall of Fame interfaces may sometimes be invisible to the user! They simply work better, and you don’t notice why.)</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Example: Steering Tasks on the Web</p></div>
+<ul><li><p>WSDM 2012 site</p></li></ul>
+<img src="figures/14.png"></div>
+
+<p>Steering tasks are surprisingly common in systems with cascading submenus. <a href="http://wsdm2012.org/">Here’s one on a website</a>. Try hovering over Authors to see its submenu. How do you have to move the mouse in order to get to “Paper instructions”?</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Improve Mouse Efficiency</p></div>
+<ul><li><p>Make frequently-used targets big</p>
+
+<ul><li><p>Use snapping in drawing editors</p></li></ul></li>
+<li><p>Put targets used together near each other</p></li>
+<li><p>Use screen corners and screen edges</p></li>
+<li><p>Avoid steering tasks</p></li></ul></div>
+
+<p>Now that we’ve discussed aspects of the human cognitive system that are relevant to user interface efficiency, let’s derive some practical rules for improving efficiency.</p>
+
+<p>First, let’s consider mouse tasks, which are governed by pointing (Fitts’s Law) and steering. Since size matters for Fitts’s Law, frequently-used mouse affordances should be big. The bigger the target, the easier the pointing task is.
+Similarly, consider the path that the mouse must follow in a frequently-used procedure. If it has to bounce all over the screen, from the bottom of the window to the top of the window, or back and forth from one side of the window to the other, then the cost of all that mouse movement will add up, and reduce efficiency. Targets that are frequently used together should be placed near each other.</p>
+
+<p>We mentioned the value of screen edges and screen corners, since they trap the mouse and act like infinite-size targets. There’s no point in having an unclickable margin at the edge of the screen.
+Finally, since steering tasks are so much slower than pointing tasks, avoid steering whenever possible. When you can’t avoid it, minimize the steering distance. Cascading submenus are much worse when the menu items are long, forcing the mouse to move down a long tunnel before it can reach the submenu.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="pointing_and_steering/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-03-efficiency"><div class="panel-body"><p>Consider using the mouse to choose File, Quit from the menubar.  Which of the following is the best model for these mouse movements? (choose one best answer)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Fitts’s Law pointing to somewhere on the menubar; steering down the menubar to File; steering down the menu to Quit."><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">Fitts’s Law pointing to somewhere on the menubar; steering down the menubar to File; steering down the menu to Quit.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Fitts’s Law pointing to File; steering down the menu to Quit."><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">Fitts’s Law pointing to File; steering down the menu to Quit.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Fitts’s Law pointing to File; Fitts’s Law pointing to Quit."><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">Fitts’s Law pointing to File; Fitts’s Law pointing to Quit.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Steering along the edge of the screen to File; steering down the menu to Quit."><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">Steering along the edge of the screen to File; steering down the menu to Quit.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="shortcuts">Shortcuts</h2>
+
+<div data-outline="shortcuts"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Keyboard Shortcuts</p></div>
+<ul><li><p>Keyboard commands</p></li>
+<li><p>Menu accelerators</p></li></ul>
+<img src="figures/15.png"></div>
+
+<p>A common way to increase efficiency of an interface is to add <strong>keyboard shortcuts</strong> —- easily-memorable key combinations. There are conventional techniques for displaying keyboard shortcuts (like Ctrl-N and Ctrl-O) in the menubar. Menubars and buttons often have <strong>accelerators</strong> as well (the underlined letters, which are usually invoked by holding down Alt to give keyboard focus to the menubar, then pressing the underlined letter). Choose keyboard shortcuts so that they are easily associated with the command in the user’s memory.</p>
+
+<p>Keyboard operation also provides <strong>accessibility</strong> benefits, since it allows your interface to be used by users who can’t see well enough to point a mouse. We’ll have more to say about accessibility in a future reading.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Defaults &amp; Pending Delete</p></div>
+<ul><li><p>Fill in a form with defaults</p>
+
+<ul><li><p>from history, by prediction</p></li></ul></li>
+<li><p>Make the defaults fragile</p></li></ul>
+<img src="figures/16.png">
+<img src="figures/17.png"></div>
+
+<p><strong>Defaults</strong> are common answers already filled into a form. Defaults help in lots of ways: they provide shortcuts to both novices and frequent users; and they help the user learn the interface by showing examples of legal entries. Defaults should be <strong>fragile</strong>; when you click on or Tab to a field containing a default value, it should be fully selected so that frequent users can replace it immediately by simply starting to type a new value. (This technique, where typing replaces the selection, is called <strong>pending delete</strong>. It’s the way most GUIs work, but not all. Emacs, for example, doesn’t use pending delete; when you highlight some text, and then start typing, it doesn’t delete the highlighted text automatically.) If the default value is wrong, then using a fragile default allows the correct value to be entered as if the field were empty, so having the default costs nothing.</p>
+
+<p>Incidentally, it’s a good idea to remove the word “default” from your interface’s vocabulary. It’s a technical term with some very negative connotations in the lending world.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>History</p></div>
+<ul><li><p>Offer recently-used or frequently-used choices</p></li></ul>
+<img src="figures/18.png">
+<img src="figures/19.png"></div>
+
+<p>Many inputs exhibit temporal locality–i.e., the user is more likely to enter a value they entered recently. File editing often exhibits temporal locality, which is why Recently-Used Files menus (like this) are very helpful for making file opening more efficient. Keep histories of users’ previous choices, not just of files but of any values that might be useful. When you display the Print dialog again, for example, remember and present as defaults the settings the user provided before.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Autocomplete</p></div>
+
+<ul><li><p>Minimize typing with autocomplete</p></li></ul>
+<img src="figures/20.png"></div>
+
+<p>Autocomplete doesn’t just help with efficiency. What other usability dimensions does it help?</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Aggregation</p></div>
+<img src="figures/21.png">
+<p></p><p>multiple selection for action</p><p></p>
+<img src="figures/22.png">
+<p></p><p>multiple drag &amp; drop</p><p></p></div>
+
+<p>Hearkening back to the Hall of Fame &amp; Shame for this reading, <strong>aggregation</strong> is an excellent way to add efficiency to an interface. Think about ways that a user can collect a number of items–data objects, decisions, graphical objects, whatever–and handle them all at once, as a group. Multiple selection is a good design pattern for aggregation, and there are many idioms now for multiple selection with mouse and keyboard (dragging an outline around the items, shift-click to select a range, etc.)</p>
+
+<p>Not every command needs aggregation, however. If the common case is only one item, and it’s never more than a handful of items, then it may not be worth the complexity.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Anticipation</p></div>
+<img src="figures/23.png"></div>
+
+<p><strong>Anticipation</strong> means that a good design should put all needed information and tools for a particular task within the user’s easy reach. If the task requires a feature from the interface that isn’t immediately available in the current mode, then the user may have to back out of what they’re doing, at a cost to efficiency.</p>
+
+<p>For example, here’s the File Open dialog in Windows XP. This dialog demonstrates a number of anticipations:</p>
+
+<ul>
+<li>The toolbar icons across the top show some evidence of anticipating the user’s needs. Probably the most important is the New Folder icon, which lets you create a new folder to save your file in.</li>
+<li>The icons on the left side are bookmarks for very common places that users go to open files, like the Desktop or the My Documents folder.</li>
+<li>The History icon captures another aspect of the file-opening task: that users often need to open a file that they’ve opened recently.</li>
+<li>If you click on My Network Places, you’ll see more evidence of anticipation: not just a list of the network places that you’ve already created (network places are basically bookmarks pointing to file servers), but also icons for the common subtasks involved in managing the list of network places: Add Network Place to add a new one; and the Network Setup Wizard if you aren’t connected to the network yet.</li>
+</ul>
+
+<p>It’s worth noting that all these operations are available elsewhere in Windows–recently opened files are found in PowerPoint’s File menu, the Network Setup wizard can be found from the Start menu or the Control Panel, and new folders can be made with Windows Explorer. So they’re here only as shortcuts to functionality that was already available–shortcuts that serve both <strong>learnability</strong> (since the user doesn’t have to learn about all those other places in order to perform the task of this dialog) and <strong>efficiency</strong> (since even if I know about those other places, I’m not forced to navigate to them to get the job done).</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise" data-outline="exercise" data-ex-id="shortcuts/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-03-efficiency"><div class="panel-body"><img src="../../../../../../courses.csail.mit.edu/6.831/2014/readings/assets/L04/Pictures/24.png" width="600"><p>Which efficiency techniques are used by this UI? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="aggregation"><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">aggregation</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="autocomplete"><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">autocomplete</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="history"><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">history</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="pending delete"><label for="md_converted_choice_3_3"><input type="checkbox" id="md_converted_choice_3_3">pending delete</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+</div></div>
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/03-efficiency/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:50:05 GMT -->
+</html><!-- Handout delivered Sat Feb 10 2018 15:36:45 GMT-0500 (EST) -->

@@ -1,0 +1,455 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/05-ui-sw-arch/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:53:05 GMT -->
+<head>
+<meta charset="UTF-8">
+
+<title>Reading 5: UI Software Architecture</title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_5_ui_software_architecture">Reading 5: UI Software Architecture</a></li><li><a href="#ui_hall_of_fame_or_shame">UI Hall of Fame or Shame?</a></li><li><a href="#view_tree_and_the_listener_pattern">View Tree and the Listener Pattern</a></li><li><a href="#model-view">Model-View</a></li><li><a href="#gui_implementation_approaches">GUI Implementation Approaches</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_5_ui_software_architecture">Reading 5: UI Software Architecture</h1>
+
+<div data-outline="reading_5_ui_software_architecture"><div class="markdown col-sm-8 col-sm-offset-2 converted"><h2 id="ui_hall_of_fame_or_shame">UI Hall of Fame or Shame?</h2>
+
+<div data-outline="ui_hall_of_fame_or_shame"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<img src="figures/01.png"></div>
+
+<p>This reading’s candidate for the Hall of Fame and Shame is the <strong>Alt-Tab</strong> window switching interface in Microsoft
+Windows. This interface has been copied by a number of desktop systems, including KDE, Gnome, and even
+Mac OS X.</p>
+
+<p>For those who haven’t used it, here’s how it works. Pressing Alt-Tab (Cmd-Tab on the Mac) makes this window appear. As long as you hold down Alt or Cmd, each press of Tab selects the next window in the sequence. Releasing the Alt/Cmd key switches to the selected window.</p>
+
+<p>We will talk about Alt-Tab from the usability perspective. Think about:</p>
+
+<ul>
+<li>Is it learnable?</li>
+<li>Is it efficient?</li>
+<li>What about errors and safety?</li>
+</ul></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<img src="figures/02.png"></div>
+
+<p>For comparison, we’ll also look at the Exposé (now Mission Control) feature in Mac OS X. When you push F3 on a Mac, it displays all the open windows–even hidden windows, or windows covered by other windows–shrinking them as necessary so that they don’t overlap. Mousing over a window displays its title, and clicking on a window brings that window to the front and ends the Exposé mode, sending all the other windows back to their old sizes and locations.</p>
+
+<p>In one version of Mac OS X, Exposé could also be triggered by moving the mouse to a particular corner of the screen (a “hot corner”).  Hot corners are still available in the Mac, but this feature is no longer on by default.</p>
+
+<p>Think about the usability of Exposé:</p>
+
+<ul>
+<li>Is it learnable?</li>
+<li>Is it efficient?</li>
+<li>What about errors and safety?</li>
+<li>How does it compare and contrast with Alt-Tab? Which is more efficient for what tasks, and why?</li>
+</ul></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Today’s Topics</p></div>
+<ul><li><p>Design patterns for GUIs</p>
+
+<ul><li><p>View tree</p></li>
+<li><p>Listener</p></li>
+<li><p>Model-view</p></li></ul></li>
+<li><p>Approaches to GUI programming</p>
+
+<ul><li><p>Procedural</p></li>
+<li><p>Declarative</p></li>
+<li><p>Direct manipulation</p></li></ul></li></ul></div>
+
+<p>Today’s reading is the first in a series of readings about how graphical user interfaces are implemented. Today we’ll take a high-level look at the software architecture of GUI software, focusing on the <strong>design patterns</strong> that have proven most useful. Three of the most important patterns are the <strong>model-view</strong> abstraction, which has evolved somewhat since its original formulation in the early 80’s; the <strong>view tree</strong>, which is a central feature in the architecture of every important GUI toolkit; and the <strong>listener</strong> pattern, which is essential to decoupling the model from the view.</p>
+
+<p>We’ll also look at the three main approaches to implementing GUIs. We won’t get into the details of HTML,
+CSS, Javascript, and JQuery here: they are well-covered in the labs we hosted earlier this semester (see course web site for materials). Also note that the backend development of web applications falls outside the scope of the course material in this class. So we won’t be talking about things like SQL, PHP, Ruby on Rails, or even
+AJAX.</p></div></div>
+
+
+
+
+
+<h2 id="view_tree_and_the_listener_pattern">View Tree and the Listener Pattern</h2>
+
+<div data-outline="view_tree_and_the_listener_pattern"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>View Tree</p></div>
+<ul><li><p>A GUI is structured as a tree of views</p>
+
+<ul><li><p>A view is an object that displays itself on a region of the screen</p></li></ul></li></ul>
+<img src="figures/03.png"></div>
+
+<p>The first important pattern we’ll talk about today is the <strong>view tree</strong>. A view is an object that covers a certain area of the screen, generally a rectangular area called its bounding box. The view concept goes by a variety of names in various UI toolkits. In Java Swing, they’re JComponents; in HTML, they’re elements or nodes; in other toolkits, they may be called widgets, controls, or interactors.</p>
+
+<p>Views are arranged into a hierarchy of containment, in which some views contain other views. Typical containers are windows, panels, and toolbars.  Since each view is directly contained in just one other, this containment relationship defines a tree.   The view tree is not just an arbitrary hierarchy, but is aligned with the conceptual structure of the data, so that if a parent is not displayed, its children usually won’t be displayed either. In old frameworks (such as Swing), a child was always visually contained (that is, spatially on the 2d display) in its parent’s bounding box, but this is not true of the web browser view tree (called the DOM), which allows a designer to position a child independently of the parent.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>How the View Tree is Used</p></div>
+
+<ul><li><p>Output</p>
+
+<ul><li><p>GUIs change their output by mutating the view tree</p></li>
+<li><p>A redraw algorithm automatically redraws the affected views</p></li></ul></li>
+<li><p>Input</p>
+
+<ul><li><p>GUIs receive keyboard and mouse input by attaching listeners to views (more on this in a bit)</p></li></ul></li>
+<li><p>Layout</p>
+
+<ul><li><p>Automatic layout algorithm traverses the tree to calculate positions and sizes of views</p></li></ul></li></ul></div>
+
+<p>Virtually every GUI system has some kind of <strong>view tree</strong>. The view tree is a powerful structuring idea, which is loaded with responsibilities in a typical GUI:</p>
+
+<ul>
+<li><p><strong>Output</strong>. Views are responsible for displaying themselves, and the view hierarchy directs the display process.
+GUIs change their output by mutating the view tree. For example, in the wiring diagram editor shown on the previous slide, the wiring diagram is changed by adding or removing objects from the subtree representing the drawing area. A redraw algorithm automatically redraws the affected parts of the subtree.</p></li>
+<li><p><strong>Input</strong>. Views can have input handlers, and the view tree controls how mouse and keyboard input is processed.</p></li>
+<li><p><strong>Layout</strong>. The view tree controls how the views are laid out on the screen, i.e., how their bounding boxes are assigned. An automatic layout algorithm automatically calculates positions and sizes of views.</p></li>
+</ul>
+
+<p>We’ll look at more about each of these areas in later readings.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Input Handling</p></div>
+<ul><li><p>Input handlers are associated with views</p>
+
+<ul><li><p>Also called <strong>listeners</strong>, event handlers, subscribers, observers</p></li></ul></li></ul>
+<img src="figures/04.png"></div>
+
+<p>To handle mouse input, for example, we can attach a handler to the view that is called when the mouse is clicked on it. Handlers are variously called <strong>listeners</strong>, event handlers, subscribers, and observers.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Listener Pattern</p></div>
+
+<ul><li><p>GUI input handling is an example of the Listener pattern</p>
+
+<ul><li><p>aka Publish-Subscribe, Event, Observer</p></li></ul></li>
+<li><p>An event source generates a stream of discrete events</p>
+
+<ul><li><p>e.g., mouse events</p></li></ul></li>
+<li><p>Listeners register interest in events from the source</p>
+
+<ul><li><p>Can often register only for specific events - e.g.,  only want mouse events occurring inside a view’s bounds</p></li>
+<li><p>Listeners can unsubscribe when they no longer want events</p></li></ul></li>
+<li><p>When an event occurs, the event source distributes it to all interested listeners</p></li></ul></div>
+
+<p>GUI input event handling is an instance of the Listener pattern (also known as Observer and Publish-Subscribe). In the Listener pattern, an event source generates a stream of discrete events, which correspond to state transitions in the source. One or more listeners register interest (subscribe) to the stream of events, providing a function to be called when a new event occurs. In this case, the mouse is the event source, and the events are changes in the state of the mouse: its x,y position or the state of its buttons (whether they are pressed or released). Events often include additional information about the transition (such as the x,y position of mouse), which might be bundled into an <strong>event object</strong> or passed as parameters.</p>
+
+<p>When an event occurs, the event source distributes it to all subscribed listeners, by calling their callback functions.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="view_tree_and_the_listener_pattern/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-05-ui-sw-arch"><div class="panel-body"><p>Select all true statements below:</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="The view tree is only created once and cannot be manipulated while an interface is used."><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">The view tree is only created once and cannot be manipulated while an interface is used.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Typically, multiple listeners can be attached to an event."><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Typically, multiple listeners can be attached to an event.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Each child in a view tree must be spatially contained in the bounding box of its parent in the view tree."><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Each child in a view tree must be spatially contained in the bounding box of its parent in the view tree.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Listeners allow the GUI to handle input from the user."><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">Listeners allow the GUI to handle input from the user.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+<h2 id="model-view">Model-View</h2>
+
+<div data-outline="model-view"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Separating Frontend from Backend</p></div>
+
+<ul><li><p>We’ve seen how to separate input and output in GUIs</p>
+
+<ul><li><p>Output is represented by the view tree</p></li>
+<li><p>Input is handled by listeners attached to views</p></li></ul></li>
+<li><p>Missing piece is the backend of the system</p>
+
+<ul><li><p>Backend (aka model) represents the actual data that the user interface is showing and editing</p></li>
+<li><p>Why do we want to separate this from the user interface?</p></li></ul></li></ul></div>
+
+<p>We’ve seen how GUI programs are structured around a view tree, and how input events are handled by attaching listeners to views. This is the start of a <strong>separation of concerns</strong> – output handled by views, and input handled by listeners.</p>
+
+<p>But we’re still missing the application itself – the backend that actually provides the information to be displayed, and computes the input that is handled.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Model-View-Controller Pattern</p></div>
+<img src="figures/05.png"></div>
+
+<p>The <strong>model-view-controller pattern</strong>, originally articulated in the Smalltalk-80 user interface, has strongly influenced the design of UI software ever since. In fact, MVC may have single-handedly inspired the software design pattern movement; it figures strongly in the introductory chapter of the seminal “Gang of Four” book (Gamma, Helm, Johnson, Vlissides, <em>Design Patterns: Elements of Reusable Software</em>).</p>
+
+<p>MVC’s primary goal is separation of concerns. It separates the user interface frontend from the application backend, by putting backend code into the model and frontend code into the view and controller. The original MVC also separated input from output; the controller is supposed to handle input, and the view is supposed to handle output.  We’ll see that this separation is less effective in practice, however.</p>
+
+<p>The model is responsible for maintaining application-specific data and providing access to that data. Models are often mutable, and they provide methods for changing the state safely, preserving its representation invariants. OK, all mutable objects do that. But a model must also notify its clients when there are changes to its data, so that dependent views can update their displays, and dependent controllers can respond appropriately. Models do this notification using the listener pattern, in which interested views and controllers register themselves as listeners for change events generated by the model.</p>
+
+<p>View objects are responsible for output. A view occupies some chunk of the screen, usually a rectangular area. Basically, the view queries the model for data and draws the data on the screen. It listens for changes from the model so that it can update the screen to reflect those changes.</p>
+
+<p>Finally, in the original MVC pattern, the controller handles the input. It receives keyboard and mouse events, and instructs the model to change accordingly.  But we’ll see below that the separation of concerns in this part of the pattern – between the view and the controller – has not really worked out well in practice.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Advantages of Model-View</p></div>
+<ul><li><p>Separation of responsibilities</p>
+
+<ul><li><p>Each module is responsible for just one feature</p><ul><li><p>Model: data</p></li>
+<li><p>View: input and output</p></li></ul><p></p></li></ul></li>
+<li><p>Decoupling</p>
+
+<ul><li><p>View and model are decoupled from each other, so they can be changed independently</p></li>
+<li><p>Model can be reused with other views</p></li>
+<li><p>Multiple views can simultaneously share the same model</p></li>
+<li><p>Views can be reused for other models</p></li></ul></li></ul></div>
+
+<p>In principle, the model-view separation has several benefits. First, it allows the interface to have multiple views showing the same application data. For example, a database field might be shown in a table and in an editable form at the same time. Second, it allows views and models to be reused in other applications. The model-view pattern enables the creation of user interface <strong>toolkits</strong>, which are libraries of reusable interface objects.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>A Small MVC Example: Textbox</p></div>
+<img src="figures/06.png"></div>
+
+<p>A simple example of the MVC pattern is a text field widget (this is Java Swing’s text widget). Its model is a mutable string of characters. The view is an object that draws the text on the screen (usually with a rectangle around it to indicate that it’s an editable text field). The controller is an object that receives keystrokes typed by the user and inserts them in the string. Note that the controller may signal a change in the view (here, moving the cursor) even when there is no change in the underlying model.</p>
+
+<p>Instances of the MVC pattern appear at many scales in GUI software. At a higher level, this text field might be part of a view (like the address book editor), with a different controller listening to it (for text-changed events), for a different model (like the address book). But when you drill down to a lower level, the text field itself is an instance of MVC.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>A Larger MVC Example</p></div>
+<img src="figures/07.png"></div>
+
+<p>Here’s a larger example, in which the view is a filesystem browser (like the Mac Finder or Windows Explorer), the model is the disk filesystem, and the controller is an input handler that translates the user’s keystrokes and mouse clicks into operations on the model and view.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hard to Separate Controller and View</p></div>
+
+<ul><li><p>Controller often needs output</p>
+
+<ul><li><p>View must provide <strong>affordances</strong> for controller (e.g., scrollbar thumb)</p></li>
+<li><p>View must also provide <strong>feedback</strong> about controller state (e.g., depressed button)</p></li></ul></li>
+<li><p>State shared between controller and view: Who manages the <strong>selection</strong>?</p>
+
+<ul><li><p>Must be displayed by the view (as blinking text cursor or highlight)</p></li>
+<li><p>Must be updated and used by the controller</p></li>
+<li><p>Should selection be in model?</p><ul><li><p>Generally not</p></li>
+<li><p>Some views need independent selections (e.g., two windows on the same document)</p></li>
+<li><p>Other views need synchronized selections (e.g., table view &amp; chart view)</p></li></ul><p></p></li></ul></li></ul></div>
+
+<p>The original MVC pattern has a few problems when you try to apply it, which boil down to this: you can’t cleanly separate input and output in a graphical user interface. Let’s look at a few reasons why.</p>
+
+<p>First, a controller often needs to produce its own output. The view must display <strong>affordances</strong> for the controller, such as selection handles or scrollbar thumbs. The controller must be aware of the screen locations of these affordances. When the user starts manipulating, the view must modify its appearance to give <strong>feedback</strong> about the manipulation, e.g., painting a button as if it were depressed.</p>
+
+<p>Second, some pieces of state in a user interface don’t have an obvious home in the MVC pattern. One of those pieces is the <strong>selection</strong>. Many UI components have some kind of selection, indicating the parts of the interface that the user wants to use or modify. In our text box example, the selection is either an insertion point or a range of characters.</p>
+
+<p>Which object in the MVC pattern should be responsible for storing and maintaining the selection? The view has to display it, e.g., by highlighting the corresponding characters in the text box. But the controller has to use it and modify it. Keystrokes are inserted into the text box at the location of the selection, and clicking or dragging the mouse or pressing arrow keys changes the selection.</p>
+
+<p>Perhaps the selection should be in the model, like other data that’s displayed by the view and modified by the controller? Probably not. Unlike model data, the selection is very transient, and belongs more to the frontend (which is supposed to be the domain of the view and the controller) than to the backend (the model’s concern).
+Furthermore, multiple views of the same model may need independent selections. In Emacs, for example, you can edit the same file buffer in two different windows, each of which has a different cursor.</p>
+
+<p>So we need a place to keep the selection, and similar bits of data representing the transient state of the user interface. It isn’t clear where in the MVC pattern this kind of data should go.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Widget: Tightly Coupled View &amp; Controller</p></div>
+
+<ul><li><p>The MVC idea has largely been superseded by an MV (Model-View) idea</p></li>
+<li><p>A widget is a reusable view object that manages both its output and its input</p>
+
+<ul><li><p>Widgets are sometimes called components (Java, Flex) or controls (Windows)</p></li></ul></li>
+<li><p>Examples: scrollbar, button, menubar</p></li></ul></div>
+
+<p>In principle, it’s a nice idea to separate input and output into separate, reusable classes. In reality, it isn’t always feasible, because input and output are tightly coupled in graphical user interfaces. As a result, the
+MVC pattern has largely been superseded by what might be called Model-View, in which the view and controllers are fused together into a single class, often called a <strong>component</strong> or a <strong>widget</strong>.</p>
+
+<p>Most of the widgets in a GUI toolkit are fused view/controllers like this; you can’t, for example, pull out the scrollbar’s controller and reuse it in your own custom scrollbar. Internally, the scrollbar probably follows a model-view-controller architecture, but the view and controller aren’t independently reusable.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>A Different Perspective on MVC</p></div>
+<img src="figures/08.png"></div>
+
+<p>Partly in response to this difficulty, and also to provide a better decoupling between the model and the view, some definitions of the MVC pattern treat the controller less as an input handler and more as a <strong>mediator</strong> between the model and the view.</p>
+
+<p>In this perspective, the view is responsible not only for output, but also for low-level input handling, so that it can handle the overlapping responsibilities like affordances and selections.</p>
+
+<p>But listening to the model is no longer the view’s responsibility. Instead, the controller listens to both the model and the view, passing changes back and forth. The controller receives high-level input events from the view, like selection-changed, button-activated, or textbox-changed, rather than low-level input device events.
+The Mac Cocoa framework uses this approach to MVC.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="model-view/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-05-ui-sw-arch"><div class="panel-body"><p>Model View Controller (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="allows the view and the model to change independently."><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">allows the view and the model to change independently.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="stores transient UI state (such as selection) in the model."><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">stores transient UI state (such as selection) in the model.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="allows implementing multiple views for a single model."><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">allows implementing multiple views for a single model.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="has been largely superseded by other frameworks that nevertheless maintain a separation between the view and the model."><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">has been largely superseded by other frameworks that nevertheless maintain a separation between the view and the model.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="gui_implementation_approaches">GUI Implementation Approaches</h2>
+
+<div data-outline="gui_implementation_approaches"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>GUI Implementation Approaches</p></div>
+
+<ul><li><p>Procedural programming</p>
+
+<ul><li><p>Code that says <em></em></p><p><em>how</em></p> to get what you want (flow of control)<p></p></li></ul></li>
+<li><p>Declarative programming</p>
+
+<ul><li><p>Code that says <em></em></p><p><em>what</em></p> you want (no explicit flow of control)<p></p></li></ul></li>
+<li><p>Direct manipulation</p>
+
+<ul><li><p>Creating what you want in a direct manipulation interface</p></li></ul></li></ul>
+
+<h3 id="procedural"><p>Procedural</p></h3>
+
+<div data-outline="procedural"><ol><li><p>Put down block A.</p></li>
+<li><p>Put block B on block A.</p></li>
+<li><p>Put block C on block B.</p></li></ol></div>
+
+<h3 id="declarative"><p>Declarative</p></h3>
+
+<div data-outline="declarative"><p></p><p>A tower of 3 blocks.</p><p></p></div>
+
+<h3 id="direct_manipulation"><p>Direct Manipulation</p></h3>
+<div data-outline="direct_manipulation"><img src="figures/09.png"></div></div>
+
+<p>Now let’s talk about how to construct the view tree, which will be a tale of three paradigms.
+In <strong>procedural</strong> style, the programmer has to say, step-by-step, how to reach the desired state. There’s an explicit thread of control. This means you’re writing code (in, say, Javascript) that calls constructors to create view objects, sets properties of those objects, and then connects them together into a tree structure (by calling, say, <code>appendChild()</code> methods). Virtually every GUI toolkit offers an API like this for constructing and mutating the view tree.</p>
+
+<p>In <strong>declarative</strong> style, the programmer writes code that directly represents the desired view tree. There are many ways to describe tree structure in textual syntax, but the general convention today is to use an HTML/XML-style markup language. There’s no explicit flow of control in a declarative specification of a tree; it doesn’t do, it just is. An automatic algorithm translates the declarative specification into runtime structure or behavior.</p>
+
+<p>Finally, in <strong>direct manipulation</strong> style, the programmer uses a direct-manipulation graphical user interface to create the view tree. These interfaces are usually called GUI builders, and they offer a palette of view object classes, a drawing area to arrange them on, and a property editor for changing their properties.</p>
+
+<p>All three paradigms have their uses, but the sweet spot for GUI programming basically lies in an appropriate mix of declarative and procedural–which is what HTML/Javascript provides.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Markup Languages</p></div>
+
+<ul><li><p>HTML declaratively specifies a view tree</p></li></ul>
+
+<pre><code>&lt;div&gt;What are you doing now?&lt;/div&gt;
+ &lt;div&gt;
+    &lt;textarea&gt;&lt;/textarea&gt;
+    &lt;img src="smile.jpg"&gt;
+ &lt;/div&gt;
+ &lt;div&gt;
+    &lt;button id="sendButton"&gt;Send&lt;/button&gt;
+    &lt;a href="#"&gt;Sign out&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+<img src="figures/10.png">
+
+<pre><code>&lt;body&gt;  
+  ├─ &lt;div&gt;
+  │    └─ text
+  ├─ &lt;div&gt;
+  │    └─ &lt;textarea&gt;
+  │    └─ &lt;img&gt;
+  └─ &lt;div&gt;
+       ├─ &lt;button&gt;
+       │    └─ text
+       └─ &lt;a&gt; 
+            └─ text</code></pre></div>
+
+<p>Our first example of declarative UI programming is a <strong>markup language</strong>, such as HTML. A markup language provides a declarative specification of a view hierarchy. An HTML <strong>element</strong> is a component in the view hierarchy. The type of an element is its <strong>tag</strong>, such as <code>div</code>, <code>button</code>, and <code>img</code>. The properties of an element are its attributes. In the example here, you can see the <code>id</code> attribute (which gives a unique name to an element) and the <code>src</code> attribute (which gives the URL of an image to load in an img element); there are of course many others.</p>
+
+<p>There’s an automatic algorithm, built into every web browser, that constructs the view hierarchy from an
+HTML specification–it’s simply an HTML parser, which matches up start tags with end tags, determines which elements are children of other elements, and constructs a tree of element objects as a result. So, in this case, the automatic algorithm for this declarative specification is pretty simple.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>View Tree Manipulation</p></div>
+
+<ul><li><p>Javascript can <strong>procedurally</strong> mutate a view tree</p></li></ul>
+
+<pre><code>  var doc = document;
+  var div1 = doc.createElement("div");
+  div1.appendChild(doc.createTextNode("What are you doing now?"));
+
+  var div2 = doc.createElement("div");
+  var textElement = document.createElement("textarea");
+  var imageElement = document.createElement("img");
+  imageElement.setAttribute("src", "smile.png");
+  div2.appendChild(textElement);
+  div2.appendChild(imageElement);
+
+  var div3 = doc.createElement("div");
+  var textButton = doc.createElement("button");
+  textButton.setAttribute("id", "sendButton");
+  textButton.appendChild(doc.createTextNode("Send"));
+  div3.appendChild(textButton);
+
+  var a = doc.createElement("a");
+  a.setAttribute("href", "#");
+  a.appendChild(doc.createTextNode("Sign out"));
+  div3.appendChild(a);
+
+  doc.body.appendChild(div1);
+  doc.body.appendChild(div2);
+  doc.body.appendChild(div3);
+</code></pre>
+
+<img src="figures/10.png"></div>
+
+<p>Here’s procedural code that generates the same HTML view tree, using Javascript and the <strong>Document Object Model (DOM)</strong>. DOM is a standard set of classes and methods for interacting with a tree of HTML or XML objects procedurally. DOM interfaces exist not just in Javascript, which is the most common place to see it, but also in Java and other languages.</p>
+
+<p>Note that the name DOM is rather unfortunate from our point of view. It has nothing to do with “models” in the sense of model-view—in fact, the DOM is a tree of views. It’s a model in the most generic sense we discussed in the Learnability reading, a set of parts and interactions between them, that allows an HTML document to be treated as objects in an object-oriented programming language.</p>
+
+<p>Most people ignore what DOM means, and just use the word. In fact, DOM is often used to refer to the view tree.</p>
+
+<p>Compare the procedural code here with the declarative code earlier.</p>
+
+<p>Raw DOM programming is painful, and worth avoiding.
+There are toolkits that substantially simplify procedural programming in HTML/Javascript.
+jQuery is a good example, and the one we’ll be using.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Direct-Manipulation HTML Editing</p></div>
+
+<ul><li><p>Adobe Dreamweaver</p></li></ul>
+
+<img src="figures/dreamweaver-example.png"></div>
+
+<p>The story would not be complete without mentioning that there are GUI builders for HTML as well, like Adobe Dreamweaver shown here.  Although rarely used by web application developers, who want and need more control over their code, they are often a good tool for occasional web designers who favor learnability and safety over efficiency.</p>
+
+<p>Developers are more likely to use GUI builders for mobile GUI frameworks, like Android or iOS.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Advantages &amp; Disadvantages of the Approaches</p></div>
+
+<ul>
+<li>Declarative is usually more compact
+
+<ul><li>Programmer only has to know how to say <strong>what</strong>, not <strong>how</strong></li>
+<li>Automatic algorithms are responsible for figuring out how</li></ul></li>
+<li>Declarative may be harder to debug
+
+<ul><li>Can’t set breakpoints, single-step, print in a declarative spec</li>
+<li>Debugging may be more trial-and-error</li></ul></li>
+<li>Declarative specs make direct-manipulation authoring tools possible
+
+<ul><li>Declarative spec can be loaded and saved by a tool</li>
+<li>Procedural specs generally can’t</li></ul></li>
+</ul></div>
+
+<p>Now that we have seen declarative, procedural, and direct-manipulation ways to generate HTML, let’s consider some of the advantages and disadvantages.</p>
+
+<p>First, the declarative code is usually more compact than procedural code that does the same thing. That’s mainly because it’s written at a higher level of abstraction: it says <em>what</em> should happen, rather than <em>how</em>.</p>
+
+<p>But the higher level of abstraction can also make declarative code harder to debug. There’s generally no notion of time, so you can’t use techniques like breakpoints and print statements to understand what’s going wrong. The automatic algorithm that translates the declarative code into working user interface may be complex and hard to control—i.e., small changes in the declarative specification may cause large changes in the output. Declarative specs need debugging tools that are customized for the specification, and that give insight into how the spec is being translated; without those tools, debugging becomes trial and error.</p>
+
+<p>On the other hand, an advantage of declarative code is that it’s much easier to build authoring tools for the code, like HTML editors or GUI builders, that allow the user interface to be constructed by direct manipulation rather than coding. It’s much easier to load and save a declarative specification than a procedural specification.</p>
+
+<p>Some GUI builders do use procedural code as their file format—e.g., generating Java code and automatically inserting it into a class. Either the code generation is purely one-way (i.e., the GUI builder spits it out but can’t read it back in again), or the procedural code is so highly stylized that it amounts to a declarative specification that just happens to use Java syntax. If the programmer edits the code, however, they may deviate from the stylization and break the GUI builder’s ability to read it back in.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Declarative UI for Model/View Binding</p></div>
+
+<ul>
+<li>A reactive template makes declarative connections between model
+and view  </li>
+</ul>
+
+<pre><code>&lt;input type="text" ng-model="userName"&gt;
+Hello, {{userName}}!</code></pre>
+
+<ul>
+<li>AngularJS, ReactJS, and Meteor are recent web toolkits that offer
+reactive templates</li>
+<li>But data binding exists in many other toolkits 
+too (e.g. Android, Visual Basic)</li>
+</ul></div>
+
+<p>Modern web toolkits take declarative UI a step farther and make it possible to declaratively describe the connections between the model and the view using a <strong>reactive template</strong>, which eliminates the need to write explicit listener code.</p>
+
+<p>For example, the AngularJS code here binds the <code>&lt;input&gt;</code> textbox to a model variable named <code>userName</code>, so that whenever the user edits the content of the textbox, the <code>userName</code> variable will be updated to match the textbox.
+It’s a two-way binding, so if the model variable is changed programmatically, rather than by the user, then the textbox will update to match the model.</p>
+
+<p>The example also shows <code>{{...}}</code> template syntax that displays model data in the view.
+The AngularJS framework automatically takes care of updating or regenerating the HTML whenever the referenced part of the model changes.
+Template syntax can also include path references (e.g. <code>{{user.profile.imageURL}}</code>), <code>for</code> loops to generate HTML for every element in a collection, and <code>if</code> statements to generate HTML conditionally.</p>
+
+<p>Reactive templates save a lot of programmer effort.
+But as with other declarative code, when a complex reactive template goes wrong, it can be hard to debug, since the usual procedural methods of print-debugging and breakpoints are largely useless.</p></div><div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise" data-outline="exercise" data-ex-id="gui_implementation_approaches/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-05-ui-sw-arch"><div class="panel-body"><p>Procedural UI programming (select all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="is typically more compact than declarative programming."><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">is typically more compact than declarative programming.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="is typically written in HTML/XML in web applications."><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">is typically written in HTML/XML in web applications.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="is typically easier to debug than declarative programming."><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">is typically easier to debug than declarative programming.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="can be used for mutating the view tree in response to user actions."><label for="md_converted_choice_3_3"><input type="checkbox" id="md_converted_choice_3_3">can be used for mutating the view tree in response to user actions.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/05-ui-sw-arch/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:54:19 GMT -->
+</html><!-- Handout delivered Wed Feb 28 2018 00:49:14 GMT-0500 (EST) -->

@@ -1,0 +1,395 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/17-heuristic-evaluation/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:13:32 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 17: Heuristic Evaluation</title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_17_heuristic_evaluation">Reading 17: Heuristic Evaluation</a></li><li><a href="#heuristic_evaluation">Heuristic Evaluation</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_17_heuristic_evaluation">Reading 17: Heuristic Evaluation</h1>
+
+<div data-outline="reading_17_heuristic_evaluation"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/01.png"></div>
+
+<p>Today’s hall of fame and shame candidate is Piazza.
+Let’s discuss it from the point of view of usability:</p>
+
+<ul>
+<li>learnability</li>
+<li>efficiency</li>
+<li>safety</li>
+</ul></div>
+
+<h2 id="heuristic_evaluation">Heuristic Evaluation</h2>
+
+<div data-outline="heuristic_evaluation"><div class="row"><p>Today’s reading covers another technique for finding usability problems in user interfaces: <strong>heuristic evaluation</strong>.  Heuristic evaluation is an inspection technique, not unlike doing a code review to find bugs in software.</p>
+
+<div class="slide col-sm-6"><div class="slideTitle"><p>Usability Guidelines (“Heuristics”)</p></div>
+
+<ul><li><p>Plenty to choose from</p>
+
+<ul><li><p>Nielsen’s 10 principles</p></li>
+<li><p>Norman’s rules from Design of Everyday Things</p></li>
+<li><p>Tognazzini’s 16 principles</p></li>
+<li><p>Shneiderman’s 8 golden rules</p></li></ul></li>
+<li><p>Help designers choose design alternatives</p></li>
+<li><p>Help evaluators find problems in interfaces (“heuristic evaluation”)</p></li></ul></div>
+
+<p>To understand the technique, we should start by defining what we mean by <em>heuristic</em>. Heuristics, or usability guidelines, are rules that distill out the principles of effective user interfaces.  There are plenty of sets of guidelines to choose from - sometimes it seems like every usability researcher has their own set of heuristics.  Most of these guidelines overlap in important ways, however.  The experts don’t disagree about what constitutes good UI.  They just disagree about how to organize what we know into a small set of operational rules.</p>
+
+<p>Heuristics can be used in two ways: during design, to help you choose among alternative designs; and during heuristic evaluation, to find and justify problems in interfaces.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Principles from This Course</p></div>
+
+<ul><li><p>Learnability</p></li>
+<li><p>Efficiency</p></li>
+<li><p>Safety</p></li></ul></div>
+
+<p>To help relate these heuristics to what you already know, here are the high-level principles that have organized our readings.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Nielsen Heuristics</p></div>
+
+<ol><li><p>Match the real world (L)</p></li>
+<li><p>Consistency &amp; standards (L)</p></li>
+<li><p>Help &amp; documentation (L)</p></li>
+<li><p>User control &amp; freedom (S)</p></li>
+<li><p>Visibility of system status (S)</p></li>
+<li><p>Flexibility &amp; efficiency (E)</p></li>
+<li><p>Error prevention (S)</p></li>
+<li><p>Recognition, not recall (S)</p></li>
+<li><p>Error reporting, diagnosis, and recovery (S)</p></li>
+<li><p>Aesthetic &amp; minimalist design</p></li></ol></div>
+
+<p>Jakob Nielsen, who invented the technique we’re talking about, has <a href="http://www.nngroup.com/articles/ten-usability-heuristics/">10 heuristics</a>. (An older version of the same heuristics, with different names but similar content, can be found in his <em>Usability Engineering</em> book, one of the recommended books for this course.)</p>
+
+<p>We’ve talked about all of these in previous design principles reading (the particular reading is marked by a letter, e.g. L for Learnability).</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Norman Principles</p></div>
+
+<ul><li><p>Affordances</p></li>
+<li><p>Natural mapping</p></li>
+<li><p>Visibility</p></li>
+<li><p>Feedback</p></li></ul></div>
+
+<p>We’ve also talked about some <a href="http://architectingusability.com/2012/06/28/donald-normans-design-principles-for-usability/">design guidelines proposed by Don Norman</a>: visibility, affordances, natural mapping, and feedback (all in the Learnability reading).</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Tog’s First Principles</p></div>
+
+<ol><li><p>Anticipation</p></li>
+<li><p>Autonomy</p></li>
+<li><p>Color blindness</p></li>
+<li><p>Consistency</p></li>
+<li><p>Defaults</p></li>
+<li><p>Efficiency</p></li>
+<li><p>Explorable interfaces</p></li>
+<li><p>Fitts’s Law</p></li>
+<li><p>Human interface objects</p></li>
+<li><p>Latency reduction</p></li>
+<li><p>Learnability</p></li>
+<li><p>Metaphors</p></li>
+<li><p>Protect users’ work</p></li>
+<li><p>Readability</p></li>
+<li><p>Track state</p></li>
+<li><p>Visible navigation</p></li></ol></div>
+
+<p>Another good list is <a href="http://asktog.com/atc/principles-of-interaction-design/">Tog’s First Principles</a>, 16 principles from Bruce Tognazzini.  We’ve seen most of these in previous readings.  Here are the ones we haven’t discussed (as such):</p>
+
+<p><strong>Autonomy</strong> means user is in control.</p>
+
+<p><strong>Human interface objects</strong> is another way of saying direct manipulation: onscreen objects should be continuously perceivable, and manipulable by physical actions.</p>
+
+<p><strong>Latency reduction</strong> means minimize response time and give appropriate feedback for slow operations.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Shneiderman’s 8 Golden Rules</p></div>
+
+<ol><li><p>Consistency</p></li>
+<li><p>Shortcuts</p></li>
+<li><p>Feedback</p></li>
+<li><p>Dialog closure</p></li>
+<li><p>Simple error handling</p></li>
+<li><p>Reversible actions</p></li>
+<li><p>Put user in control</p></li>
+<li><p>Reduce short-term memory load</p></li></ol></div>
+
+<p>Finally we have <a href="https://www.cs.umd.edu/users/ben/goldenrules.html">Shneiderman’s 8 Golden Rules of UI design</a>, which include most of the principles we’ve already discussed.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Heuristic Evaluation</p></div>
+
+<ul><li><p>Performed by an expert</p></li>
+<li><p>Steps</p>
+
+<ul><li><p>Inspect UI thoroughly</p></li>
+<li><p>Compare UI against heuristics</p></li>
+<li><p>List usability problems</p></li>
+<li><p>Explain &amp; justify each problem with heuristics</p></li></ul></li></ul></div>
+
+<p><strong>Heuristic evaluation</strong> is a usability inspection process originally invented by Nielsen.  Nielsen has done a number of studies to evaluate its effectiveness.  Those studies have shown that heuristic evaluation’s cost-benefit ratio is quite favorable; the cost per problem of finding usability problems in an interface is generally cheaper than alternative methods.</p>
+
+<p>Heuristic evaluation is an inspection method.  It is performed by a usability expert - someone who knows and understands the heuristics we’ve just discussed, and has used and thought about lots of interfaces.</p>
+
+<p>The basic steps are simple: the evaluator inspects the user interface thoroughly, judges the interface on the basis of the heuristics we’ve just discussed, and makes a list of the usability problems found - the ways in which individual elements of the interface deviate from the usability heuristics.</p>
+
+<p>The Hall of Fame and Hall of Shame discussions we have at the beginning of each class are informal heuristic evaluations.  In particular, if you look back at previous readings, you’ll see that many of the usability problems identified in the Hall of Fame &amp; Shame are justified by appealing to a heuristic.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>How To Do Heuristic Evaluation</p></div>
+
+<ul><li><p>Justify every problem with a heuristic</p>
+
+<ul><li><p>“Too many choices on the home page (Aesthetic &amp; Minimalist Design)”</p></li>
+<li><p>Can’t just say “I don’t like the colors”</p></li></ul></li>
+<li><p>List every problem</p>
+
+<ul><li><p>Even if an interface element has multiple problems</p></li></ul></li>
+<li><p>Go through the interface at least twice</p>
+
+<ul><li><p>Once to get the feel of the system</p></li>
+<li><p>Again to focus on particular interface elements</p></li></ul></li>
+<li><p>Don’t have to limit to the 10 Nielsen heuristics</p>
+
+<ul><li><p>Nielsen’s 10 heuristics are easier to compare against</p></li>
+<li><p>Our 7 general principles are easier still</p></li></ul></li></ul></div>
+
+<p>Let’s look at heuristic evaluation from the evaluator’s perspective.  That’s the role you’ll be adopting in the next homework, when you’ll serve as heuristic evaluators for each others’ computer prototypes.</p>
+
+<p>Here are some tips for doing a good heuristic evaluation.  First, your evaluation should be grounded in known usability guidelines.  You should justify each problem you list by appealing to a heuristic, and explaining how the heuristic is violated.  This practice helps you focus on usability and not on other system properties, like functionality or security.  It also removes some of the subjectivity involved in inspections.  You can’t just say “that’s an ugly yellow color”; you have to justify why this is a usability problem that’s likely to affect <em>usability</em> for other people.</p>
+
+<p>List every problem you find.  If a button has several problems with it - inconsistent placement, bad color combination, bad information scent - then each of those problems should be listed separately.  Some of the problems may be more severe than others, and some may be easier to fix than others.  It’s best to get all the problems on the table in order to make these tradeoffs.</p>
+
+<p>Inspect the interface at least twice.  The first time you’ll get an overview and a feel for the system.  The second time, you should focus carefully on individual elements of the interface, one at a time.</p>
+
+<p>Finally, although you have to justify every problem with a guideline, you don’t have to limit yourself to the Nielsen 10.  We’ve seen a number of specific usability principles that can serve equally well: affordances, visibility, Fitts’s Law, perceptual fusion, color guidelines, graphic design rules are a few. The Nielsen 10 are helpful in that they’re a short list that covers a wide spectrum of usability problems.  For each element of the interface, you can quickly look down the Nielsen list to guide your thinking.  You can also use the 6 high-level principles we’ve discussed (learnability, visibility, user control, errors, efficiency, graphic design) to help spur your thinking.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Example</p></div>
+  <img src="figures/02.png"></div>
+
+<p>Let’s try it on an example.  Here’s a screenshot of part of a web page (an intentionally bad interface).  A partial heuristic evaluation of the screen is shown below.  Can you find any other usability issues?</p>
+
+<ol>
+<li>Shopping cart icon is not balanced with its background whitespace (graphic design)</li>
+<li><strong>Good</strong>: user is greeted by name (feedback)</li>
+<li>Red is used both for help messages and for error messages (consistency, match real world)</li>
+<li>“There is a problem with your order”, but no explanation or suggestions for resolution (error reporting)</li>
+<li>ExtPrice and UnitPrice are strange labels (match real world)</li>
+<li>Remove Hardware button inconsistent with Remove checkbox (consistency)</li>
+<li>“Click here” is unnecessary (simplicity)</li>
+<li>No “Continue shopping” button (user control &amp; freedom)</li>
+<li>Recalculate is very close to Clear Cart (error prevention)</li>
+<li>“Check Out” button doesn’t look like other buttons (consistency, both internal &amp; external)</li>
+<li>Uses “Cart Title” and “Cart Name” for the same concept (consistency)</li>
+<li>Must recall and type in cart title to load (recognition not recall, error prevention, efficiency)</li>
+</ol></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Heuristic Evaluation Is Not User Testing</p></div>
+
+<ul><li><p>Evaluator is not the user either</p>
+
+<ul><li><p>Maybe closer to being a typical user than you are, though</p></li></ul></li>
+<li><p>Analogy: code inspection vs. testing</p></li>
+<li><p>HE finds problems that UT often misses</p>
+
+<ul><li><p>Inconsistent fonts</p></li>
+<li><p>Fitts’s Law problems</p></li></ul></li>
+<li><p>But UT is the gold standard for usability</p></li></ul></div>
+
+<p>Heuristic evaluation is only one way to evaluate a user interface.  User testing-watching users interact with the interface-is another.  User testing is really the gold standard for usability evaluation.  An interface has usability problems only if real users have real problems with it, and the only sure way to know is to watch and see.</p>
+
+<p>A key reason why heuristic evaluation is different is that an evaluator is not a typical user either!  They may be closer to a typical user, however, in the sense that they don’t know the system model to the same degree that its designers do.  And a good heuristic evaluator tries to think like a typical user.  But an evaluator knows too much about user interfaces, and too much about usability, to respond like a typical user.</p>
+
+<p>So heuristic evaluation is not the same as user testing.  A useful analogy from software engineering is the difference between code inspection and testing.</p>
+
+<p>Heuristic evaluation may find problems that user testing would miss (unless the user testing was extremely expensive and comprehensive).  For example, heuristic evaluators can easily detect problems like inconsistent font styles, e.g. a sans-serif font in one part of the interface, and a serif font in another.  Adapting to the inconsistency slows down users slightly, but only extensive user testing would reveal it.  Similarly, a heuristic evaluation might notice that buttons along the edge of the screen are not taking proper advantage of the Fitts’s Law benefits of the screen boundaries, but this problem might be hard to detect in user testing.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hints for Better Heuristic Evaluation</p></div>
+
+<ul><li><p>Use multiple evaluators</p>
+
+<ul><li><p>Different evaluators find different problems</p></li>
+<li><p>The more the better, but diminishing returns</p></li>
+<li><p>Nielsen recommends 3-5 evaluators</p></li></ul></li>
+<li><p>Alternate heuristic evaluation with user testing</p>
+
+<ul><li><p>Each method finds different problems</p></li>
+<li><p>Heuristic evaluation is cheaper</p></li></ul></li>
+<li><p>It’s OK for observer to help evaluator</p>
+
+<ul><li><p>As long as the problem has already been noted</p></li>
+<li><p>This wouldn’t be OK in a user test</p></li></ul></li></ul></div>
+
+<p>Now let’s look at heuristic evaluation from the designer’s perspective.  Assuming I’ve decided to use this technique to evaluate my interface, how do I get the most mileage out of it?</p>
+
+<p>First, use more than one evaluator.  Studies of heuristic evaluation have shown that no single evaluator can find all the usability problems, and some of the hardest usability problems are found by evaluators who find few problems overall (Nielsen, “Finding usability problems through heuristic evaluation”, CHI ‘92).  The more evaluators the better, but with diminishing returns: each additional evaluator finds fewer new problems. The sweet spot for cost-benefit, recommended by Nielsen based on his studies, is 3-5 evaluators.</p>
+
+<p>One way to get the most out of heuristic evaluation is to alternate it with user testing in subsequent trips around the iterative design cycle.  Each method finds different problems in an interface, and heuristic evaluation is almost always cheaper than user testing.  Heuristic evaluation is particularly useful in the tight inner loops of the iterative design cycle, when prototypes are raw and low-fidelity, and cheap, fast iteration is a must.</p>
+
+<p>In heuristic evaluation, it’s OK to help the evaluator when they get stuck in a confusing interface.  As long as the usability problems that led to the confusion have already been noted, an observer can help the evaluator get unstuck and proceed with evaluating the rest of the interface, saving valuable time.  In user testing, this kind of personal help is totally inappropriate, because you want to see how a user would really behave if confronted with the interface in the real world, without the designer of the system present to guide them.  In a user test, when the user gets stuck and can’t figure out how to complete a task, you usually have to abandon the task and move on to another one.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Formal Evaluation Process</p></div>
+
+<ol><li><p>Training</p>
+
+<ul><li><p>Meeting for design team &amp; evaluators</p></li>
+<li><p>Introduce application</p></li>
+<li><p>Explain user population, domain, scenarios</p></li></ul></li>
+<li><p>Evaluation</p>
+
+<ul><li><p>Evaluators work separately</p></li>
+<li><p>Generate written report, or oral comments recorded by an observer</p></li>
+<li><p>Focus on generating problems, not on ranking their severity yet</p></li>
+<li><p>1-2 hours per evaluator</p></li></ul></li>
+<li><p>Severity Rating</p>
+
+<ul><li><p>Evaluators prioritize all problems found (not just their own) </p></li>
+<li><p>Take the mean of the evaluators’ ratings</p></li></ul></li>
+<li><p>Debriefing</p>
+
+<ul><li><p>Evaluators &amp; design team discuss results, brainstorm solutions</p></li></ul></li></ol></div>
+
+<p>Here’s a formal process for performing heuristic evaluation.
+The training meeting brings together the design team with all the evaluators, and brings the evaluators up to speed on what they need to know about the application, its domain, its target users, and scenarios of use.</p>
+
+<p>The evaluators then go off and evaluate the interface separately.  They may work alone, writing down their own observations, or they may be observed by a member of the design team, who records their observations (and helps them through difficult parts of the interface, as we discussed earlier).  In this stage, the evaluators focus just on generating problems, not on how important they are or how to solve them.</p>
+
+<p>Next, all the problems found by all the evaluators are compiled into a single list, and the evaluators rate the severity of each problem.  We’ll see one possible severity scale in the next slide.  Evaluators can assign severity ratings either independently or in a meeting together.  Since studies have found that severity ratings from independent evaluators tend to have a large variance, it’s best to collect severity ratings from several evaluators and take the mean to get a better estimate.</p>
+
+<p>Finally, the design team and the evaluators meet again to discuss the results.  This meeting offers a forum for brainstorming possible solutions, focusing on the most severe (highest priority) usability problems.</p>
+
+<p>When you do heuristic evaluations in this class, I suggest you follow this ordering as well: first focus on generating as many usability problems as you can, then rank their severity, and then think about solutions.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Severity Ratings</p></div>
+
+<ul><li><p>Contributing factors</p>
+
+<ul><li><p>Frequency: how common?</p></li>
+<li><p>Impact: how hard to overcome?</p></li>
+<li><p>Persistence: how often to overcome?</p></li></ul></li>
+<li><p>Severity scale</p>
+
+<ol><li><p>Cosmetic: need not be fixed</p></li>
+<li><p>Minor: needs fixing but low priority</p></li>
+<li><p>Major: needs fixing and high priority</p></li>
+<li><p>Catastrophic: imperative to fix</p></li></ol></li></ul></div>
+
+<p>Here’s one scale you can use to judge the severity of usability problems found by heuristic evaluation.  It helps to think about the factors that contribute to the severity of a problem: its <strong>frequency</strong> of occurrence (common or rare); its <strong>impact</strong> on users (easy or hard to overcome), and its <strong>persistence</strong> (does it need to be overcome once or repeatedly).  A problem that scores highly on several contributing factors should be rated more severe than another problem that isn’t so common, hard to overcome, or persistent.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Evaluating Prototypes</p></div>
+
+<ul><li><p>Heuristic evaluation works on:</p>
+
+<ul><li><p>Sketches</p></li>
+<li><p>Paper prototypes</p></li>
+<li><p>Buggy implementations</p></li></ul></li>
+<li><p>“Missing-element” problems are harder to find on sketches</p>
+
+<ul><li><p>Because you’re not actually using the interface, you aren’t blocked by feature’s absence</p></li>
+<li><p>Look harder for them</p></li></ul></li></ul></div>
+
+<p>A final advantage of heuristic evaluation that’s worth noting: heuristic evaluation can be applied to interfaces in varying states of readiness, including unstable implementations, paper prototypes, and even just sketches.  When you’re evaluating an incomplete interface, however, you should be aware of one pitfall.  When you’re just inspecting a sketch, you’re less likely to notice missing elements, like buttons or features essential to proceeding in a task.  If you were actually <em>interacting</em> with an active prototype, essential missing pieces rear up as obstacles that prevent you from proceeding.  With sketches, nothing prevents you from going on: you just turn the page.  So you have to look harder for missing elements when you’re heuristically evaluating static sketches or screenshots.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Writing Good Heuristic Evaluations</p></div>
+
+<ul><li><p>Heuristic evaluations must communicate well to developers and managers</p></li>
+<li><p>Include positive comments as well as criticisms</p>
+
+<ul><li><p>“Good: Toolbar icons are simple, with good contrast and few colors (minimalist design)”</p></li></ul></li>
+<li><p>Be tactful</p>
+
+<ul><li><p>Not: “the menu organization is a complete mess”</p></li>
+<li><p>Better: “menus are not organized by function” </p></li></ul></li>
+<li><p>Be specific</p>
+
+<ul><li><p>Not: “text is unreadable”</p></li>
+<li><p>Better: “text is too small, and has poor contrast (black text on dark green background)”</p></li></ul></li></ul></div>
+
+<p>Here are some tips on writing good heuristic evaluations.</p>
+
+<p>First, remember your audience: you’re trying to communicate to developers.  Don’t expect them to be experts on usability, and keep in mind that they have some ego investment in the user interface.  Don’t be unnecessarily harsh.</p>
+
+<p>Although the primary purpose of heuristic evaluation is to identify problems, positive comments can be valuable too.  If some part of the design is <em>good</em> for usability reasons, you want to make sure that aspect doesn’t disappear in future iterations.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Suggested Report Format</p></div>
+
+<ul><li><p></p><p>What to include:</p><p></p>
+
+<ul><li><p>Problem</p></li>
+<li><p>Heuristic</p></li>
+<li><p>Description</p></li>
+<li><p>Severity</p></li>
+<li><p>Recommendation (if any)</p></li>
+<li><p>Screenshot (if helpful)</p></li></ul></li></ul>
+
+
+
+<div style="border: 1px solid #aaaaaa; padding: 10px 30px; margin: 30px 0"><p></p><p>12 . Severe: <strong></strong></p><p><strong>User may close window without saving data</strong></p> (error prevention)<p></p><p></p>
+
+<p></p><p>If the user has made changes without saving, and then closes the window using the Close button, rather than File &gt;&gt; Exit, no confirmation dialog appears.</p><p></p>
+
+<p></p><p>Recommendation: show a confirmation dialog or save automatically</p><p></p>
+
+<img src="figures/03.png"></div></div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Cognitive Walkthrough: Another Inspection Technique</p></div>
+
+<ul><li><p>Cognitive walkthrough = expert inspection focused on learnability</p></li>
+<li><p>Inputs:</p>
+
+<ul><li><p>prototype</p></li>
+<li><p>task</p></li>
+<li><p>sequence of actions to do the task in the prototype</p></li>
+<li><p>user analysis</p></li></ul></li>
+<li><p>For each action, evaluator asks:</p>
+
+<ul><li><p>will user know what subgoal they want to achieve?</p></li>
+<li><p>will user find the action in the interface?</p></li>
+<li><p>will user recognize that it accomplishes the subgoal?</p></li>
+<li><p>will user understand the feedback of the action?</p></li></ul></li></ul></div>
+
+<p><strong>Cognitive walkthrough</strong> is another kind of usability inspection technique. Unlike heuristic evaluation, which is general, a cognitive walkthrough is particularly focused on evaluating learnability - determining whether an interface supports learning how to do a task by exploration.</p>
+
+<p>In addition to the inputs given to a heuristic evaluation (a prototype, typical tasks, and user profile), a cognitive walkthrough also needs an explicit sequence of actions that would perform each task.  This establishes the <em>path</em> that the walkthrough process follows.  The overall goal of the process is to determine whether this is an easy path for users to discover on their own.</p>
+
+<p>Where heuristic evaluation is focusing on individual elements in the interface, a cognitive walkthrough focuses on individual actions in the sequence, asking a number of questions about the learnability of each action.</p>
+
+<ul>
+<li>Will user try to achieve the right subgoal?  For example, suppose the interface is an e-commerce web site, and the overall goal of the task is to create a wish list.  The first action is actually to sign up for an account with the site.  Will users realize that?  (They might if they’re familiar with the way wish lists work on other site; or if the site displays a message telling them to do so; or if they try to invoke the Create Wish List action and the system directs them to register first.)</li>
+<li>Will the user find the action in the interface?  This question deals with visibility, navigation, and labeling of actions.</li>
+<li>Will the user recognize that the action accomplishes their subgoal?  This question addresses whether action labels and descriptions match the user’s mental model and vocabulary.</li>
+<li>If the correct action was done, will the user understand its feedback?  This question concerns visibility of system state - how does the user recognize that the desired subgoal was actually achieved.</li>
+</ul>
+
+<p>Cognitive walkthrough is a more specialized inspection technique than heuristic evaluation, but if learnability is very important in your application, then a cognitive walkthrough can produce very detailed, useful feedback, very cheaply.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="heuristic_evaluation/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-17-heuristic-evaluation"><div class="panel-body"><p>In heuristic evaluation (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="the focus is primarily on learnability problems only"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">the focus is primarily on learnability problems only</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="having multiple evaluators is helpful for widening the breadth of problems identified"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">having multiple evaluators is helpful for widening the breadth of problems identified</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="severity of problems are ignored"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">severity of problems are ignored</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="even minor inconsistencies that may be missed in user testing can often be identified"><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">even minor inconsistencies that may be missed in user testing can often be identified</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="a usability expert inspects the interface"><label for="md_converted_choice_1_4"><input type="checkbox" id="md_converted_choice_1_4">a usability expert inspects the interface</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul><li><p>Heuristic evaluation finds usability problems by inspection</p></li></ul></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/17-heuristic-evaluation/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:13:40 GMT -->
+</html><!-- Handout delivered Thu Feb 22 2018 16:11:36 GMT-0500 (EST) -->

@@ -1,0 +1,259 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/18-accessibility/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:13:40 GMT -->
+<head><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!--
+Character encoding note: This file should be saved and opened in UTF-8. If  this is done correctly, then the following string should not be garbled in
+your editor (it should be rendered as shown in chartest.png):
+Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»-->
+<!-- Lecture title entered here: -->
+<title>Reading 18: Accessibility</title>
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+  <nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_18_accessibility">Reading 18: Accessibility</a></li><li><a href="#functional_issues">Functional issues</a></li><li><a href="#universal_design">Universal Design</a></li><li><a href="#assistive_technology">Assistive Technology</a></li><li><a href="#guidelines">Guidelines</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_18_accessibility">Reading 18: Accessibility</h1>
+<div data-outline="reading_18_accessibility"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/01.png"> <img src="figures/02.png"></div>
+
+<p>For today’s hall of fame and shame, let’s talk about Hipmunk.com, a flight searching web site. Let’s discuss:</p>
+
+<ul>
+<li>simplicity</li>
+<li>error handling</li>
+<li>graphic design and use of visual variables</li>
+<li>efficiency</li>
+</ul></div>
+
+<div class="row"><p>Today’s reading is about <strong>accessibility</strong>, which generally means making it possible for users with disabilities to use a graphical user interface. We’ll talk about the kinds of disabilities we’ll be concerned with; the technology (both software and hardware) that help users deal with them; and some guidelines for designing UIs for accessibility.</p>
+
+<p>MIT has a new course on assistive technology (6.811 Principles and Practices of Assistive Technology) that covers these topics in greater depth, and includes a design project in which you work on solving a problem a particular client with a disability.</p>
+
+<h2 id="functional_issues">Functional issues</h2></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Diversity of Ability</p></div>
+<ul><li><p>Visual impairments</p>
+
+<ul><li><p>Color perception</p></li>
+<li><p>Low Vision (acuity, central field loss, tunnel vision)</p></li>
+<li><p>Total blindness</p></li></ul></li>
+<li><p>Hearing impairments</p>
+
+<ul><li><p>Often varies with frequency</p></li></ul></li>
+<li><p>Motor impairments</p>
+
+<ul><li><p>Tremor and spasms</p></li>
+<li><p>Muscle weakness and fatigue</p></li>
+<li><p>Paralysis</p></li></ul></li>
+<li><p>Cognitive and neurological impairments</p></li>
+<ul><li><p>intellectual disabilities</p></li>
+<li><p>memory impairments, distractability, dyslexia, seizure disorders</p></li></ul></ul></div>
+
+<p>We’ll focus on disabilities and functional impairments that affect access to software and hardware for this reading, including problems in vision, hearing, motor control, cognition and neurological function. Note that there are other functional issues that are relevant to making a user interface usable by a wide spectrum of people. </p>
+
+<p>We’ve talked about one form of <strong>vision impairment</strong> already: color blindness, or atypical color perception. Additionally there are multiple types of “low vision” (also known as “partial sight”) including impaired visual acuity, i.e. inability to focus clearly; as well as “tunnel vision” (perceiving only central vision field); and central visual field loss (such as with macular degeneration). Some types of low vision, including some degrees of visual acuity problems, can be corrected with glasses or contact lenses, but not all types of low vision are correctable. Roughly a million Americans are legally blind (unable to read even the biggest letter on an eye chart, even with corrective lenses). Perhaps 10% of them are totally blind, unable to sense light at all.</p>
+
+<p><strong>Hearing impairments</strong> affect the ability to sense sound intensity, and range in a spectrum from reduced sensitivity to complete loss. Hearing impairments are often specific to certain frequencies; for instance a person may hear lower frequencies well, but not high frequencies.</p>
+
+<p><strong>Motor impairments</strong> come in many different forms, and have many different causes. People with cerebral palsy may experience tremors and spasms, making it difficult to make fine motor movements. Muscular dystrophy and multiple sclerosis can make muscles weak or stiff, and people with these conditions may tire easily when doing repeated or large muscle movements. Neuralogical damage can cause partial or complete loss of sensation and/or ability to control movement. Missing fingers, hands or limbs may affect ability to use some information and communications technologies (ICTs).</p>
+
+<p><strong>Cognitive and neurological disabilities</strong> encompass functional issues including intellectual disabilities, short and long-term memory impairment, distractibility, dyslexia, dyscalculia and dyspraxia, and seizure disorders.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Impairments Affect Everybody</p></div>
+<ul><li><p>Aging</p>
+
+<ul><li><p>Changes in vision</p></li>
+<li><p>Hearing loss</p></li>
+<li><p>Musculoskeletal problems</p></li>
+<li><p>Changes in memory</p></li></ul></li>
+<li><p>Overexposure</p>
+
+<ul><li><p>Noise-induced hearing loss</p></li>
+<li><p>RSI</p></li></ul></li>
+<li><p>Situational disabilities</p>
+
+<ul><li><p>Driving a car</p></li>
+<li><p>Walking down the street</p></li>
+<li><p>In a noisy environment</p></li></ul></li></ul></div>
+
+<p>But these types of functional impairments aren’t limited to people with congenital disorders, injury, or illnesses. <strong>Aging</strong> can cause incremental impairments, potentially in multiple dimensions. We’ve already discussed some of the impacts of aging on color vision. Older adults may also have reduced visual acuity, reduced hearing, and reduced mobility (for instance through arthritis, which can involve pain, stiffness and fatigue).</p>
+
+<p>Overuse can also cause impairment to younger people, as if aging prematurely. Most people don’t damage their vision by staring at the sun, but some lose their hearing prematurely by working in extremely loud environments (or listening to iPods?). Repetitive stress injury (RSI) is a motor impairment caused by excessive computer use (among other activities), with symptoms including pain, numbness, and weakness.</p>
+
+<p>Finally, all of us can experience <strong>situational disabilities</strong>: temporary conditions of ourselves or our environment that effectively cause impairment. For example, when you’re driving a car, your hands and eyes are occupied with the driving task, so with respect to an in-dashboard computer, you’re experiencing visual and motor impairments. Similarly, when you’re walking down the street, your visual abilities are diminished (because you have to watch where you’re going), and your ability to do fine motor control is reduced as well (because every step jars your entire body). In a noisy environment (say, the deck of an aircraft carrier), you can’t hear. When the sunlight is glaring on your laptop screen, you can’t see.</p>
+
+<p>The take-away message from this is that impairments affect everybody, and vision, hearing, and motor lie on a spectrum of ability that varies widely between users and over time. So we should take them into account when we’re designing.</p></div>
+
+<h2 id="universal_design">Universal Design</h2>
+
+<div data-outline="universal_design"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Universal Design</p></div>
+<ul><li><strong><p>Equitable use</p></strong></li>
+<li><p>Flexibility in use</p></li>
+<li><p>Simple &amp; intuitive</p></li>
+<li><p>Perceptible information</p></li>
+<li><p>Tolerance for error</p></li>
+<li><p>Low physical effort</p></li>
+<li><p>Size and space for approach and use</p></li></ul>
+<img src="figures/03.png"> <img src="figures/04.png"></div>
+
+<p><strong>Universal design</strong> is a school of thought that takes this fact explicitly to heart, by seeking to design for all users, across as much of the spectrum of capability as possible. Contrast this with the attitude that is implicit in this class, and in most actual design, where we mainly design for the typical user, and then (8 weeks into the course?) discuss how to make it “accessible” to everybody else. Universal design challenges us to think about supporting a wide range of capability from the start.</p>
+
+<p>The proponents of Universal Design</p>
+
+<p>have put forth seven guiding principles, listed here. Several are already familiar to us (simplicity, learnability, visibility, errors), and several are more relevant mainly to physical design (effort, size, space). But the first principle is the heart of the universal design philosophy: <strong>equitable use</strong>. In general, universal design advises using interfaces that are accessible for all users, rather than separate interfaces since these may not have comparable cross-disability functionality, or be kept comparably up-to-date. In some cases though the ability to customize UIs according to user preferences can be a design advantage, but care must be taken in pre-supposing the design options that users may need or prefer.</p>
+
+<p>Good universal designs are not dumbed down to make them universal; you shouldn’t sacrifice efficiency or flexibility for typical users in order to enable users with reduced ability. Instead, a good universal design has features that make the design better for everyone. Classic examples are kitchen tools with fat, textured handles (like the vegetable peeler shown here); not only are they easier for arthritis sufferers to grip, they’re more comfortable and less error-prone for typical users too. Similarly, a sidewalk curb cut not only enables wheelchair users, but also parents with strollers, travellers with luggage, and people pushing carts. Even walkers may find the ramp more convenient than a step.</p>
+
+<p>It’s not always clear how to find a universal design, but it’s a goal worth striving toward. </p></div></div>
+
+<h2 id="assistive_technology">Assistive Technology</h2>
+
+<div data-outline="assistive_technology"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Assistive Technology</p></div>
+<ul><li><p>Output</p>
+
+<ul><li><p>Screen magnifier</p></li>
+<li><p>Screen reader</p></li>
+<li><p>Braille display</p></li>
+<li><p>Screen flashing on sound</p></li></ul></li>
+<li><p>Pointing</p>
+
+<ul><li><p>Eye or head tracker</p></li>
+<li><p>Puff-and-sip</p></li>
+<li><p>Mouse keys</p></li></ul></li>
+<li><p>Typing</p>
+
+<ul><li><p>Onscreen keyboards</p></li>
+<li><p>Sticky keys</p></li>
+<li><p>Speech recognition</p></li></ul></li></ul></div>
+
+<p>For using computers, users with disabilities use a variety of assistive technology, some hardware, some software.</p>
+
+<p><strong>Screen magnifier</strong> software magnifies part of the display to make it easier to read, which helps users who have low vision. <strong>Screen readers</strong> read the contents of the display aloud as synthesized speech and/or display it as refreshable braille. People with visual impairments often use a combination of assistive technologies to get optimal speed and precision; for instance, screen magnification with a screen reader generating synthesized speech; or synthesized speech and braille together. </p>
+
+<p>For hearing-impaired users, graphical user interfaces might seem to pose fewer problems, because far less information is conveyed by auditory cues. However, in rich media digital environments, speech, music, and ambient sounds can be essential to establishing meaning and contenxt. System sounds (like beeps) may be translated into a screen flash; videos may include captioning of speech. </p>
+
+<p>On the input side, there are alternative pointing devices. Eye gaze or head pose tracking can move the mouse cursor around the screen without the use of the hands. Puff-and-sip devices (in which the user blows or sucks a tube to activate a switch) can be used to click a button, often in combination with a mouth-driven joystick. Users with less extreme motor impairments may use touchpads or trackballs, which are less tiring than mice because they require smaller movements. The mouse cursor can also be moved around by keyboard keys; Windows and Mac both have this feature built-in.</p>
+
+<p>Note that users of screen readers are not likely to use a pointing device at all, because they can’t see a mouse cursor or targets on the screen. So users who are blind typically use a keyboard exclusively.</p>
+
+<p>For keyboard input by severely motor-impaired users, a pointing device can be combined with an onscreen keyboard. Keyboard driver software can often be adjusted to make it easier to use, e.g. turning off autorepeat so that keys don’t have to be released quickly, or making modifier keys (like Shift and Control) “sticky” so that the user doesn’t have to hold down multiple keys at once.</p>
+
+<p>Speech recognition offers another way to give both command and text input without using the hands.</p></div></div>
+
+<h2 id="guidelines">Guidelines</h2>
+
+<div data-outline="guidelines"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Accessibility Guidelines</p></div>
+<ul><li><p>Section 508</p></li>
+<li><p>W3C Accessibility Initiative</p></li></ul></div>
+
+<p>Now let’s discuss some specific guidelines for creating accessible interfaces. Most of these guidelines are targeted at creating a universally designed interface that will work for all users. This includes making your interface amenable to assistive technology, e.g. helping a screen reader do a better job of translating the display into text or braille.</p>
+
+<p>The guidelines that follow are summarized from two sources. <strong>Section 508</strong> is an accessibility standard for web sites and software created by US government agencies or government contractors. Anybody who wants to sell software to the US government must follow the <a href="http://section508.gov/content/quick-reference-guide">Section 508 rules</a>, which cover both desktop software and web sites. Section 508 was updated in January 2017 to harmonize with the international standard for Web accessibility, from the World Wide Web Consortium (W3C) Web Accessibility Initiative (WAI). The [Web Content Accessibility Guidelines (WCAG) 2.0] (<a href="http://www.w3.org/TR/WCAG20">http://www.w3.org/TR/WCAG20</a>) apply to web content, web sites, and applications, including for mobile, and are used by governments and businesses around the world.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Support Keyboard Access</p></div>
+<ul><li><p>Pointing interactions should have keyboard alternatives</p>
+
+<ul><li><p>Menus should be controllable by the keyboard</p></li>
+<li><p>Forms and links should be navigable by keyboard</p></li>
+<li><p>Needed by motor-impaired and vision-impaired</p></li></ul></li></ul></div>
+
+<p>Since some users will be less able or unable to use a pointing device (e.g. users with screen readers), an accessible interface should support keyboard alternatives for all interactions. Menus should be controllable by the keyboard, either using accelerators or by allowing navigation around the menu. Similarly, the user should be able to move the keyboard focus around a form or activate a link in a web page by keyboard alone.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Provide Text to Screen Readers</p></div>
+<ul><li><p>Screen readers transform the visual display into speech or braille</p></li></ul>
+<img src="figures/07.png"></div>
+
+<p>An accessible interface should be amenable to screen reading. All visual content should have textual alternatives; i.e., images should have captions or labels describing or naming their contents, so that screen reading software can articulate it.</p>
+
+<p>Widgets, like textboxes and checkboxes, should have labels associated with them. This association can’t be merely visual (i.e. “From:” happens to be next to the textbox), but programmatically available to the screen reader, so that the screen reader can ask for the label of that textbox and get “From address” or something similar back. The interface that screen readers use to access this information is called an “accessibility API”; we’ll talk about the APIs for Java and HTML later in this reading.</p>
+
+<p>Screen readers also need to find out: the current value of a textbox or other widget; the widget with the keyboard focus; and the location of the text selection in a textbox.</p>
+
+<p>For web pages with hyperlinks, the links should be clearly labeled with the identity of the target page, not something vague like “click here”. This is because users of screen readers don’t necessarily read the entire display in strict linear order from start to end. This would be painfully inefficient. Instead, they may skip through, scanning the page aurally much as users with normal vision would scan it visually. A screen reader can be directed to read all the links, skipping over other text, so the links should be self-descriptive.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>aDesigner</p></div>
+<img src="figures/08.png"></div>
+
+<p>IBM Research Tokyo has produced an interesting tool called aDesigner (for “accessibility Designer”) that allows sighted designers to visualize the screen-reader usability of a web page. Here it is in action - the original web page is shown on the left, and a “screen reader equivalent” of the web page is shown on the right. The screen reader version is intended to simulate the experience that a blind user of a screen reader would have when using the web page. It replaces images with their alt text. It also darkens the background of text proportionally to the minimum time it would take to reach the text (assuming the usual navigation features in screen readers: jumping from header to header, and jumping from link to link, and listening to text). Hovering over the text shows a popup with the actual time (here, “111 seconds from top” for the search box at the bottom of this web page).</p>
+
+<p><a href="http://www.eclipse.org/actf/downloads/tools/aDesigner/">aDesigner</a> is freely available, built on top of Eclipse, but only runs on Windows.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Dyslexia</p></div>
+<img src="figures/05.png"> <img src="figures/06.png"></div>
+
+<p>(contributed by Christy Swartz, spring 2012)</p>
+
+<p>Dyslexia is a cognitive impairment that affects reading - people with dyslexia tend to see some letters rotated, or switched with other letters. It’s a small population (although, it is estimated that a large number of people who have reading difficulties actually have dyslexia, which has no effect on intelligence, only reading ability), but nonetheless should be kept in mind when designing websites.</p>
+
+<p>A simulation of dyslexia can be found at
+<a href="http://webaim.org/simulations/dyslexia">here</a>.</p>
+
+<p><a href="http://www.headstrongnation.org/">This site</a> is a fantastic example of good accessibility for people with dyslexia. This site has a built in screen reader. People with dyslexia have a very hard time reading long chunks of text, so they use screen readers often, but, as you can imagine, screen readers are designed for people who are blind, and not people with dyslexia, who can easily point a mouse. So this site allows you to select a chunk of text and the site will read it to you.</p>
+
+<p>Also, fonts are inherently bad for people with dyslexia; many letters, if rotated, can appear to be other letters (p and d, for example), and makes it very difficult for people with dyslexia to untangle them. There are now several fonts that are more readable for people with dyslexia. The first, Dyslexie, is explained in a <a href="http://www.youtube.com/watch?v=VLtYFcHx7ec">Youtube video</a>. Recently, a free font called <a href="http://opendyslexic.org/">OpenDyslexic</a> has become available. A key idea in both fonts is to strengthen the lower part of each letter, increasing the stroke thickness near the baseline, so that the letter feels “weighted” at the bottom - less symmetrical, and less likely to be mentally rotated by the reader.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Don’t Rely on Sound Alone</p></div>
+<ul><li><p>Flash as well as beep</p></li>
+<li><p>Closed captioning for videos</p></li></ul></div>
+
+<p>For the sake of hearing-impaired users, don’t rely on sound as the only channel by which some bit of information is delivered. To get the user’s attention, don’t just beep; briefly flash a window or the screen as well. Videos should include closed-captioning information.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>User Control Over Colors and Fonts</p></div>
+<ul><li><p>Allow user to choose high-contrast colors</p></li>
+<li><p>Allow user to enlarge fonts</p></li>
+<li><p>Don’t rely on color alone</p></li></ul></div>
+
+<p>Users with impaired vision may prefer to use high-contrast colors, so allow the user to change the color scheme if necessary. Similarly, allow the user to enlarge the font size for easier readability.
+We’ve already discussed not relying on color as a sole indicator for
+conveying information, because of color blindness. Use secondary cues
+too.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Accessibility APIs</p></div>
+<ul><li><p><code>javax.accessibility</code></p>
+
+<ul><li><p>Swing widgets implement Accessible</p></li>
+<li><p><code>getAccessibleContext()</code> returns an object with labels,
+descriptions, content, selections for the widget</p></li>
+<li><p>Platform-specific accessibility APIs are similar</p></li></ul></li>
+<li><p>HTML accessibility features</p>
+
+<ul><li><p>alt and title attributes</p></li>
+<li><p><code>label</code> element</p></li>
+<li><p><code>accesskey</code> attribute</p></li>
+<li><p>aural CSS</p></li></ul></li></ul></div>
+
+<p>Java and HTML both offer built-in ways to make your interface more accessible.</p>
+
+<p>The Java Accessibility API provides an interface for screen readers to inspect a Swing interface. All built-in Swing widgets implement it, so by using widgets, you get accessibility to screen readers for free. The API has one method, getAccessibleContext(), which returns an object containing information about the widget, such as a label for it, description, its current value, its current text selection, etc. Major desktop systems (Windows, Mac, Gnome, KDE) have their own equivalents for this API, and Java has a bridge that allows your Swing interface to be inspected through the platform-specific API.</p>
+
+<p></p>
+
+<p>In HTML, probably the most well-known accessibility feature is the alt attribute on images, which specifies a caption or description of the image for the sake of a screen reader. Other elements (like frames) have a title attribute for the same purpose. Textboxes, checkboxes, and other form controls can be programmatically labeled by the <code>label</code> element. Screen readers can also benefit from proper use of semantic structure elements such as <code>header</code> and <code>footer</code>, <code>h1</code> through <code>h6</code> headings, <code>nav</code> bars, <code>figure</code>, <code>figcaption</code>, and <code>article</code> elements.</p>
+
+<p>For keyboard operation of a web page, HTML offers the accesskey attribute, which can be added to links and form controls among other elements. For example, accesskey=”c” specifies that Alt-C (or some other browser-specific modifier) should navigate to or invoke the element. Unfortunately it’s difficult to avoid conflicts between accesskeys specified by the web page and shortcuts used by the browser itself, or by the user’s screen reader. Needless to say, screen reader users depend heavily on these shortcuts, and a web page that overrides them will create serious, painful mode errors. Some experts deprecate the accesskey attribute, favoring other forms of keyboard navigation around a page instead (see Jukka Korpela, “Using accesskey attribute in HTML forms and links”, <a href="http://www.cs.tut.fi/~jkorpela/forms/accesskey.html">http://www.cs.tut.fi/~jkorpela/forms/accesskey.html</a>).</p>
+
+<p>Finally, CSS allows specification of audio styles for a screen reader, so that volume and pacing and pitch can be designed by a web page author.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="guidelines/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-18-accessibility"><div class="panel-body"><p>Which of the following are examples of situational disabilities?
+(choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Walking down the street"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Walking down the street</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Arthritis"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Arthritis</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="RSI (repetitive stress injury)"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">RSI (repetitive stress injury)</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Color blindness"><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">Color blindness</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Standing in a crowded, moving subway car"><label for="md_converted_choice_1_4"><input type="checkbox" id="md_converted_choice_1_4">Standing in a crowded, moving subway car</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+<ul><li><p>Accessibility is a universal problem</p></li>
+<li><p>Support alternative input (e.g. keyboards)</p></li>
+<li><p>Support alternative output (e.g. screen readers)</p></li></ul></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Chris Lilley, Rob Miller, Stefanie Mueller, Clayton Sims, Lea Verou, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/18-accessibility/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:14:22 GMT -->
+</html><!-- Handout delivered Tue Apr 10 2018 03:23:30 GMT-0400 (EDT) -->

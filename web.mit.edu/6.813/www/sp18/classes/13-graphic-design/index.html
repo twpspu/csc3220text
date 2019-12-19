@@ -1,0 +1,514 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/13-graphic-design/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:04:22 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 13: Graphic Design </title>
+<style>
+table td,
+table th {
+    border: 1px solid rgba(0,0,0,.1);
+    padding: 0 .5em;
+}
+</style>
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_13_graphic_design_">Reading 13: Graphic Design </a></li><li><a href="#simplicity">Simplicity</a></li><li><a href="#principles_of_visual_design">Principles of Visual Design</a></li><li><a href="#contrast">Contrast</a></li><li><a href="#repetition">Repetition</a></li><li><a href="#alignment">Alignment</a></li><li><a href="#proximity">Proximity</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_13_graphic_design_">Reading 13: Graphic Design </h1>
+
+ <div data-outline="reading_13_graphic_design_"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<img src="figures/01.png"></div>
+
+<p>Google (search) is an outstanding example of <strong>simplicity</strong>. Its interface is as simple as possible. Unnecessary features and hyperlinks are omitted, lots of whitespace is used. Google is fast to load and trivial to use.</p>
+
+<p>But maybe Google goes a little too far! Let’s take the perspective of a completely novice user coming to Google for the first time. What are the learnability obstacles to forming a mental model of what Google actually does and how to use it?</p></div>
+
+<div class="row"><p>Today’s reading is the first in a series about graphic design for graphical user interfaces, and we want to explain why we’re doing this.</p>
+
+<div class="slide col-sm-6"><blockquote>
+  <p>“Most people make the mistake of thinking design is what it looks like. People think it’s this veneer – that the designers are handed this box and told, ‘Make it look good!’ That’s not what we think design is. <strong>It’s not just what it looks like and feels like. Design is how it works.”</strong>
+  — Steve Jobs</p>
+</blockquote></div>
+
+<p>We’ve made a point (earlier) that this course is focused on usability, but many of the guidelines in the upcoming readings are more about aesthetics than pure usability. Serious <em>mistakes</em> in graphic design certainly affect usability, however, so we’re trying to help you avoid those pitfalls. There’s also a phenomenon, sometimes called the <a href="https://www.nngroup.com/articles/aesthetic-usability-effect/">Aesthetic Usability Effect</a>, that attractive user interfaces (like attractive people) are <em>perceived</em> as more usable, whether they are or not. Furthermore, design is not about decoration or about ornamentation.
+Design is about making communication as easy and clear for the viewer as possible.</p>
+
+<p>But there’s a larger question here: in practice, should software engineers have to learn this stuff at all? Shouldn’t you just hire a graphic designer and let them do it? Some people think that the most important lesson a software engineer can learn from a course like 6.813 is “UI design is <em>hard</em>; leave it to the <em>experts</em>.” The person who told me that was a high-level designer at Microsoft Research. I was tempted to retort that <em>designers</em> shouldn’t bother learning to <em>program</em> either, but I don’t actually believe that so I held my tongue.</p>
+
+<p>But there’s some substance to the argument: a little knowledge can be a dangerous thing, and that a programmer with a little experience in UI design but too much self-confidence can be just as dangerous as an artist who’s learned a little bit of HTML and thinks they now know how to program. But I prefer to believe that a little knowledge is a step on the road to greater knowledge. Some of you may decide to <em>become</em> UI designers, and this course is a step along that road.</p>
+
+<p>In a commercial environment, you <em>should</em> hire experienced graphic designers, just as you should hire an architect for building your corporation’s headquarters and you should contract with a licensed building firm. Big jobs for big bucks require experts who have focused their education and job experience on those problem. One reason this course is useful is that you can appreciate what UI experts do and evaluate their work, which will help you work on a team with them (or supervise them).</p>
+
+<p>But it’s also worth learning these principles because you can apply them yourself on smaller-scale problems. Are you going to hire a graphic designer for every PowerPoint presentation you make, every chart you draw, every web page you create, every blog post you write? Those are all user interfaces. Many interactions and communications in life have a user interface, and many of them are up to you to do-it-yourself. So you should know when to leave it to the experts, but you should be able to do a creditable job yourself too, when the job is yours to do.</p></div>
+
+<h2 id="simplicity">Simplicity</h2>
+
+<div data-outline="simplicity"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Simplicity</p></div>
+
+<ul><li><p></p><p>“Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.” — Antoine de St-Exupery</p><p></p></li><li><p></p><p>“Simplicity does not mean the absence of any decor… It only means that the decor should belong intimately to the design proper, and that anything foreign to it should be taken away.” — Paul Jacques Grillo</p><p></p></li><li><p></p><p>“Keep it simple, stupid.” (KISS)</p><p></p></li>
+<li><p></p><p>“Less is more.”</p><p></p></li>
+<li><p></p><p>“When in doubt, leave it out.”</p><p></p></li></ul></div>
+
+<p>Okay, we’ll shout some slogans at you now. You’ve probably heard some of these before. What you should take from these slogans is that <strong></strong></p><p><strong>designing for simplicity is a process of <em>elimination</em>, not accretion</strong></p>. Simplicity is in constant tension with other design guidelines that might otherwise encourage you to pile more and more elements into a design, “just in case.” Simplicity forces you to have a good reason for everything you add, and to take away anything that can’t survive hard scrutiny.<p></p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Simplicity</p></div>
+<img src="figures/02.png">
+<p></p><p>Source: Alex Papadimoulis</p><p></p></div>
+
+<p>Although we’ll largely be looking at simplicity in graphic design today, the value of simplicity to user interface design is much broader than that. Keeping a design simple, with as few parts and pieces as you can, tends to improve a design on all our usability dimensions: learnability, efficiency, and safety.</p>
+
+<p>Here’s a counterexample to illustrate. This is a program called FileMatrix. We have no idea what it does, but it seems to do it all. The complexity of this interface actually interferes with a lot of our usability goals: it’s less learnable (because there are so many things you have to learn), less efficient (because cramming all the functions into the window means that each button is tiny), and less safe (because so many things look alike, hence description slips are easy).</p>
+
+<p>Incidentally, this may be a good example of designing for yourself, rather than for others. The programmer who wrote this probably understands it completely, and maybe even uses a significant fraction of those features; but few other users will need that much, and it will just interfere with their ability to use it.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Simplicity</p></div>
+<img src="figures/amazon-echo-dot.jpg" style="width:60%"></div>
+
+<p>In contrast to the previous example, here’s the Amazon Echo Dot.
+The Echo is an outstanding example of simplicity.
+Its interface is as simple as possible: a dial, two buttons, a ring of lights, and speech.
+Unnecessary buttons and features are omitted.</p>
+
+<p>Simplicity certainly makes an interface easier to learn, because there’s less to learn.
+But it can also make an interface faster and safer to use, even for an expert with that interface. Consider a remote control with 20 buttons on it. Suppose you’re an expert, so you know which button to push. But you only use 3 of those buttons regularly. Which would be faster – an interface with 3 fat buttons, or an interface with 20 little buttons? Which would be less error prone?</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Techniques for Simplicity: Reduction</p></div>
+
+<ul><li><p>Remove inessential elements</p>
+
+<img src="figures/03.png">
+
+<img src="figures/04.png"></li>
+<li><p>Remove inessential features</p>
+
+<img src="figures/apple-tv-remote.png" style="width:50%"></li></ul></div>
+
+<p>Here are three ways to make a design simpler. Again, we’re focusing on graphic design (visual appearance here), but you can generalize these rules easily to other aspects of a design: the features that your application offers, the labels for buttons or form fields, the steps in a process, etc.</p>
+
+<p><strong>Reduction</strong> means that you eliminate whatever isn’t necessary. This technique has three steps:</p>
+
+<ol>
+<li>decide what essentially needs to be conveyed by the design</li>
+<li>critically examine every element (label, control, color, font, line weight) to decide whether it serves an essential purpose</li>
+<li>remove it if it isn’t essential. Even if it seems essential, try removing it anyway, to see if the design falls apart.</li>
+</ol>
+
+<p><strong>Icons</strong> demonstrate the principle of reduction well. A <em>photograph</em> of a pair of scissors can’t possibly work as a 32x32 pixel icon; instead, it has to be a carefully-drawn picture which includes the bare minimum of details that are essential to scissors: two lines for the blades, two loops for the handles. The standard US Department of Transportation symbol for handicapped access is likewise a marvel of reduction. No element remains that can be removed from it without destroying its meaning.</p>
+
+<p>We’ve already discussed the minimalism of Google. The Apple TV remote is another notable example, about minimalizing <strong>functionality</strong>. It’s much simpler than comparable remote controls, which tend to be dense arrays of tiny rectangular buttons, all alike.  Functionality has been aggressively removed from the remote, and replaced by onscreen UI or speech dialog UI.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Techniques for Simplicity: Regularity</p></div>
+
+<ul><li><p>Use a regular pattern</p></li>
+<li><p>Limit inessential variation among elements</p></li></ul>
+<img src="figures/06.png">
+<img src="figures/07.png">
+<img src="figures/pinterest.png"></div>
+
+<p>For the essential elements that remain, consider how you can minimize the unnecessary differences between them with <strong>regularity</strong>. Use the same font, color, line width, dimensions, orientation for multiple elements. Irregularities in your design will be magnified in the user’s eyes and assigned meaning and significance. Conversely, if your design is mostly regular, the elements that you do want to highlight will stand out better.</p>
+
+<p>PowerPoint’s Text Layouts menu shows both reduction (minimalist icons representing each layout) and regularity. Titles and bullet lists are shown the same way.</p>
+
+<p>The uniform column width of grid layouts (like Pinterest shown here, in which the grid is very visible) is another common kind of regularity.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Techniques for Simplicity: Double-Duty</p></div>
+
+<ul><li><p>Combine elements for leverage.</p></li>
+<li><p>Find a way for one element to play multiple roles</p></li></ul>
+
+
+<p></p><p>title bar: <img src="figures/08.png" style="display:inline-block; width:70%"></p><p></p>
+
+<p></p><p>scrollbar thumb: <img src="figures/09.png" style="display:inline-block; width:60%"></p><p></p>
+
+<p></p><p>breadcrumbs: <img src="figures/breadcrumbs.png" style="display:inline-block; width:60%"></p><p></p>
+
+<p></p><p>pagination: <img src="figures/11.png" style="display:inline-block; width:70%"></p><p></p>
+
+<p></p><p>help prompt: <img src="figures/12.png" style="display:inline-block;"></p><p></p>
+
+<p></p><p>star ratings:
+    <img src="figures/red-stars.png" style="display:inline-block; width:20%;">
+    <img src="figures/gold-stars.png" style="display:inline-block; width:20%;"></p><p></p></div>
+
+<p>Another technique for simplicity is <strong>double duty</strong>, in which you try to combine elements to make them serve multiple roles in the design. Desktop and web interfaces have a number of patterns in which elements have multiple duties. For example, the “thumb” in a scroll bar actually serves three roles. It affords dragging, indicates the position of the scroll window relative to the entire document, and indicates the fraction of the document displayed in the scroll window. Similarly, a window’s title bar plays several roles: label, dragging handle, window activation indicator, and location for window control buttons. In the classic Mac interface, in fact, even the activation indicator played two roles. When the window was activated, closely spaced horizontal lines filled the title bar, giving it a perceived affordance for dragging.</p>
+
+<p>The breadcrumbs pattern and the pagination pattern also do double duty, not only showing you where you are but also providing an affordance for navigating somewhere else. Pagination links, like a scrollbar, may also show you how many pages there are.</p>
+
+<p>Netflix star ratings initially show how other users have rated a movie (red stars), but also serve as an input affordance for entering the user’s own rating (gold stars).</p></div><div class="row"><div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="simplicity/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-13-graphic-design"><div class="panel-body"><img src="figures/13.png" style="width: 20%; float: right; padding-left: 5%;"><p>Consider the evolution of a hyperlink design through three successive iterations, shown here.  Each design’s hover feedback is shown as well.  Which of the following statements are true? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="The process shows the reduction technique in action."><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">The process shows the reduction technique in action.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Affordances can conflict with simplicity."><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Affordances can conflict with simplicity.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Hyperlinks are an example of the double-duty technique."><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Hyperlinks are an example of the double-duty technique.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="principles_of_visual_design">Principles of Visual Design</h2>
+
+<div data-outline="principles_of_visual_design"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>C.R.A.P. Design Principles</p></div>
+
+<ul>
+<li><strong>Contrast</strong> Difference in style implies difference in meaning</li>
+<li><strong>Repetition</strong> Repeat visual elements to create unity and cohesiveness</li>
+<li><strong>Alignment</strong> Align elements to create visual connections and unity</li>
+<li><strong>Proximity</strong> Group related elements, put unrelated things far apart</li>
+</ul></div>
+
+<p>There have been many taxonomies of visual design principles, but these “big four” (sometimes also abbreviated as CARP) are generally considered some of the most essential and most date back to Jackson’s popular 1891 textbook <em>Lessons on Decorative Design</em>.</p>
+
+<p>Try this exercise: Pick a business card from someone in a large company (as these tend to be designed by good professional graphic designers).
+These are typical examples of designs that look easy to the uninitiated but have actually had a lot of thought put into them.</p>
+
+<ul>
+<li>Observe how font sizes, weights, and colors have been used to create a visual hierarchy (contrast).</li>
+<li>Observe how information is grouped, and how every group is aligned with something else (proximity, alignment). You may even be able to imagine the invisible grid that every design element snaps to.</li>
+<li>Lastly, compare the business card to the company’s website or letterhead, and observe how some graphic elements have been repeated
+to create a brand identity across multiple mediums or even within the card, e.g. its two sides (repetition).</li>
+</ul>
+
+<p>In the rest of this reading, we are going to talk about these four design principles in more detail.
+However, while design principles are useful tools, it’s important to remember that they are essentially rules of thumb. Just like with most rules, you need to understand them to know when it’s ok to break them.
+Can you think of cases where breaking these principles enhances communication?</p></div></div>
+
+<h2 id="contrast">Contrast</h2>
+
+<div data-outline="contrast"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Contrast &amp; Visual Variables</p></div>
+
+<ul><li><p>Contrast encodes information along visual dimensions</p></li></ul>
+
+<img src="figures/14.png"></div>
+
+<p><strong>Contrast</strong> refers to perceivable differences along a visual dimension, such as size or color. Contrast is the irregularity in a design that communicates information or makes elements stand out. Simplicity says we should eliminate <strong>unimportant</strong> differences. Elements that aren’t the same should be very different so they stand out.Making them “slightly different” confuses the user into seeing a relation that doesn’t exist.</p>
+
+<p>Once we’ve decided that a difference is important, however, we should choose the dimension and degree of contrast in such a way that the difference is salient, easily perceptible, and appropriate to the task.</p>
+
+<p>Crucial to this decision is an understanding of the different visual dimensions. Jacques Bertin developed a <strong>theory of <em>visual variables</em></strong> that is particularly useful here (Bertin, <em>Graphics and Graphics Information Processing</em>, 1989). Visual variables identified by Bertin are shown in the figure. Bertin called these dimensions <em>retinal variables</em>, in fact, because they can be compared effortlessly without additional cognitive processing, as if the retina were doing all the work.</p>
+
+<p>Each column in this display varies along only one of the six variables. Most of the variables need no explanation, except perhaps for hue and value. <strong>Hue</strong> is pure color; <strong>value</strong> is the brightness or luminance of color. (Figure after Mullet &amp; Sano, p. 54).</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Characteristics of Visual Variables</p></div>
+
+<ul><li><p>Scale = kinds of comparisons possible</p>
+
+<ul><li><p>Nominal (can compare only for equality)</p></li>
+<li><p>Ordered (can compare &lt;, &gt;)</p></li>
+<li><p>Quantitative (can compare amount of difference)</p></li></ul></li>
+<li><p>Length = number of distinguishable levels</p></li></ul>
+
+<div class="table-container"><table><thead><tr><th></th>
+ <th><p>Value</p></th>
+ <th><p>Hue</p></th>
+ <th><p>Shape</p></th>
+ <th><p>Position</p></th>
+ <th><p>Orient</p></th>
+ <th><p>Size</p></th></tr></thead>
+ <tbody><tr><td><p>Nominal</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td></tr>
+
+ <tr><td><p>Ordered</p></td>
+ <td><p>✓</p></td>
+ <td></td>
+ <td></td>
+ <td><p>✓</p></td>
+ <td></td>
+ <td><p>✓</p></td></tr>
+ <tr><td><p>Quantitative</p></td>
+ <td></td>
+ <td></td>
+ <td></td>
+ <td><p>✓</p></td>
+ <td></td>
+ <td><p>✓</p></td></tr>
+ <tr><td><p>Scale</p></td>
+ <td><p>~10</p></td>
+ <td><p>~10</p></td>
+ <td><p>very long</p></td>
+ <td><p>very long</p></td>
+ <td><p>~4</p></td>
+ <td><p>~10</p></td></tr></tbody></table></div></div>
+
+<p>The visual variables are used for communication, by encoding data and drawing distinctions between visual elements. But the visual variables have different characteristics. Before you choose a visual variable to express some distinction, you should make sure that the visual variable’s properties match your communication. For example, you could display a temperature using any of the dimensions: position on a scale, length of a bar, color of an indicator, or shape of an icon (a happy sun or a chilly icicle). Your choice of visual variable will strongly affect how your users will be able to perceive and use the displayed data.</p>
+
+<p>Two characteristics of visual variables are the kind of <strong>scale</strong> and the <strong>length</strong> of the scale.</p>
+
+<p>A <strong>nominal</strong> scale is just a list of categories. Only comparison for equality is supported by a nominal scale. Different items in a nominal scale have no ordering relationship. The shape variable is purely nominal. Hue is also purely nominal, at least as a <em>perceptual</em> variable. Although the wavelength of light assigns an ordering to colors, the human perceptual system takes no notice of it. Likewise, there may be some cultural ordering imposed on hue (red is “hotter” than blue), but it’s weak, doesn’t relate all the hues, and is processed at a higher cognitive level.</p>
+
+<p>An <strong>ordered</strong> scale adds an ordering to the items on the scale. Position, size, and value are all ordered.</p>
+
+<p>With a <strong>quantitative</strong> variable, you can perceive the amount of difference in the ordering. Position is quantitative. You can look at two points on a graph and tell that one is twice as high as the other. Size is also quantitative, but note that we are far better at perceiving quantitative differences in one dimension (i.e., length) than in two dimensions (area). Value is not quantitative; we can’t easily perceive that one shade is twice as dark as another shade.</p>
+
+<p>The <strong>length</strong> of a variable is the number of distinguishable levels that can be perceived. We can recognize a nearly infinite variety of shapes, so the shape variable is very long, but purely nominal. Position is also long, and particularly fine-grained. Orientation, by contrast, is very short; only a handful of different orientations can be perceived in a display before confusion starts to set in. The other variables lie somewhere in between, with roughly 10 useful levels of distinction, although size and hue are somewhat longer than value.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hue Is Not Ordered or Quantitative</p></div>
+<img src="figures/15.png"></div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Selectivity &amp; Associativity</p></div>
+
+<ul><li><p>Selective perception</p>
+
+<ul><li><p>Can attention be focused on one level of the variable, excluding other variables and levels?
+ </p><ul><li><p>Shape doesn’t “pop out”</p></li></ul><p></p></li></ul></li>
+<li><p>Associative perception</p>
+
+<ul><li><p>Can variable be ignored while looking at other variables?
+ </p><ul><li><p>Small size and low value interfere with ability to perceive hue, value, and shape</p></li></ul><p></p></li></ul></li></ul>
+
+<div class="table-container"><table><thead><tr><th></th>
+ <th><p>Value</p></th>
+ <th><p>Hue</p></th>
+ <th><p>Shape</p></th>
+ <th><p>Position</p></th>
+ <th><p>Orient</p></th>
+ <th><p>Size</p></th></tr></thead>
+ <tbody><tr><td><p>Selective</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td></tr>
+
+ <tr><td><p>Associative</p></td>
+ <td></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td><p>✓</p></td>
+ <td></td></tr></tbody></table></div></div>
+
+<p>There are two ways that your choice of visual variables can affect the user’s ability to attend to them.</p>
+
+<p><strong>Selectivity</strong> is the degree to which a single level of the variable can be selected from the entire visual field. Most variables are selective: e.g., you can locate green objects at a glance, or tiny objects. Shape, however, is not selective in general. It’s hard to pick out triangles amidst a sea of rectangles.</p>
+
+<p><strong>Associativity</strong> refers to how easy it is to ignore the variable, letting all of the distinctions along that dimension disappear. Variables with poor associativity interfere with the perception of other visual dimensions. In particular, size and value are dissociative, since tiny or faint objects are hard to make out.</p></div><div class="row"><div class="slide col-sm-6"><img src="figures/16.png"></div>
+
+<p>Ask yourself these questions:</p>
+
+<ul>
+<li>find all the letters on the left edge of the page (<strong>position</strong>)</li>
+<li>find all the red letters (<strong>hue</strong>)</li>
+<li>find all the K’s (<strong>shape</strong>)</li>
+</ul>
+
+<p>Which of these questions felt easy to answer, and which felt hard? The easy ones were <strong>selective</strong> visual variables.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Techniques for Contrast</p></div>
+
+<ul><li><p>Choose appropriate visual variables</p></li>
+<li><p>Use as much length as possible</p></li>
+<li><p>Sharpen distinctions for easier perception</p>
+
+<ul><li><p>Multiplicative scaling, not additive</p></li>
+<li><p>Redundant coding where needed</p></li>
+<li><p>Cartoonish exaggeration where needed</p></li></ul></li>
+<li><p>Use the “squint test”</p></li></ul></div>
+
+<p>Once you’ve decided that a contrast is essential in your interface, <strong>choose the right visual variable</strong> to represent it, keeping in mind the data you’re trying to communicate and the task users need to do with the data. For example, consider a text content hierarchy: title, chapter, section, body text, footnote. The data requires an ordered visual variable; a purely nominal variable like shape (e.g., font family) would not by itself be able to communicate the hierarchy ordering. If each element must communicate multiple independent dimensions of data at once (e.g., a graph that uses size, position, and color of points to encode different data variables), then you need to think about the effects of associativity and selectivity.</p>
+
+<p>Once you’ve chosen a variable, use as much of the <strong>length</strong> of the variable as you can. Determine the minimum and maximum level of the variable you can use, and exploit the whole range. In the interests of simplicity, you should minimize the number of distinct levels you use. But once you’ve settled on N levels, distribute those N levels as widely across the variable as is reasonable. For position, this means using the full width of the window; for size, it means using the smallest and the largest feasible sizes.</p>
+
+<p>Choose variable levels in such a way as to make <strong>sharp, easily perceptible distinctions</strong> between them. Multiplicative scaling (e.g., size growing by a factor of 1.5 or 2 at each successive level) makes sharper distinctions than additive scaling (e.g., adding 5 pixels at each successive level). You can also use redundant coding in several visual variables, to enhance important distinctions further. The title of a document is not only larger (size), but it’s also centered (position), bold (value), and maybe a distinct color as well. Exaggerated differences can be useful, particularly when you’re drawing icons: like a cartoonist, you have to give objects exaggerated proportions to make them easily recognizable.</p>
+
+<p>The <strong>squint test</strong> is a technique that simulates early visual processing, so you can see whether the contrasts you’ve tried to establish are readily apparent. Close one eye and squint the other, to disrupt your focus. Whatever distinctions you can still make out will be visible at a glance.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Choosing Visual Variables for a Display</p></div>
+<img src="figures/17.png"></div>
+
+<p>Let’s look at an email inbox to see how data associated with email messages are encoded into visual variables in the display. Here are the data fields shown in the inbox, in columns from left to right:</p>
+
+<ul>
+<li><strong>Spam flag</strong>: nominal, 2 levels (spam or not)</li>
+<li><strong>Subject</strong>: nominal (but can be ordered alphabetically), infinite (but maybe only ~100 are active)</li>
+<li><strong>Sender</strong>: nominal (but can be ordered alphabetically), infinite (but maybe ~100 people you know + everybody else are useful simplifications)</li>
+<li><strong>Unread flag</strong>: nominal, 2 levels (read or unread)</li>
+<li><strong>Date</strong>: quantitative (but maybe ordered is all that matters), infinite (but maybe only ~10 levels matter: today, this week, this month, this year, older)</li>
+</ul>
+
+<p>This information is <strong>redundantly</strong> coded into visual variables in the display, for better contrast. First, all the fields use position as a variable, since each is assigned to a different column. In addition:</p>
+
+<ul>
+<li>Spam: shape, hue, value, size (big colorful icon vs. little dot)</li>
+<li>Subject: shape</li>
+<li>Sender: shape</li>
+<li>Unread: shape, hue, value, size (big green dot vs. little gray dot) and value of entire line (boldface vs. non)</li>
+<li>Date: shape, size (today is shorter than earlier dates), position (list is sorted by date)</li>
+</ul>
+
+<p><strong>Exercise</strong></p>
+
+<p>Try designing a visualization with these encodings instead:</p>
+
+<ul>
+<li>Spam: size (this takes advantage of dissociativity)</li>
+<li>Subject: shape</li>
+<li>Sender: position</li>
+<li>Unread: value</li>
+<li>Date: position</li>
+</ul></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Designing Information Displays</p></div>
+<img src="figures/18.png">
+<img src="figures/19.png"></div>
+
+<p>Here’s another example showing how redundant encoding can make an information display easier to scan and easier to use. Search engine results are basically just database records, but they aren’t rendered in a simplistic caption/field display like the one shown on top. Instead, they use rich visual variables (and no field labels!) to enhance the contrast among the items. Page titles convey the most information, so they use size, hue, and value (brightness), plus a little shape (the underline). The summary is in black for good readability, and the URL and size are in green to bracket the summary.</p>
+
+<p>Take a lesson from this: your program’s <em>output displays</em> do not have to be arranged like <em>input forms</em>. When data is self-describing, like names and dates, let it describe itself. This is yet another example of the <strong>double duty</strong> technique for achieving greater simplicity - data is acting as its own label. Choose good visual variables to enhance the contrast of information that the user needs to see at a glance.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Contrast in Publication Styles</p></div>
+<img src="figures/20.png"></div>
+
+<p>Titles, headings, body text, figure captions, and footnotes show how contrast is used to make articles easier to read. You can do this yourself when you’re writing papers and documentation. Does this mean contrast should be maximized by using lots of different fonts like Gothic and Bookman? No, for two reasons - contrast must be balanced against simplicity, and text shape variations aren’t the best way to establish contrast.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Simplicity vs. Contrast</p></div>
+<img src="figures/21.png"></div>
+
+<p>Conversely, here’s a case where simplicity is taken too far, and contrast suffers. Simplicity and contrast seem to fight with each other. The standard Tukey box plot shows 5 different statistics in a single figure. But it has unnecessary lines in it! Following the principle of simplicity to its logical extreme, Edward Tufte proposed two simplifications of the box plot which convey exactly the same information - but at a great cost in contrast. Try the squint test on the Tukey plot, and on Tufte’s second design. What do you see?</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Contrast Problems</p></div>
+<img src="figures/22.png"></div>
+
+<p>Here’s an example of too little contrast. It’s important to distinguish captions from text fields, but in this design, most of the visual variables are the same for both:</p>
+
+<ul>
+<li>the <strong>position</strong> is very similar: the box around each caption and text field begins at the same horizontal position. The text itself begins at different positions (left-justified vs. aligned), but it isn’t a strong distinction, and some of the captions fill their column.</li>
+<li>the <strong>size</strong> is the same: captions and text fields fill the same column width</li>
+<li>the background <strong>hue</strong> is slightly different (yellow vs. white), but not easily differentiable by the squint test</li>
+<li>the background <strong>value</strong> is the same (very bright)</li>
+<li>the foreground <strong>hue</strong> and <strong>value</strong> are the same (black, plain font)</li>
+<li>the <strong>orientation</strong> is the horizontal, because of course you have to read it.
+The result is that it’s hard to scan this form. The form is also terribly crowded, which leads us into our next topic…</li>
+</ul></div><div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="contrast/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-13-graphic-design"><div class="panel-body"><p>Look at the title of the Summary box below.  Which visual variables are being used to make it contrast with the other graphical elements in the box? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Hue"><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">Hue</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Orientation"><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">Orientation</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Size"><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">Size</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Font"><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">Font</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Position"><label for="md_converted_choice_2_4"><input type="checkbox" id="md_converted_choice_2_4">Position</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Value"><label for="md_converted_choice_2_5"><input type="checkbox" id="md_converted_choice_2_5">Value</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="repetition">Repetition</h2>
+
+<div data-outline="repetition"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Repetition</p></div>
+
+<ul>
+<li>Repeating certain design elements brings unity, consistency,
+and cohesiveness.</li>
+<li>Good candidates to repeat: color palette, typefaces, graphic styles</li>
+<li>Too much repetition can be a problem</li>
+<li>Repetition in action: <video src="figures/benevolent.mp4" poster="figures/benevolent-1.jpg" autoplay="" loop="" controls=""></video></li>
+</ul></div>
+
+<p>The principle of <strong>Repetition</strong> refers to reusing the same or similar
+elements throughout your design. Repetition of certain design elements in a
+book, slide deck, website will bring a clear sense of unity, consistency,
+and cohesiveness. The same principle can be applied to smaller units. For example, a single page of a website can visually unify its different sections by reusing the same typefaces, colors and layout styles.
+You can repeat colors, shapes, textures, spatial relationships, line thicknesses, fonts, sizes, graphic concepts etc.
+Where contrast is about showing differences, repetition is about subtly using elements to make sure the design is viewed as being part of a larger whole.</p>
+
+<p>Look at the video on the left which shows the <a href="https://www.behance.net/gallery/7989403/Benevolent-Society">award-winning brand identity</a> of <a href="https://www.benevolent.org.au/">Benevolent Society</a>, Australia’s first and oldest charity organization, designed by <a href="http://www.designworks.com.au/">Designworks Sydney</a>. Notice how design elements are repeated throughout every item, creating visual unity across a range of completely different mediums. Which design elements are repeated? Now visit the website. Which design elements unify it with the rest of the brand identity?</p>
+
+<p><strong>Be wary of too much repetition.</strong> Repeating some design elements unifies, repeating everything creates tiring, uninteresting designs.
+Think of classic PowerPoint templates where every slide has exactly the same design elements, and exactly the same bulleted lists with the main difference being the text. This is one reason why these are universally regarded as dull (<em>“death by PowerPoint”</em>).</p></div></div>
+
+<h2 id="alignment">Alignment</h2>
+
+<div data-outline="alignment"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Alignment</p></div>
+
+<ul>
+<li>Alignment helps relate information</li>
+<li>Columns within a page makes it easier to scan horizontally</li>
+<li>Place with purpose</li>
+<li>Grids are very useful for achieving good alignment. This will
+give your design a clean, well-organized look.
+<img src="figures/alignment.png" alt="Figure showing how a grid helps alignment" title=""></li>
+</ul></div>
+
+<p><strong>Nothing should be placed on the page arbitrarily.</strong> Every element should have some visual connection with another element on the page.
+Every element is connected visually via an invisible line. Where repetition is more concerned with elements
+across an entire work (e.g. website, application, book, slide deck), alignment is about obtaining unity among elements of a single entity (e.g. page, screen, slide, section).</p>
+
+<p>Even elements that are quite far apart have a visual connection, something that is easier to achieve with the use of grids.</p></div></div>
+
+<h2 id="proximity">Proximity</h2>
+
+<div data-outline="proximity"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Proximity</p></div>
+
+<ul>
+<li>Physical closeness implies a relationship</li>
+<li>Group related items together to create a visual unit (remember chunking?)</li>
+<li>Keep space between unrelated items</li>
+<li>Be aware of unintentional groupings
+<img src="figures/proximity.gif" alt="Source: uxplanet.org" title=""></li>
+</ul></div>
+
+<p>The principle of proximity is about moving things closer or farther apart to
+achieve a more organized look. The principle says that related items should be
+grouped together so that they will be viewed as a single visual unit, rather than as several
+unrelated elements. Users will assume that items that are not near each
+other in a design are not closely related. Users will naturally tend to group
+similar items that are near to each other into a single unit.</p>
+
+<p>People should never have to “work” at trying to figure out which heading goes
+with which graphic or text, or whether or not a line of text is a subtitle or a line of text
+unrelated to the title. Do not make users think. Robin Williams,
+in her best-selling book The <em>Non-Designer’s Design Book (Peachpit Press)</em> says
+that we must be conscious of where our eye goes first when we step back and
+look at our design. When you look at your slide, notice where your eye is drawn
+first, second, and so on. What path does your eye take?</p>
+
+<p>We will talk more about Proximity in the upcoming lecture on Layout.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul>
+<li>Strive for simplicity
+
+<ul><li><em>Reduce</em> features and data displayed</li>
+<li><em>Regularize</em> visual properties that aren’t important</li>
+<li>Make elements perform <em>double-duty</em></li></ul></li>
+<li>Enhance contrast
+
+<ul><li>Choose visual variables carefully</li>
+<li>Use the squint test</li></ul></li>
+<li>Repeat design elements to create unity</li>
+<li>Align items to create visual connections</li>
+<li>Group related items together and avoid grouping unrelated items</li>
+</ul></div></div></div>
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Lea Verou, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/13-graphic-design/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:05:43 GMT -->
+</html><!-- Handout delivered Sun Mar 11 2018 16:52:22 GMT-0400 (EDT) -->

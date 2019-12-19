@@ -1,0 +1,4 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+www.i18nguy.com	TRUE	/	FALSE	1999999999	TS0194eee0	010bd78044bda7d6171e250709b16c2da5e2c2c93463736dda42be700777ef912bc9d3cec9b87e036a95749bcc3346f236f92925c9
+

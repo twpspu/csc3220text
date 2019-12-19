@@ -1,0 +1,575 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/15-color/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:07:38 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+<title>Reading 15: Color </title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_15_color_">Reading 15: Color </a></li><li><a href="#human_vision">Human Vision</a></li><li><a href="#atypical_color_vision">Atypical color vision</a></li><li><a href="#consequences_of_chromatic_aberration">Consequences of chromatic aberration</a></li><li><a href="#conseqences_of_s_cone_distribution">Conseqences of S cone distribution</a></li><li><a href="#color_constancy_chromatic_adaptation_and_memory_colors">Color constancy: chromatic adaptation and memory colors</a></li><li><a href="#color_models">Color Models</a></li><li><a href="#design_guidelines">Design Guidelines</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_15_color_">Reading 15: Color </h1>
+
+<div data-outline="reading_15_color_"><div class="markdown col-sm-8 col-sm-offset-2 converted">
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/01.png">
+  <img src="figures/06.png">
+  <p></p><p>Source: UI Hall of Shame</p><p></p></div>
+
+<p>Our Hall of Shame candidate for the day is this dialog box from Adaptec Easy CD Creator, which appears at the end of burning a CD.  The top image shows the dialog when the CD was burned successfully. The bottom image shows what it looks like when there was an error.</p>
+
+<p>What does the squint test tell you about these dialogs?  How could they use the color visual variable better?</p></div>
+<div class="row"><p>Today’s reading is about choosing colors for a user interface.</p>
+
+<p>Color is a property of the <em>human</em> visual system and how it responds to visible light of different wavelengths. (Other animals see different ranges of wavelengths).</p>
+
+<div class="slide col-sm-6"><div class="slideTitle"><p>Visible spectrum, 380 to 750nm</p></div>
+  <img src="figures/Linear_visible_spectrum.svg" alt="wavelenghts corresponding to different colors in the visible spectrum">
+  <p></p><p>Source: David Hall, CC0</p><p></p></div>
+
+<p>So color is a subjective sensation. None the less, the human visual system has been extensively studied, so colors can be objectively measured and accurate numerical predictions made about color mixtures and color contrast.</p>
+
+<p>We’ll discuss some of the properties of human vision that affect this decision, particularly the limitations of color vision.  We’ll go over some models for representing colors, not just the familiar RGB model.  And we’ll discuss some guidelines for choosing colors.  The most important guidelines will be applications of rules we already discussed in graphic design: simplicity as much as possible, contrast where important.</p>
+
+<p>Good references about color:</p>
+
+<ul>
+<li>Mark D. Fairchild, <em>Color Appearance Models</em>, 3rd Edition, Wiley, 2013 (going beyond colorimetry to appearance in context)</li>
+<li>Phil Green (editor), <em>Color Management: Understanding and Using ICC profiles</em>, Wiley, 2010 (in-depth on color management systems and color profiles)</li>
+<li>Colin Ware, <em>Information Visualization: Perception for Design</em>, Morgan Kaufmann, 2000 (for a design-oriented approach)</li>
+<li>Günther Wyszecki, W.S. Styles <em>Color Science: Concepts and Methods, Quantitative Data and Formulae</em>, Wiley Classics, 2000 (for a rigorous mathematical apprach rooted in experimental data)</li>
+</ul></div>
+
+<div class="row"><h2 id="human_vision">Human Vision</h2>
+
+<div data-outline="human_vision"><p>The human eye is rather like a camera. So first, let’s look at a modern digital camera. They we can look at the human eye and see how it differs.</p><h3 id="a_camera">A Camera</h3><div data-outline="a_camera"><p>A digital camera consists of a light-tight box with a flat photosensor, a lens, an iris and (for a still camera) a shutter. The photosensor has a regular array of **photosites* which convert light into electricity; the analog charge stored is amplified, measured with an analog to digital converter and sent to the image storage as a digital value for each photosite.</p><div class="slide col-sm-6"><div class="slideTitle"><p>Sensor response</p></div>
+  <img src="figures/D700_ResponseCurveAdj4.jpg" alt="spectral response of a Nikon D700 photosensor">
+  <p></p><p>Source: <a href="https://maxmax.com/nikon_d700_study.htm" target="_blank"></a></p><p><a href="https://maxmax.com/nikon_d700_study.htm" target="_blank">Nikon D700 study, MaxMax.com</a></p><p></p><p></p></div><p>Colored <strong>filters</strong> in front of each photosite mean that some react mainly to red wavelengths, some to green, and some to blue. The filters are designed so that all visible wavelengths are covered, and the overlap between filters is carefully contolled so that all colors can be well distinguished.</p><p>An <strong>iris diaphragm</strong> allows the amount of light to be adjusted, and a <strong>shutter</strong> opens for a brief period to allow the image to be captured at the right exposure. (For a video camera, the photosensor is constantly scanned for each frame).</p><div class="slide col-sm-6"><div class="slideTitle"><p>A compound lens</p></div>
+  <img src="figures/Tessar.png" alt="diagram of a Zeiss Tessar lens">
+  <p></p><p>Source: <a href="https://en.wikipedia.org/wiki/Photographic_lens_design"></a></p><p><a href="https://en.wikipedia.org/wiki/Photographic_lens_design">Wikipedia, Photographic lens design</a></p><p></p><p></p></div><p>At the front, a <strong>compound lens</strong> gathers light from the scene and focusses it on the sensor. Multiple lens elements (some convex, some concave) made from glass with different refractive indices ensure that all wavelengths are focussed to a similar place. The position of some lens elements can be changed (by a motor, or by hand) to focus on nearby or far-away subjects as desired.</p><p>The interior of the camera is lined with matt black, light-absorbing material to cut down on internal reflections.</p></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><h3 id="human_eye">Human eye</h3>
+
+<div data-outline="human_eye"><div class="slide col-sm-6"><div class="slideTitle"><p>The Eye</p></div>
+  <img src="figures/03.jpg" alt="labelled diagram of the human eye">
+  <p></p><p>Source: Lilley, Lin, Hewitt, &amp; Howard, <em>Colour in Computer Graphics</em>, University of Manchester. </p><p></p></div><p>Here are key parts of the anatomy of the eye:</p><ul>
+<li>The <strong>cornea</strong> is the transparent, curved membrane on the front of the eye.</li>
+<li>The <strong>aqueous humor</strong> fills the cavity between the cornea and the lens, and provides most of the optical power of the eye because of the large difference between its refractive index and the refractive index of the air outside the cornea.</li>
+<li>The <strong>iris</strong> is the colored part of the eye, which covers the lens.  It is an opaque muscle, with a hole in the center called the <strong>pupil</strong> that lets light through to fall on the lens.  The iris opens and closes the pupil depending on the intensity of light.  It opens in dim light, and closes in bright light.</li>
+<li>The <strong>lens</strong> focuses light.  Under muscle control, it can move forward and backward, and also get thinner or fatter to change its focal length.</li>
+<li>The <strong>retina</strong> is the surface of the inside of the eye, which is covered with light-sensitive receptor cells.</li>
+<li>The <strong>fovea</strong> is the spot where the optical axis (center of the lens) impinges on the retina.  The highest density of photoreceptors can be found in the fovea.  The fovea is the center of your visual field.</li>
+<li>The <strong>blind spot</strong> is where all the nerves gather to go off to the brain. There are no photoreceptors here. Normally, you don’t notice this.</li>
+</ul></div>
+
+
+
+
+
+<h3 id="cameraeye_differences">Camera/eye differences</h3>
+
+<div data-outline="cameraeye_differences"><ul>
+<li>The retina is curved, not flat (this actually makes things easier, all parts are at a similar distance fromthe center of the lens. Curved photosensors are too hard to make, currently)</li>
+<li>The retina is not uniform; the central portion and the edges have different properties</li>
+<li>There is no compound lens. Just one simple convex lens (the aqueous humor) to do most of the focussing, and another simple convex lens to do fine focussing for close and far subjects. So not all wavelengths are focussed to the same point (the lens has <em>chromatic aberration</em>), as we will see later.</li>
+</ul></div></div>
+
+<div class="row"><h3 id="retina">Retina</h3>
+
+<div data-outline="retina"><div class="slide col-sm-6"><div class="slideTitle"><p>Cone responses</p></div>
+  <img src="figures/cones_log.svg" alt="cone responses  at different wavelengths, log scale">
+  <p></p><p>Source: Lilley, Lin, Hewitt, &amp; Howard, <em>Colour in Computer Graphics</em>, University of Manchester. </p><p></p></div><p>There are two kinds of photoreceptor cells in the retina.  <strong>Rods</strong> operate under low-light conditions - night vision.  There is only one kind of rod, with one frequency response curve centered in green wavelengths, so rods don’t provide color vision.  Rods saturate at moderate intensities of light, so they contribute little to daytime vision.  <strong>Cones</strong> respond only in brighter light.  There are three kinds of cones, called S, M, and L after the centers of their wavelength peaks.  Short (S) cones have very weak frequency response centered in blue.  Medium (M) and Long (L) cones are two orders of magnitude stronger, and their frequency response curves are almost the same.</p><table><tbody><tr><th><p>Rods</p></th><th><p>Cones</p></th></tr>
+<tr><td><ul><li><p>Only one kind (peak response in green wavelengths)</p></li>
+<li><p>Sensitive to low light (“scotopic vision”)</p><ul><li><p>Multiple nearby rods aggregated into a single nerve signal</p></li></ul><p></p></li>
+<li><p>Saturated at moderate light intensity (“photopic vision”)</p><ul><li><p>Cones do most of the vision under photopic conditions</p></li></ul><p></p></li></ul></td>
+<td><ul><li><p>Operate in brighter light</p></li>
+<li><p>Three kinds: S(hort), M(edium), L(ong)</p></li>
+<li><p>S cones are very weak, centered in violet &amp; blue wavelengths</p></li>
+<li><p>M and L cones are more powerful, overlapping </p></li>
+<li><p>M centered in green, L in yellow-green (sometimes, erroneously, called “red”)</p></li></ul></td></tr></tbody></table></div>
+
+
+
+</div>
+
+<div class="row"><h3 id="retinal_wiring">Retinal wiring</h3>
+
+<div data-outline="retinal_wiring"><p>Evidence from after-images, and linguistic analysis (you can have a yellowish-green but not a greenish-red, for example) indicated that we do not percieve the cone outputs directly. In 1905, Ewald Hering and Johannes von Kries described color vision as three pairs of <em>opponent colors</em>: black-white, red-green, and yellow-blue.</p><div class="slide col-sm-6"><div class="slideTitle"><p>Ganglion cells</p></div>
+  <img src="figures/retinac.svg" alt="ganglion, bipolar &amp; horizontal cells combine cone and rod responses">
+  <p></p><p>Source: Lilley, Lin, Hewitt, &amp; Howard, <em>Colour in Computer Graphics</em>, University of Manchester. </p><p></p></div><p>This hypothesis was later confirmed experimentally. The rods and cones do not send their signals directly to the visual cortex. Instead, the signals are recombined into three channels by the retinal <em>ganglion cells</em>.</p><p><strong>Brightness</strong> is produced by the M and L cones (and the rod)s.  This is the only channel really active at night.  The other two channels convey color <strong>differences</strong>, red-green and blue-yellow.  For the red-green channel, for example, high responses mean red, and low responses indicate green.</p><div class="slide col-sm-6"><div class="slideTitle"><p>Signals from Photoreceptors</p></div>
+
+<ul><li><p>Brightness</p>
+
+<ul><li><p>M + L + rods</p></li></ul></li>
+<li><p>Red-green difference</p>
+
+<ul><li><p>L - M</p></li></ul></li>
+<li><p>Blue-yellow difference</p>
+
+<ul><li><p>weighted sum of S, M, L</p></li></ul></li></ul></div><p>We can use <strong>opponent colors</strong> in UI design: red and green are good contrasting colors because they drive the red-green channel to opposite extremes (for people with normal color vision; see below for an important issue though).  Similarly, black/white and blue/yellow are good contrasting pairs.</p><p>Also, because the simple lenses in the eye are not well-corrected, it is better to have yellow for the <em>foreground</em> (graphics, text) and blue for the <em>background</em>. The blue seems ‘further away’. Blue text on a yellow background is harder to see, and produces more eye strain.</p></div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Rod &amp; Cone distribution</p></div>
+  <ul><li><p>Cones are mostly in the center of the eye.</p></li>
+  <li><p>Rods are mostly on the edges.</p></li></ul>
+  <img src="figures/04.png" alt="cell distribution in the retina"></div>
+
+<p>Rods and cones aren’t distributed evenly in the eye.</p>
+
+<p>Most of the cones are in the center, most of the rods are on the edge. Because our eyes can move, we constantly scan the best part of the retina (the fovea) over areas of interest. Literally, what we see is a composite picture built in our brains.</p>
+
+<p>Rods, since they’re on the edge and pick up very coarse-grained information (but are great at detecting contrast changes and movement), are what we use for most of our peripheral vision. Good for spotting predators! In fact, if you’re trying to spot shooting stars at night, you often pick out more things in your peripheral vision.</p>
+
+<p>Also, we have many more L and M cones than S cones: around 40 L and 20 M for each S cone. Our sensitivity to small details that activate solely the S cones (blue and violet) is much less, as a result.</p></div>
+
+<div class="row"><h2 id="atypical_color_vision">Atypical color vision</h2>
+
+<div data-outline="atypical_color_vision"><div class="slide col-sm-6"><div class="slideTitle"><p>Color Blindness</p></div>
+
+<ul><li><p>Red-green color blindness (protanopia &amp; deuteranopia)</p>
+
+<ul><li><p>8% of males</p></li>
+<li><p>0.4% of females</p></li></ul></li>
+<li><p>Blue-yellow color blindness (tritanopia)</p>
+
+<ul><li><p>Far more rare (~50 people in a million)</p></li></ul></li>
+<li><p>Guideline: don’t depend <strong>solely</strong> on color distinctions</p>
+
+<ul><li><p>use redundant signals: brightness, location, shape</p></li></ul></li></ul></div><p>Color deficiency affects a significant fraction of human beings. Because it is a recessive trait and carried on the “X” chromosome, an overwhelming number of them are male (XY).  Most of those affected have only minor problems, and it is often un-noticed until later in life. Atypical color response is a matter of degree (this is why the term “color blindness” is a poor one).</p><p>There are three kinds of color deficiency, which we can understand better now that we understand a little about the eye’s anatomy:</p><ul>
+<li><strong>Protanopia</strong> is missing or defective L cones.  The consequence is reduced sensitivity to red-green differences (the L-M channel is weaker), and also reds are perceived as darker than normal.</li>
+<li><strong>Deuteranopia</strong> is caused by missing or defective M cones. Red-green difference sensitivity is reduced, but reds do not appear darker.</li>
+<li><strong>Tritanopia</strong> is caused by missing or defective S cones, and results in blue-yellow insensitivity.</li>
+</ul><p>Red/green deficiency affects about 8% of males and 0.4% of females.  Blue/yellow deficiency is much much rarer.</p><p>Since color blindness affects so many people, it is essential to take it into account when you are deciding how to use color in a user interface.  Don’t depend solely on color distinctions, particularly red-green distinctions, for conveying information. Microsoft Office applications fail in this respect: red wavy underlines indicate spelling errors, while identical green wavy underlines indicate grammar errors.</p><p>Traffic lights are another source of problems.  How do red-green colorblind people know whether the light is green or red?  Fortunately, there’s a spatial cue: red is always above (or to the right of) green.  Protanopia sufferers (as opposed to deuteranopians) have an additional advantage: the red light looks darker than the green light.</p></div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Color discrimination testing</p></div>
+  <img src="figures/05.png"></div>
+
+<p>One of the most common ways to detect atypical color vision is using the Ishihara plates. Let’s look at a few - can you see the numbers hidden in each of the circles? If you have red-green deficiency, you have difficulty seeing the bottom number of the leftmost pair, or the top number of the middle pair, and you can’t see either number in the rightmost pair.</p>
+
+<p>You can <a href="http://www.color-blindness.com/ishihara-38-plates-cvd-test/">test yourself online</a> in around 5 minutes.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Effect of Color Blindness</p></div>
+  <img src="figures/06.png">
+  <img src="figures/07.png"></div>
+
+<p>There are online tools for checking your interface against various kinds of atypical color vision.  One good one is <a href="http://www.vischeck.com/vischeck/">Vischeck</a>.  The figure here applied VisCheck to today’s hall of fame and shame example, to show what it looks like with red-green deficiency.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Simulating atypical color vision</p></div>
+  <img src="figures/08.png">
+  <img src="figures/08b.png"></div>
+
+<p>The bottom cube shows what colors in the top cube would look like to someone with red-green deficiency.</p></div>
+
+<div class="row"><h2 id="consequences_of_chromatic_aberration">Consequences of chromatic aberration</h2>
+
+<div data-outline="consequences_of_chromatic_aberration"><div class="slide col-sm-6"><div class="slideTitle"><p>Chromatic Aberration</p></div>
+
+<ul><li><p>Different wavelengths focus differently</p>
+
+<ul><li><p>Highly separated wavelengths (red &amp; blue) can’t be focused simultaneously</p></li></ul></li>
+<li><p>Guideline: don’t use red-on-blue text</p>
+
+<ul><li><p>It looks fuzzy and hurts to read</p></li></ul></li></ul>
+  <img src="figures/09.jpg"></div><p>The refractive index of the lens varies with the wavelength of the light passing through it.  Just like a prism, different wavelengths are bent at different angles.  So your eye needs to focus differently on red features than it does on blue features.</p><p>As a result, an edge between widely-separated wavelengths - like blue and red - simply can’t be focused.  It always looks a little fuzzy.  So red-on-blue or (worse!) blue-on-red text is painful to read, and should be avoided at all costs.</p><p>Apple’s ForceQuit tool in Mac OS X, which allows users to shut down misbehaving applications, unfortunately fell into this trap.  In the dialog, unresponding applications are helpfully displayed in red. But the selection is a blue highlight. The result is incredibly hard to read.</p></div>
+
+
+
+
+
+</div>
+
+<div class="row"><h2 id="conseqences_of_s_cone_distribution">Conseqences of S cone distribution</h2>
+
+<div data-outline="conseqences_of_s_cone_distribution"><div class="slide col-sm-6"><div class="slideTitle"><p>Blue Details Are Hard to Resolve</p></div>
+
+<ul><li><p>Retina has few S cones, fovea has even less</p>
+
+<ul><li><p>Can’t resolve small blue features (unless they have high brightness contrast with background)</p></li></ul></li>
+<li><p>Lens and aqueous humor turn yellowish with age</p>
+
+<ul><li><p>Blue wavelengths are filtered out</p></li></ul></li>
+<li><p>Lens weakens with age</p>
+
+<ul><li><p>Blue is harder to focus</p></li></ul></li>
+<li><p>Guideline: don’t use blue against dark backgrounds where small details matter (text!)</p></li></ul></div><p>A number of anatomical details conspire to make blue a bad color choice when small details matter.</p><p>First, as we have seen, the fovea has very few S cones, so you can’t easily see blue features in the center of your vision (unless they have high contrast with the background, activating the M and L cones).</p><p>Second, older eyes are far less sensitive to blue, because the lens and aqueous humor slowly grow yellower, filtering out the blue wavelengths.</p><p>Finally, the lens gets weaker with age.  Blue is at one extreme of its focusing range, so older eyes can’t focus blue features as well (and can’t focus on different distances as well, either).</p><p>As a result, avoid blue text, particularly small blue text, and blue markers on line charts.</p><div class="slide col-sm-6"><img src="figures/28.gif">
+  <p></p><p>Source: <a href="http://sploid.gizmodo.com/believe-it-or-not-these-four-squares-move-at-the-same-1559629417/+caseychan"></a></p><p><a href="http://sploid.gizmodo.com/believe-it-or-not-these-four-squares-move-at-the-same-1559629417/+caseychan">Sploid</a></p><p></p><p></p></div><p>These four squares are all actually moving at the same speed. Due to the low density of S cones in the retina, your eye has more trouble distinguishing fine detail in the blue from the black, so the blue squares appear to be moving in a jerky fashion.</p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><h2 id="color_constancy_chromatic_adaptation_and_memory_colors">Color constancy: chromatic adaptation and memory colors</h2>
+
+<div data-outline="color_constancy_chromatic_adaptation_and_memory_colors"><h3 id="chromatic_adaptation">Chromatic adaptation</h3><div data-outline="chromatic_adaptation"><div class="slide col-sm-6"><div class="slideTitle"><p>No white balance</p></div>
+  <img src="figures/tungsten.jpg" alt="a sheet of white paper under tungsten light, auto white balance disabled"></div><p>In the outside world, the color of the light changes constantly. Full sunshine is yellower than the light on a cloudy day; objects in shadow are illuminated with a bluer light; in a room lit with incandescent bulbs or candles the light is orange-yellow, and around sunset the light is strongly orange-red. The measured spectrum of light reflected from a given object is constantly changing. Despite this, we perceive that “the light changed” not “all the objects changed color”. Rather like a camera with auto white balance, our eye constantly recalibrates to what it sees as “white light”, and all other colors are judged relative to that white. This is called <em>chromatic adaptation</em>.</p><p>You can see this yourself with a sheet of white paper. Look at it indoors, in the evening with lights on; outside, shaded from direct sunlight. Tt still looks white. But if you take a picture (and have disabled auto white balance on the camera) you will see an orange sheet under tungsten light, and a cyan sheet in shadow, respectively.</p><p>Later in the reading we will examine the Lab color space, which takes chromatic adaptation into account.</p><div class="slide col-sm-6"><div class="slideTitle"><p>Color Constancy</p></div>
+  <img src="figures/10.png"></div></div><h3 id="color_constancy">Color constancy</h3><div data-outline="color_constancy"><p>Color constancy is another phenomenon that can modify our color perceptions. We unconsciously apply our knowledge of the world to what we see.</p><p>You’ve probably seen this image before. Measured in isolation, the color of A and the color of B are identical, but our brain sees them as different because of the shadow. We perceive colors as constant, if we have reason to, even if they are under different light.</p><div class="slide col-sm-6"><div class="slideTitle"><p>Strawberries</p></div>
+  <img src="figures/blue-strawberries.jpg" alt="there are no red pixels in the image, yet we see the strawberries as reddish">
+  <p></p><p>Source: <a href="https://twitter.com/AkiyoshiKitaoka/status/836382313160171521"></a></p><p><a href="https://twitter.com/AkiyoshiKitaoka/status/836382313160171521">Akiyoshi Kitaoka,</a></p> Department of Psychology, Ritsumeikan University, Kyoto, Japan.<p></p><p></p></div><p>Despite the strange bluish lighting, we still see these as red strawberries. But there are <em>no red pixels</em> in the whole image. The strawberries are actually a neutral grey (#BCBCBC). The eye tries to adapt to the strongly cyan cast, and fails, but the state of <em>partial chromatic adaptation</em>, plus our memory of what strawberries look like, results in the sensation of redness.</p></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Color Appearance</p></div>
+  <img src="figures/11.png"></div>
+
+<p>You can see an example of chromatic adaptation in these two images. Do any of those sheets of paper look like the same color?</p>
+
+<p>We see the red lighting of the second picture and adapt our assumptions about the colors accordingly. From the point of view of colorimetry, the second sheet from the left is the same color in both pictures (it has the same RGB values). But from the point of view of color appearance, we see them as very different. If you wanted to make them look the same, they would need to have different RGB values!</p>
+
+<p>We can explore this using an eyedropper tool or the Digital Color Meter in OS X or your OS.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Colorimetry <em>vs.</em> Color Appearance</p></div>
+  <img src="figures/12.png"></div>
+
+<p>These two rectangles are sampled (using the eyedropper in color selection) from the second sheet from each photo.</p></div>
+
+<div class="row"><div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="reading_15_color_/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-15-color"><div class="panel-body"><p>Which of the following are true? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Small blue features are hard to see since the fovea has very few L cones."><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Small blue features are hard to see since the fovea has very few L cones.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="A person with damaged or missing S cones is likely to have trouble detecting yellow/blue differences."><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">A person with damaged or missing S cones is likely to have trouble detecting yellow/blue differences.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Older eyes are less sensitive to blue features."><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Older eyes are less sensitive to blue features.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Chromatic aberration causes red/yellow boundaries to look fuzzy."><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">Chromatic aberration causes red/yellow boundaries to look fuzzy.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div>
+
+<div class="row"><h2 id="color_models">Color Models</h2>
+
+<div data-outline="color_models"><div class="slide col-sm-6"><div class="slideTitle"><p>Color Models</p></div>
+
+<ul><li><p>Red-Green-Blue (RGB)</p>
+
+<ul><li><p>Red: 0% - 100%</p></li>
+<li><p>Green: 0% - 100%</p></li>
+<li><p>Blue: 0% - 100%</p></li></ul>
+
+<img src="figures/13.png"></li>
+
+<li><p>Cyan-Magenta-Yellow (CMYK)</p>
+
+<ul><li><p>Used for printing</p></li></ul>
+
+<p><img src="figures/14.png"></p></li></ul></div><h3 id="red-green-blue_rgb">Red-Green-Blue (RGB)</h3><div data-outline="red-green-blue_rgb"><p>Now let’s look at how colors are represented in GUI software.  At the lowest level, the RGB model rules.  The RGB model is a unit cube, with (0,0,0) corresponding to black, (1, 1, 1) corresponding to white, and the three dimensions measuring levels of the <strong>red, green, and blue primaries</strong>.
+The RGB model is used directly by CRT and LCD screens for display, since each pixel in a screen has separate red, green, and blue components. Often, the values are given on a 0 to 255 (or 0x00 to 0xFF) scale, eight bits representing the full range for each color component, because the frame buffer in a graphics card is usually 8 bits deep.</p><p>By itself, RGB does not fully specify a color because there is no information on <em>exactly what color</em> the red, green and blue primaries are. <a href="https://en.wikipedia.org/wiki/SRGB">sRGB aims to fix that by standardizing a common RGB color space</a>. Colors on the Web are defined to be in sRGB. There are other RGB color spaces, such as AdobeRGB and ProPhoto (used in photography), and DCI P3 (used in digital cinema and 4k television).</p><div class="slide col-sm-6"><div class="slideTitle"><p>Gamma Correction</p></div>
+    <img src="figures/transfer709.gif">
+    <p></p><p>Source: <a href="http://poynton.ca/notes/colour_and_gamma/GammaFAQ.html"></a></p><p><a href="http://poynton.ca/notes/colour_and_gamma/GammaFAQ.html">Charles Poynton, Gamma FAQ</a></p><p></p><p></p></div><p>Also, because our eyes see intensity on a logarithmic scale, the RGB values are stored in <em>gamma corrected</em> form:</p><p>R <em>gamma</em> = R <em>linear</em> to the power γ, where γ is typically 2.4. <em>(and the same for G and B)</em></p><p><strong>Gamma correction</strong> is the process of standardizing the intensity so that a linear response is obtained.</p><p>This was originally done to match the characteristics of Cathode Ray Tube (CRT) displays; when the red component of an RGB value (0-1) is mapped directly to a voltage applied to an electron gun, the intensity of light produced does not vary linearly from 0 to 1, but typically follows a power curve. In addition, gamma correction makes the values more evenly spaced and thus makes the best use of the limited 8-bit depth. Although CRT screens are rarely used nowadays, for backwards compatibility, modern flat screens are designed to produce the same overall transfer function.</p><p>An unfortunate consequence of this is that, when mixing or interpolating colors in RGB, the values should really be un-gamma-corrected to linear light intensities, interpolated, and the results re-corrected. Most software does not bother to do this, producing a range of visual artifacts as a result.</p></div><h3 id="cyan-magenta-yellow-black_cmyk">Cyan-Magenta-Yellow-Black (CMYK)</h3><div data-outline="cyan-magenta-yellow-black_cmyk"><p>The CMYK (cyan, magenta, yellow, and black) is similar to the RGB model, but used for print colors. Instead of generating light like a screen, printed materials reflext the ambient light. Inks or pigments absorb some wavelengths more than others, producing colors.  By the way, the K in CMYK stands for <em>key</em>; the black layer is printed last, and helps cover up small misalignments in the other colors.</p><p>Getting the right color in CMYK is quite tricky. It depends on the precise inks used, the paper, and the properties of the printing press. People either use swatch books of printed colors, or digital color management software (or trial and error, but that can get expensive!) to get consistent results. The details of color management, especially for print, is outside the scope of this course.</p></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><h3 id="standardized_color_measurement_cie_xyz_lab_and_lch">Standardized color measurement: CIE XYZ, Lab and LCH</h3>
+
+<div data-outline="standardized_color_measurement_cie_xyz_lab_and_lch"><div class="slide col-sm-6"><div class="slideTitle"><p>CIE XTZ</p></div>
+  <img src="figures/17.png" alt="The CIE XYZ colorspace"></div><p>The way that a color like pure red (RGB=1,0,0) actually looks depends strongly on the display’s characteristics, so your application can’t be sure it will get exactly the right color.</p><p>The science of colorimetry is concerned with accurate measurement and reproduction of color.  Most of it is outside the scope of this course, but here are a few things you should know. Colorimetry stems from color matching experiments in the 1930s where a wide variety of colors had to be matched by varying the intensities of three colored lights. In any physical system, some colors will be out of gamut (not displayable); for example, many green and blue colors required a negative amount of the red light.</p><p>To get around that, the experimental data was transformed into a set of theoretical primary colors by the CIE (the International Committee on Illumination). The <strong>Y</strong> primary was defined to be the same as <strong>luminance</strong> (how light or dark something is) and the <strong>X</strong> and <strong>Z</strong> primaries defined to carry only color information, no luminance.  X, Y, and Z are thus  <em>imaginary</em> colors in the sense that they cannot be produced by a physical light source or perceived by the human eye. But they’re useful bases for the space, much like imaginary numbers are useful in algebra.</p><p>As a result, all human-visible colors are bounded within the positive octant – so that any visible color can be made as a mix of positive amounts of X, Y, and Z.  The solid area on the left shows the visible colors perceivable to the human eye.  Black is of course at the origin.  To consider hue and saturation in isolation, we can also look at a plane of constant luminance, shown on the right.  This ** chromaticity diagram** has a wedge-shaped slice showing the space of human-perceivable colors, with fully-saturated, pure-wavelength colors around its perimeter.</p><p>CIE XYZ is an <em>additive</em>, <em>linear light</em> colorspace useful for calculating color mixtures, but is not <strong>perceptually uniform</strong>. The distance apart of two colors in XYZ does not directly relate to how similar or different they appear. <em>Luminance</em> is accurately represented, but our eye sees lightness differences on a log scale. <em>Chromatic adaptation</em> is also not well shown in XYZ.</p><div class="slide col-sm-6"><div class="slideTitle"><p>CIE Lab</p></div>
+  <img src="figures/Lab-Lab.svg" alt="The CIE Lab colorspace">
+  <p></p><p>Source: Chris Lilley</p><p></p></div><p>CIE Lab has a central <strong>Lightness</strong> axis, going from black at 0 to the current white at 100. All colors are chromatically adapted to a color temperature of 5000K (D50) so that measurements made under different conditions can be compared with each other. The two color axes, <strong>a</strong> and <strong>b</strong> represent <em>opponent colors</em>. Positive a is a reddish magenta, negative a is a teal green. Positive b represents yellow, while negative b is a sky blue.</p><p>The distance between two colors in Lab colorspace accurately predicts how similar or different they look.</p><p>The gamut of a display (or indeed, a printer or a camera) is most accurately represented as a volume in Lab space.</p><div class="slide col-sm-6"><div class="slideTitle"><p>CIE LCH</p></div>
+    <img src="figures/Cielab-circle.png" alt="The CIE Lab colorspace">
+    <p></p><p>Source: Chris Lilley</p><p></p></div><p>Instead of rectangular coordinates <strong>a</strong> and <strong>b</strong>, it is convenient instead to use a <em>hue angle</em> <strong>H</strong> (measured from the positive a axis) and a <em>chroma</em>, <strong>C</strong> (distance from the central Lightness axis, which is the same in Lab and LCH) which represents the colorfullness.</p></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><h3 id="chromaticity_diagrams">Chromaticity diagrams</h3>
+
+<div data-outline="chromaticity_diagrams"><div class="slide col-sm-6"><div class="slideTitle"><p>Chromaticity</p></div>
+  <img src="figures/19.png">
+  <img src="figures/21.png"></div><p>A <strong>chromaticity diagram</strong> is a 2D slice of a 3D colorspace (CIE XYZ or CIE Luv), along a plane of constant luminance. So it shows only hue and saturation.
+The curved edge corresponds to the pure, single-wavelength colors of a spectrum. The straight line joining the two ends
+of the curve indicates purple (a mixture of red and violet light).</p><p>This is a comparison of the CIE xy chromaticity diagram on the top, and the CIE uv chromaticity diagram on the bottom</p><p>One drawback of xy is that it’s not perceptually uniform - green occupies a huge chunk at the top of the wedge, while yellow is a narrow little line.  It would be preferable if the distance in color space produced the same difference in perception in both areas.</p><p>One of the goals of the uv chromaticity diagram was to have the sizes of each area better conform to our perceptual mappings.</p></div>
+
+
+
+
+
+
+
+</div>
+
+<div class="row"><h3 id="gamuts">Gamuts</h3>
+
+<div data-outline="gamuts"><p>Any given display device can produce a range of colors (called the device’s <strong>gamut</strong>), defined by three colors used by the device as its primary colors - e.g., the exact colors of red, green, and blue in a screen’s pixels - and the white point. The gamut can be represented in 2D on a chromaticity diagram, where it forms a triangle or (more accurately, and using computer graphics) as a 3D shape in Lab.</p><p>Devices with different gamuts will produce different colors from the <em>same RGB value</em>.  This problem can be addressed by calibrating the display device, producing an ICC profile that specifies how the device’s RGB space maps into a standardized space like XYZ or Lab. (ICC is the <a href="http://color.org/">International Color Consortium</a>).</p><p>If a given color is out of gamut, calibration will not make it displayable. Calibration just gives color consistency for colors which <em>in</em> gamut.</p></div>
+
+
+
+</div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Colors Not in the Gamut</p></div>
+  <img src="figures/20.png"></div>
+
+<p>This is a picture of an ultramarine pigment, International Klein Blue. While the picture looks pretty intense, odds are good it’s not actually reproducing what it looks like in person, because the colors are outside of the gamut of your computer. If you were to see this image projected, it would also likely look different from what you see on your computer.</p>
+
+<p>All these issues of limited gamut also apply to cameras as well as displays, of course.  Cameras have gamuts (for the hues and saturations they can record) and response curves (to intensity) that require calibration and correction. To learn more about human perception and color, take 6.815/6.865 Digital and Computational Photography.</p></div>
+
+<div class="row"><div class="row"><h3 id="hsv_and_hls">HSV and HLS</h3>
+
+<div data-outline="hsv_and_hls"><div class="slide col-sm-6"><div class="slideTitle"><p>More Color Models</p></div>
+
+<ul><li><p>Hue-Saturation-Value (HSV)</p>
+
+<ul><li><p>Hue is wavelength of color</p></li>
+<li><p>Saturation is amount of pure color</p></li>
+<li><p>0% = gray, 100% = pure</p></li>
+<li><p>Value is brightness</p></li>
+<li><p>0% = dark, 100% = bright</p></li></ul>
+
+<p><img src="figures/15.png"></p></li>
+
+<li><p>Hue-Lightness-Saturation (HLS)</p>
+
+<ul><li><p>White has lightness 1.0 </p></li>
+<li><p>Pure colors have lightness 0.5</p></li></ul>
+
+<p><img src="figures/16.png"></p></li></ul></div><p>HSV (hue, saturation value) is another <em>hue-wheel system</em>, like LCH,
+and more useful for choosing colors in user interface design.  HSV is a cone.  We’ve already encountered hue and value in our discussion of visual variables.  Saturation is the degree of color, as opposed to grayness.  Colors with zero saturation are shades of gray. Colors with 100% saturation are pure color.</p><p>HSV is an approximation to the CIE LCH hue wheel system, but is calculated directly from RGB without taking into account colorimetry.</p><p>HLS (hue, lightness, saturation) is a close relative of the HSV model.  HLS basically pulls up the center of the HSV cone to make a double-ended cone, which is symmetrical and more elegant. Note though, that in HLS and HSV two colors like pure yellow and pure blue have the same lightness or value, even though visually they are very different.</p><p>Many applications have a color picker that lets you pick HSV values as an alternative to RGB.</p><p><a href="http://color.method.ac/">The Color Matching Game</a> helps you practice your color matching skills for hue, saturation, and value.</p></div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+<div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise_2" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise_2" data-outline="exercise_2" data-ex-id="reading_15_color_/exercise_2" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-15-color"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Some points in the HSV color space can’t be perceived by any human eye."><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">Some points in the HSV color space can’t be perceived by any human eye.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Gamma correction helps to standardize the brightness of colors produced by a device."><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">Gamma correction helps to standardize the brightness of colors produced by a device.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The RGB color 50%,50%,50% has zero saturation."><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">The RGB color 50%,50%,50% has zero saturation.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="While in general, colors are not guaranteed to look the same on different devices, pure colors (e.g. RGB 100%,0%,0%) are consistent in appearance across devices."><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">While in general, colors are not guaranteed to look the same on different devices, pure colors (e.g. RGB 100%,0%,0%) are consistent in appearance across devices.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div>
+
+<div class="row"><h2 id="design_guidelines">Design Guidelines</h2>
+
+<div data-outline="design_guidelines"><div class="slide col-sm-6"><div class="slideTitle"><p>Color Guidelines</p></div>
+
+<ul><li><p>Avoid saturated colors</p></li>
+<li><p>Use few colors</p></li>
+<li><p>Be consistent with expectations</p></li></ul></div></div></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Avoid Saturated Colors</p></div>
+  <img src="figures/22.png">
+  <img src="figures/23.png">
+  <img src="figures/24.png"></div>
+
+<p>In general, avoid strongly saturated colors - i.e., the colors around the outside edge of the HSV cone. Saturated colors can cause visual fatigue because the eye must keep refocusing on different wavelengths.  They also tend to saturate the viewer’s receptors (hence the name). One study found that air traffic controllers who viewed strongly saturated green text on their ATC interfaces for many hours had trouble seeing pink or red (the other end of the red/green color channel) for up to 15 minutes after their shift was over.</p>
+
+<p>Use less saturated, “pastel” colors instead, which mix gray or white into the pure color.</p>
+
+<p>The examples on top use colors with high saturation; on the bottom, low saturation.  Shades of gray have minimum saturation.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>When Saturation is Cool</p></div>
+
+<ul><li><p>When your cones get saturated with one color, you can use that to make other colors seem brighter.</p></li>
+<li><p>Epcot in Disney World uses this - they make their sidewalks pink-tinted, which slowly fatigues your eyes, so the grass looks greener.</p></li></ul></div>
+
+<p>Saturating one color in your vision can have a temporary effect on your perception of other colors. Think of when you take off colored sunglasses, for instance. You can use this to change perception in cool ways - for instance, making grass look greener - but it can also be detrimental.</p>
+
+<p>To see what this feels like, look at a full screen of bright red for a little bit. Then look at a full screen of green. The green that you see will be more green than you can normally perceive, because your red-perceiving cones won’t be firing at all. This green is an imaginary color. It’s visible light, but it’s greener than the range of normal human vision.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Use Few Colors</p></div>
+  <img src="figures/25.png">
+  <img src="figures/26.png"></div>
+
+<p>In general, colors should be used sparingly.  An interface with many colors appears more complex, more cluttered, and more distracting.  Use only a small number of different hues.</p>
+
+<p>The toolbar on top uses too many colors (many of them highly saturated), so none of the buttons stand out, and the toolbar feels hard to scan.  In contrast, the toolbar at the bottom uses only a handful of colors.  It’s more restful to look at, and the buttons that actually use color (like the Open File button) really pop out.</p>
+
+<p>A simple and very effective color scheme uses just one hue (like blue or green, weakly saturated and in various values), combined with black, white, and shades of gray.  On top of a scheme like that, a bit of red in an icon will pop out wonderfully.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Background Colors</p></div>
+  <img src="figures/27.png"></div>
+
+<p>Background colors should establish a good contrast with the foreground.  White is a good choice, since it provides the most contrast, but it also produces bright displays, since our computer displays emit light rather than reflecting it.  Pale (desaturated) yellow and very light gray are also good background colors.  Dark backgrounds are tricky. It’s too easy to mess up the contrast and make text less legible, as shown in this example.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Be Consistent with Expectations</p></div>
+  <img src="figures/01.png"></div>
+
+<p>Finally, match expectations.  One of the problems with the Adaptec dialogs at the beginning of this reading was the use of red for OK.  Red generally means stop, warning, error, or hot.  Green conventionally means go, or OK.  Yellow means caution, or slow.</p>
+
+<p>(But note that these conventional meanings for colors are culturally dependent, and what works in Western cultures may not work for all users.)</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Choosing Good Colors</p></div>
+
+<ul><li><p>Copy colors from other good interfaces</p>
+
+<ul><li><p>FireBug, EclipsePalette, Digital Color Meter</p></li></ul></li>
+<li><p>Pick colors out of a photograph with natural colors</p></li>
+<li><p>Pick one color and several shades of gray (safe choice)</p>
+
+<ul><li><p>Or pick two colors that seem coordinated (ask for other opinions on this)</p></li></ul></li></ul></div>
+
+<p>Given all these rules about what colors not to choose, what colors should you choose?  There are no hard-and-fast rules here, but there are a few heuristics.  The first heuristic is an old standby - use color schemes that seem to work well for other interfaces on the desktop or the web.  There are several tools you can use to probe your web browser (Firebug for Firefox) or desktop screen (EclipsePalette for Windows, Digital Color Meter for Mac) to determine what color is being used by a particular display element.</p>
+
+<p>Another effective heuristic is to find a photograph of a natural scene that looks appealing to you, and extract colors from it (using the same tools, or using the eyedropper tool in a paint program). The intuitive basis for this heuristic is that our visual systems evolved to easily perceive and appreciate the natural world.</p>
+
+<p>Keep your choices simple.  You can’t go far wrong by choosing one weakly saturated color and a few shades of gray.  As soon as you choose two colors, however, you run the risks of an aesthetic clash between them.  It’s good to get some other opinions on your choice, particularly if you might be somewhat colorblind yourself.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Tools</p></div>
+
+<ul><li><p>Use browser developer tools to look at CSS style</p></li>
+<li><p>DigitalColorMeter (Mac), ColorPic (Win) identifies colors from screen</p></li>
+<li><p><a href="http://www.colourlovers.com/"></a></p><p><a href="http://www.colourlovers.com/">ColourLovers</a></p> (crowdsourced palettes)<p></p></li>
+<li><a href="http://colorusage.arc.nasa.gov/ColorTool.php"><p>NASA Color Tool</p></a></li></ul></div>
+
+<p>There are also some sites out there that help you choose colors.  <a href="http://www.colourlovers.com/">ColourLovers</a> is a large collection of user-contributed color schemes, with ratings and votes.  The <a href="http://colorusage.arc.nasa.gov/ColorTool.php">NASA Color Tool</a> helps select a palette of colors using HLS and view them side-by-side on sample data. The <a href="http://leaverou.github.io/contrast-ratio/">Contrast Ration</a> site by Lea Verou lets you check for adequate, accessible levels of contrast (even if transparency is used, which other checkers fail to take into account).</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Color in CSS</p></div>
+
+<ul><li><p>You can declare CSS colors in a few different ways:</p>
+
+<ul><li><p>With the actual color name (ie red, blue, green)</p></li>
+<li><p>With the hex code <code></code></p><p><code>(#ffffff)</code></p><p></p></li>
+<li><p>With the RGB value <code></code></p><p><code>rgb(67,250,90);</code></p><p></p></li>
+<li><p>With a hue-saturation-lightness value <code></code></p><p><code>hsl(120,20%,90%);</code></p><p></p></li></ul></li></ul></div></div>
+
+<div class="row"><div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise_3" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise_3" data-outline="exercise_3" data-ex-id="reading_15_color_/exercise_3" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-15-color"><div class="panel-body"><p>Which of the following foreground/background text colors is a reasonable design choice? (choose one best answer):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="#FF0000 and #00FF00"><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">#FF0000 and #00FF00</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="#000000 and #FFFFFF"><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">#000000 and #FFFFFF</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="#FF0000 and #0000FF"><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">#FF0000 and #0000FF</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="#555555 and #333333"><label for="md_converted_choice_3_3"><input type="checkbox" id="md_converted_choice_3_3">#555555 and #333333</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul><li><p>Don’t rely solely on color distinctions</p>
+
+<ul><li><p>Color blindness is common</p></li></ul></li>
+<li><p>Keep your color design simple</p>
+
+<ul><li><p>Use few colors, weakly saturated</p></li></ul></li></ul></div></div></div>
+
+</div></div></main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Lea Verou, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/15-color/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:12:21 GMT -->
+</html><!-- Handout delivered Mon Apr 02 2018 18:19:53 GMT-0400 (EDT) -->

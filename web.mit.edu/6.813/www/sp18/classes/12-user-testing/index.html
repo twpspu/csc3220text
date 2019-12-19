@@ -1,0 +1,438 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/12-user-testing/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:04:04 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 12: User Testing</title> 
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_12_user_testing">Reading 12: User Testing</a></li><li><a href="#ui_hall_of_shame">UI Hall of Shame</a></li><li><a href="#user_testing">User Testing</a></li><li><a href="#ethics">Ethics</a></li><li><a href="#formative_evaluation">Formative Evaluation</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_12_user_testing">Reading 12: User Testing</h1>
+
+<div data-outline="reading_12_user_testing"><div class="markdown col-sm-8 col-sm-offset-2 converted"><p>In this reading, we’ll talk about <strong>user testing</strong>: putting an interface in front of real users. There are several kinds of user testing, but all of them by definition involve human beings, who are thinking, breathing individuals with rights and feelings. When we enlist the assistance of real people in interface testing, we take on some special responsibilities. So first we’ll talk about the <strong>ethics</strong> of user testing, which apply regardless of what kind of user test you’re doing.</p>
+
+<p>The rest of the reading will focus on one particular kind of user test: <strong>formative evaluation</strong>, which is a user test performed during iterative design with the goal of finding usability problems to fix on the next design iteration.</p>
+
+<h2 id="ui_hall_of_shame">UI Hall of Shame</h2>
+
+<div data-outline="ui_hall_of_shame"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<a href="figures/online-calculator.png"><img src="figures/online-calculator.png" style="width:30%"></a>
+<a href="figures/google-calculator.png"><img src="figures/google-calculator.png" style="width:65%"></a></div>
+
+<p>Today’s Hall of Shame is a tale of two calculators.
+On the left is <a href="http://www.online-calculator.com/">www.online-calculator.com</a>.
+On the right is the <a href="https://www.google.com/#q=calculator">Google calculator</a>.</p>
+
+<p>Let’s compare and contrast these interfaces from the perspective of:</p>
+
+<ul>
+<li>Metaphors and consistency</li>
+<li>Knowledge in the head and knowledge in the world</li>
+<li>Affordances – how does the interface encourage you to interact with it?</li>
+<li>What modes are there?  Are they visible or hidden?</li>
+</ul></div></div>
+
+<h2 id="user_testing">User Testing</h2>
+
+<div data-outline="user_testing"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Kinds of User Tests</p></div>
+<ul><li><p>Formative evaluation</p>
+
+<ul><li><p>Find problems for next iteration of design</p></li>
+<li><p>Evaluates prototype or implementation, in lab, on chosen tasks</p></li>
+<li><p>Qualitative observations (usability problems)</p></li></ul></li>
+<li><p>Field study</p>
+
+<ul><li><p>Find problems in context</p></li>
+<li><p>Evaluates working implementation, in real context, on real tasks</p></li>
+<li><p>Mostly qualitative observations</p></li></ul></li>
+<li><p>Controlled experiment</p>
+
+<ul><li><p>Tests a hypothesis (e.g., interface X is faster than interface Y)</p></li>
+<li><p>Evaluates working implementation, in controlled lab environment, on chosen tasks</p></li>
+<li><p>Mostly quantitative observations (time, error rate, satisfaction)</p></li></ul></li></ul></div>
+
+<p>Here are three common kinds of user tests.</p>
+
+<p>You’ll be doing <strong>formative evaluations</strong> with the prototypes you build in this class. The purpose of formative evaluation is finding usability problems in order to fix them in the next design iteration. Formative evaluation doesn’t need a full working implementation, but can be done on a variety of prototypes. This kind of user test is usually done in an environment that’s under your control, like an office or a usability lab. You also choose the tasks given to users, which are generally realistic (drawn from task analysis, which is based on observation) but nevertheless fake. The results of formative evaluation are largely <strong>qualitative observations</strong>, usually a list of usability problems.</p>
+
+<p>A key problem with formative evaluation is that you have to control too much. Running a test in a lab environment on tasks of your invention may not tell you enough about how well your interface will work in a real context on real tasks. A <strong>field study</strong> can answer these questions, by actually deploying a working implementation to real users, and then going out to the users’ real environment and observing how they use it. We won’t say much about field studies in this class.</p>
+
+<p>A third kind of user test is a <strong>controlled experiment</strong>, whose goal is to test a quantifiable hypothesis about one or more interfaces. Controlled experiments happen under carefully controlled conditions using carefully-designed tasks—often more carefully chosen than formative evaluation tasks. Hypotheses can only be tested by quantitative measurements of usability, like time elapsed, number of errors, or subjective ratings. We’ll talk about controlled experiments in a future reading.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="user_testing/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-12-user-testing"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Formative evaluation can be used to detect problems in efficiency or learnability."><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Formative evaluation can be used to detect problems in efficiency or learnability.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Controlled experiments are used to test particular hypotheses about different interfaces and may involve carefully crafted tasks."><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Controlled experiments are used to test particular hypotheses about different interfaces and may involve carefully crafted tasks.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Field studies are most useful for understanding how users interact with an interface in realistic settings."><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Field studies are most useful for understanding how users interact with an interface in realistic settings.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div></div></div>
+
+<h2 id="ethics">Ethics</h2>
+
+<div data-outline="ethics"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Ethics of User Testing</p></div>
+
+<ul><li><p>Users are <strong></strong></p><p><strong>human beings</strong></p><p></p>
+
+<ul><li><p>Human subjects have been seriously abused in the past</p>
+
+<ul><li><p>Nazi concentration camps</p></li>
+<li><p>Tuskegee syphilis study</p></li>
+<li><p>MIT Fernald School study</p></li>
+<li><p>Yale electric shock study</p></li></ul></li></ul></li></ul></div>
+
+<p>Let’s start by talking about some issues that are relevant to all kinds of user testing: <strong>ethics</strong>. Human subjects have been horribly abused in the name of science over the past century. Here are some of the most egregious cases:</p>
+
+<ul>
+<li><p>In Nazi concentration camps (1940-1945), doctors used prisoners of war, political prisoners, and Jews as human guinea pigs for horrific experiments. Some experiments tested the limits of human endurance in extreme cold, low pressures, or exposure. Other experiments intentionally infected people with massive doses of pathogens, such as typhus; others tested new chemical weapons or new medical procedures. Thousands of people were killed by these experiments; they were criminal, on a massive scale.</p></li>
+<li><p>In the Tuskegee Institute syphilis study (1932-1972), the US government studied the effects of untreated syphilis in black men in the rural South. In exchange for their participation in the study, the men were given free health examinations. But they weren’t told that they had syphilis, or that the disease was potentially fatal. Nor were they given treatment for the disease, even as proven, effective treatments like penicillin became available. Out of 339 men studied, 28 died directly of syphilis, 100 of related complications. 40 wives were infected, and 19 children were born with congenital syphilis.</p></li>
+<li><p>In the 1940s and 1950s, MIT researchers cooperated with the Fernald School for mentally disabled children in Waverly, Massachusetts to give radioactive isotopes to some of the children in their milk and cereal, to study how the isotopes were taken up by the body. Permission letters were obtained from their parents, but neither parents nor children were warned that radioactive materials were being used.</p></li>
+<li><p>In the 1950s, a famous study done at Yale told subjects to give painful electric shocks to another person. The shocks weren’t real, and the person they were shocking was just an actor. But subjects weren’t told that fact in advance, and many subjects were genuinely traumatized by the experience: sweating, trembling, stuttering.</p></li>
+</ul>
+
+<p>These cases have led to several reforms. The Nazi-era experiments led to the Nuremberg Code, an international agreement on the rights of human subjects.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Basic Principles (Belmont Report)</p></div>
+
+<ul><li><p>Respect for persons</p>
+
+<ul><li><p>voluntary participation</p></li>
+<li><p>informed consent</p></li>
+<li><p>protection of vulnerable populations (children, prisoners, people with disabilities, esp. cognitive)</p></li></ul></li>
+<li><p>Beneficence</p>
+
+<ul><li><p>do no harm</p></li>
+<li><p>risks vs. benefits: risks to subjects should be commensurate with benefits of the work to the subjects or society</p></li></ul></li>
+<li><p>Justice</p>
+
+<ul><li><p>fair selection of subjects</p></li></ul></li></ul></div>
+
+<p>The Tuskegee study drove the US government to take steps to ensure that all federally-funded institutions follow ethical practices in their use of human subjects. The result was <a href="http://www.hhs.gov/ohrp/humansubjects/guidance/belmont.html">the Belmont Report</a>, which describes three principles, summarized on the left.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Institutional Review Boards</p></div>
+
+<ul><li><p>Research with people is subject to scrutiny</p>
+
+<ul><li><p>All federally-funded institutions have an <em></em></p><p><em>institutional review board</em></p> (IRB) that approves research-related user tests<p></p></li>
+<li><p>MIT’s IRB is called the Committee on Use of Humans as Experimental Subjects (COUHES)</p></li></ul></li>
+<li><p>IRB oversight is confined to research</p>
+
+<ul><li><p>“Research” is work leading to generalizable knowledge</p></li>
+<li><p>“Practice” (clinical medicine, product development, class projects) does not require IRB approval</p></li>
+<li><p>but all work with human beings should follow the IRB ethical guidelines, even if it doesn’t need to do IRB paperwork</p></li></ul></li></ul></div>
+
+<p>In particular, every experiment involving human subjects must be reviewed and approved by an ethics committee, usually called an institutional review board. MIT’s review board is called COUHES. The review board is only required to review “research,” however, which is defined as work leading to generalizable knowledge (suitable for publication in a scientific conference or journal). The user testing you’re doing in this class would be characterized instead as practice.</p>
+
+<p>But even though COUHES doesn’t want your paperwork for projects that aren’t research, you should still follow its ethical guidelines.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Pressures on a User</p></div>
+
+<ul><li><p>Performance anxiety</p></li>
+<li><p>Feels like an intelligence test</p></li>
+<li><p>Comparing self with other subjects</p></li>
+<li><p>Feeling stupid in front of observers</p></li>
+<li><p>Competing with other subjects</p></li></ul></div>
+
+<p>Experiments involving medical treatments or electric shocks are one thing. But what’s so dangerous about a computer interface?</p>
+
+<p>Hopefully, nothing—most user testing has minimal physical or psychological risk to the user. But user testing does put psychological pressure on the user. The user sits in the spotlight, asked to perform unfamiliar tasks on an unfamiliar (and possibly bad!) interface, in front of an audience of strangers (at least one experimenter, possibly a roomful of observers, and possibly a video camera). It’s natural to feel some performance anxiety, or stage fright. “Am I doing it right? Do these people think I’m dumb for not getting it?” A user may regard the test as a psychology test, or more to the point, an IQ test. They may be worried about getting a bad score. Their self-esteem may suffer, particularly if they blame problems they have on themselves, rather than on the user interface.</p>
+
+<p>A programmer with an ironclad ego may scoff at such concerns, but these pressures are real. Jared Spool, a usability consultant, tells a story about the time he saw a user cry during a user test. It came about from an accumulation of mistakes on the part of the experimenters:</p>
+
+<ol>
+<li>the originally-scheduled user didn’t show up, so they just pulled an employee out of the hallway to do the test</li>
+<li>it happened to be her first day on the job</li>
+<li>they didn’t tell her what the session was about</li>
+<li>she not only knew nothing about the interface to be tested (which is fine and good), but also nothing about the domain—she wasn’t in the target user population at all</li>
+<li>the observers in the room hadn’t been told how to behave (i.e., shut up)</li>
+<li>one of those observers was her boss</li>
+<li>the tasks hadn’t been pilot tested, and the first one was actually impossible.</li>
+</ol>
+
+<p>When she started struggling with the first task, everybody in the room realized how stupid the task was, and burst out laughing—at their own stupidity, not hers. But she thought they were laughing at her, and she burst into tears. (Story from Carolyn Snyder, Paper Prototyping)</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Treat the User With Respect</p></div>
+
+<ul><li><p>Time</p>
+
+<ul><li><p>Don’t waste it</p></li></ul></li>
+<li><p>Comfort</p>
+
+<ul><li><p>Make the user comfortable</p></li></ul></li>
+<li><p>Informed consent</p>
+
+<ul><li><p>Inform the user as fully as possible</p></li></ul></li>
+<li><p>Privacy</p>
+
+<ul><li><p>Preserve the user’s privacy</p></li></ul></li>
+<li><p>Control</p>
+
+<ul><li><p>The user can stop at any time</p></li></ul></li></ul></div>
+
+<p>The basic rule for user testing ethics is <strong>respect</strong> for the user as a intelligent person with free will and feelings. We can show respect for the user in 5 ways:</p>
+
+<ol>
+<li>Respecting their <strong>time</strong> by not wasting it. Prepare as much as you can in advance, and don’t make the user jump through hoops that you aren’t actually testing. Don’t make them install the software or load the test files, for example, unless your test is supposed to measure the usability of the installation process or file-loading process.</li>
+<li>Do everything you can to make the user <strong>comfortable</strong>, in order to offset the psychological pressures of a user test.</li>
+<li>Give the user as much <strong>information</strong> about the test as they need or want to know, as long as the information doesn’t bias the test. Don’t hide things from them unnecessarily.</li>
+<li>Preserve the user’s <strong>privacy</strong> to the maximum degree. Don’t report their performance on the user test in a way that allows the user to be personally identified.</li>
+<li>The user is always in <strong>control</strong>, not in the sense that they’re running the user test and deciding what to do next, but in the sense that the final decision of whether or not to participate remains theirs, throughout the experiment. Just because they’ve signed a consent form, or sat down in the room with you, doesn’t mean that they’ve committed to the entire test. A user has the right to give up the test and leave at any time, no matter how inconvenient it may be for you.</li>
+</ol></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Before a Test</p></div>
+
+<ul><li><p>Time</p>
+
+<ul><li><p>Pilot-test all materials and tasks</p></li></ul></li>
+<li><p>Comfort</p>
+
+<ul><li><p>“We’re testing the system; we’re not testing you.”</p></li>
+<li><p>“Any difficulties you encounter are the system’s fault. We need your help to find these problems.”</p></li></ul></li>
+<li><p>Privacy</p>
+
+<ul><li><p>“Your test results will be completely confidential.”</p></li></ul></li>
+<li><p>Information</p>
+
+<ul><li><p>Brief about purpose of study</p></li>
+<li><p>Inform about audiotaping, videotaping, other observers</p></li>
+<li><p>Answer any questions beforehand (unless biasing)</p></li></ul></li>
+<li><p>Control</p>
+
+<ul><li><p>“You can stop at any time.”</p></li></ul></li></ul></div>
+
+<p>Let’s look at what you should do before, during, and after a user test to ensure that you’re treating users with respect.</p>
+
+<p>Long before your first user shows up, you should <strong>pilot-test</strong> your entire test: all questionnaires, briefings, tutorials, and tasks. Pilot testing means you get a few people (usually your colleagues) to act as users in a full-dress rehearsal of the user test. Pilot testing is essential for simplifying and working the bugs out of your test materials and procedures. It gives you a chance to eliminate wasted time, streamline parts of the test, fix confusing briefings or training materials, and discover impossible or pointless tasks. It also gives you a chance to practice your role as an experimenter. Pilot testing is essential for every user test.</p>
+
+<p>When a user shows up, you should brief them first, introducing the purpose of the application and the purpose of the test. To make the user comfortable, you should also say the following things (in some form):</p>
+
+<ul>
+<li>“Keep in mind that we’re testing the computer system. We’re not testing you.” (comfort)</li>
+<li>“The system is likely to have problems in it that make it hard to use. We need your help to find those problems.” (comfort)</li>
+<li>“Your test results will be completely confidential.” (privacy)</li>
+<li>“You can stop the test and leave at any time.” (control)</li>
+</ul>
+
+<p>You should also inform the user and get their consent if the test will be audiotaped, videotaped, or watched by hidden observers. Any observers actually present in the room should be introduced to the user.</p>
+
+<p>At the end of the briefing, you should ask “Do you have any questions I can answer before we begin?” Try to answer any questions the user has. Sometimes a user will ask a question that may bias the experiment: for example, “what does that button do?” You should explain why you can’t answer that question, and promise to answer it after the test is over.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>During the Test</p></div>
+
+<ul><li><p>Time</p>
+
+<ul><li><p>Eliminate unnecessary tasks</p></li></ul></li>
+<li><p>Comfort</p>
+
+<ul><li><p>Calm, relaxed atmosphere</p></li>
+<li><p>Take breaks in long session</p></li>
+<li><p>Never act disappointed</p></li>
+<li><p>Give tasks one at a time</p></li>
+<li><p>First task should be easy, for an early success experience</p></li></ul></li>
+<li><p>Privacy</p>
+
+<ul><li><p>User’s boss shouldn’t be watching</p></li></ul></li>
+<li><p>Information</p>
+
+<ul><li><p>Answer questions (again, where they won’t bias)</p></li></ul></li>
+<li><p>Control</p>
+
+<ul><li><p>User can give up a task and go on to the next</p></li>
+<li><p>User can quit entirely</p></li></ul></li></ul></div>
+
+<p>During the test, arrange the testing environment to make the user comfortable. Keep the atmosphere calm, relaxed, and free of distractions. If the testing session is long, give the user bathroom, water, or coffee breaks, or just a chance to stand up and stretch.</p>
+
+<p>Don’t act disappointed when the user runs into difficulty, because the user will feel it as disappointment in their performance, not in the user interface.</p>
+
+<p>Don’t overwhelm the user with work. Give them only one task at a time. Ideally, the first task should be an easy warmup task, to give the user an early success experience. That will bolster their courage (and yours) to get them through the harder tasks that will discover more usability problems.</p>
+
+<p>Answer the user’s questions as long as they don’t bias the test.</p>
+
+<p>Keep the user in control. If they get tired of a task, let them give up on it and go on to another. If they want to quit the test, pay them and let them go.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>After the Test</p></div>
+
+<ul><li><p>Comfort</p>
+
+<ul><li><p>Say what they’ve helped you do</p></li></ul></li>
+<li><p>Information</p>
+
+<ul><li><p>Answer questions that you had to defer to avoid biasing the experiment</p></li></ul></li>
+<li><p>Privacy</p>
+
+<ul><li><p>Don’t publish user-identifying information</p></li>
+<li><p>Don’t show video or audio without user’s permission</p></li></ul></li></ul></div>
+
+<p>After the test is over, thank the user for their help and tell them how they’ve helped. It’s easy to be open with information at this point, so do so.</p>
+
+<p>Later, if you disseminate data from the user test, don’t publish it in a way that allows users to be individually identified. Certainly, avoid using their names.</p>
+
+<p>If you collected video or audio records of the user test, don’t show them outside your development group without explicit written permission from the user.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="ethics/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-12-user-testing"><div class="panel-body"><p>As an experimenter, it is your job to (choose one good answer):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Answer any questions from the user about the interface promptly."><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">Answer any questions from the user about the interface promptly.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Take steps to protect users’ gender in publication."><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">Take steps to protect users’ gender in publication.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Apply for IRB approval even if your work does not constitute research."><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">Apply for IRB approval even if your work does not constitute research.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Take steps to ease any performance pressure that a user may feel."><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">Take steps to ease any performance pressure that a user may feel.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="formative_evaluation">Formative Evaluation</h2>
+
+<div data-outline="formative_evaluation"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Formative Evaluation</p></div>
+
+<ul><li><p>Find some users</p>
+
+<ul><li><p>Should be representative of the target user class(es), based on user analysis</p></li></ul></li>
+<li><p>Give each user some tasks</p>
+
+<ul><li><p>Should be representative of important tasks, based on task analysis</p></li></ul></li>
+<li><p>Watch user do the tasks</p></li></ul></div>
+
+<p>OK, we’ve seen some ethical rules that apply to running any kind of user test. Now let’s look in particular at how to do <strong>formative evaluation</strong>.</p>
+
+<p>Here are the basic steps:</p>
+
+<ol>
+<li>find some representative users</li>
+<li>give each user some representative tasks</li>
+<li>watch the user do the tasks.</li>
+</ol></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Roles in Formative Evaluation</p></div>
+
+<ul><li><p>User</p></li>
+<li><p>Facilitator</p></li>
+<li><p>Observers</p></li></ul></div>
+
+<p>There are three roles in a formative evaluation test: a user, a facilitator, and some observers.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>User’s Role</p></div>
+
+<ul><li><p>User should think aloud</p>
+
+<ul><li><p>What they think is happening</p></li>
+<li><p>What they’re trying to do</p></li>
+<li><p>Why they took an action</p></li></ul></li>
+<li><p>Problems</p>
+
+<ul><li><p>Feels weird</p></li>
+<li><p>Thinking aloud may alter behavior</p></li>
+<li><p>Disrupts concentration</p></li></ul></li>
+<li><p>Another approach: pairs of users</p>
+
+<ul><li><p>Two users working together are more likely to converse naturally</p></li>
+<li><p>Also called co-discovery, constructive interaction</p></li></ul></li></ul></div>
+
+<p>The user’s primary role is to perform the tasks using the interface. While the user is actually doing this, however, they should also be trying to <strong>think aloud</strong>: verbalizing what they’re thinking as they use the interface. Encourage the user to say things like “OK, now I’m looking for the place to set the font size, usually it’s on the toolbar, nope, hmm, maybe the Format menu…” Thinking aloud gives you (the observer) a window into their thought processes, so you can understand what they’re trying to do and what they expect.</p>
+
+<p>Unfortunately, thinking aloud feels strange for most people. It can alter the user’s behavior, making the user more deliberate and careful, and sometimes disrupting their concentration. Conversely, when a task gets hard and the user gets absorbed in it, they may go mute, forgetting to think aloud. One of the facilitator’s roles is to prod the user into thinking aloud.</p>
+
+<p>One solution to the problems of think-aloud is <strong>constructive interaction</strong>, in which two users work on the tasks together (using a single computer). Two users are more likely to converse naturally with each other, explaining how they think it works and what they’re thinking about trying. Constructive interaction requires twice as many users, however, and may be adversely affected by social dynamics (e.g., a pushy user who hogs the keyboard). But it’s nearly as commonly used in industry as single-user testing.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Facilitator’s Role</p></div>
+
+<ul><li><p>Does the briefing</p></li>
+<li><p>Provides the tasks</p></li>
+<li><p>Coaches the user to think aloud by asking questions</p>
+
+<ul><li><p>“What are you thinking?”</p></li>
+<li><p>“Why did you try that?”</p></li></ul></li>
+<li><p>Controls the session and prevents interruptions by observers</p></li></ul></div>
+
+<p>The facilitator (also called the experimenter) is the leader of the user test.  The facilitator does the briefing, gives tasks to the user, and generally serves as the voice of the development team throughout the test.  (Other developers may be observing the test, but should generally keep their mouths shut.)</p>
+
+<p>One of the facilitator’s key jobs is to coax the user to think aloud, usually by asking general questions.</p>
+
+<p>The facilitator may also move the session along.  If the user is totally stuck on a task, the facilitator may progressively provide more help, e.g. “Do you see anything that might help you?”, and then  “What do you think that button does?”  Only do this if you’ve already recorded the usability problem, and it seems unlikely that the user will get out of the tar pit themselves, and they need to get unstuck in order to get on to another part of the task that you want to test.  Keep in mind that once you explain something, you lose the chance to find out what the user would have done by themselves.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Observer’s Role</p></div>
+
+<ul><li><p>Be quiet!</p>
+
+<ul><li><p>Don’t help, don’t explain, don’t point out mistakes</p></li>
+<li><p>Sit on your hands if it helps</p></li></ul></li>
+<li><p>Take notes</p>
+
+<ul><li><p>Watch for critical incidents: events that strongly affect task performance or satisfaction</p></li>
+<li><p>Usually negative</p><ul><li><p>Errors</p></li>
+<li><p>Repeated attempts </p></li>
+<li><p>Curses</p></li></ul><p></p></li>
+<li><p>May be positive</p><ul><li><p>“Cool!” </p></li>
+<li><p>“Oh, now I see.”</p></li></ul><p></p></li></ul></li></ul></div>
+
+<p>While the user is thinking aloud, and the facilitator is coaching the think-aloud, any observers in the room should be doing the opposite: <strong>keeping quiet</strong>.  Don’t offer any help, don’t attempt to explain the interface.  Just sit on your hands, bite your tongue, and watch.  You’re trying to get a glimpse of how a typical user will interact with the interface.  Since a typical user won’t have the system’s designer sitting next to them, you have to minimize your effect on the situation.  It may be very hard for you to sit and watch someone struggle with a task, when the solution seems so obvious to you, but that’s how you learn the usability problems in your interface.</p>
+
+<p>Keep yourself busy by taking a lot of notes. What should you take notes about?  As much as you can, but focus particularly on <strong>critical incidents</strong>, which are moments that strongly affect usability, either in task performance (efficiency or error rate) or in the user’s satisfaction.  Most critical incidents are negative.  Pressing the wrong button is a critical incident.  So is repeatedly trying the same feature to accomplish a task.  Users may draw attention to the critical incidents with their think-aloud, with comments like “why did it do that?” or “@%!@#$!”  Critical incidents can also be positive, of course.  You should note down these pleasant surprises too.</p>
+
+<p>Critical incidents give you a list of potential usability problems that you should focus on in the next round of iterative design.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Recording Observations</p></div>
+
+<ul><li><p>Pen &amp; paper notes</p>
+
+<ul><li><p>Prepared forms can help</p></li></ul></li>
+<li><p>Audio recording</p>
+
+<ul><li><p>For think-aloud</p></li></ul></li>
+<li><p>Video recording</p>
+
+<ul><li><p>Usability labs often set up with two cameras, one for user’s face, one for screen</p></li>
+<li><p>User may be self-conscious</p></li>
+<li><p>Good for closed-circuit view by observers in another room</p></li>
+<li><p>Generates too much data</p></li>
+<li><p>Retrospective testing: go back through the video with the user, discussing critical incidents</p></li></ul></li>
+<li><p>Screen capture &amp; event logging</p>
+
+<ul><li><p>Cheap and unobtrusive</p></li>
+<li><p>Camtasia, CamStudio</p></li></ul></li></ul></div>
+
+<p>Here are various ways you can record observations from a user test.  Paper notes are usually best, although it may be hard to keep up.  Having multiple observers taking notes helps.</p>
+
+<p>Audio and video recording are good for capturing the user’s think-aloud, facial expressions, and body language.  Video is also helpful when you want to put observers in a separate room, watching on a closed-circuit TV.  Putting the observers in a separate room has some advantages: the user feels fewer eyes on them (although the video camera is another eye that can make users more self-conscious, since it’s making a permanent record), the observers can’t misbehave, and a big TV screen means more observers can watch.  On the other hand, when the observers are in a separate room, they may not pay close attention to the test.  It’s happened that as soon as the user finds a usability problem, the observers start talking about how to fix that problem—and ignore the rest of the test.  Having observers in the same room as the test forces them to keep quiet and pay attention.</p>
+
+<p>Video is also useful for <strong>retrospective testing</strong>—using the videotape to debrief the user immediately after a test.  It’s easy to fast forward through the tape, stop at critical incidents, and ask the user what they were thinking, to make up for gaps in think-aloud.</p>
+
+<p>The problem with audio and video tape is that it generates too much data to review afterwards.  A few pages of notes are much easier to scan and derive usability problems.</p>
+
+<p>Screen capture software offers a cheap and easy way to record a user test, producing a digital movie (e.g. AVI or MPG).  It’s less obtrusive and easier to set up than a video camera, and some packages can also record an audio stream to capture the user’s think-aloud.  The course wiki has a page with recommendations for screen capture software.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise" data-outline="exercise" data-ex-id="formative_evaluation/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-12-user-testing"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="The observer should generally stay quiet but can help the user along as needed."><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">The observer should generally stay quiet but can help the user along as needed.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The facilitator should provide hints to the user as soon as the user appears troubled by the task and interface."><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">The facilitator should provide hints to the user as soon as the user appears troubled by the task and interface.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The observer should take as much notes as possible, focusing on critical incidents that suggest usability problems."><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">The observer should take as much notes as possible, focusing on critical incidents that suggest usability problems.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The facilitator should prompt the user to talk aloud, especially if the user becomes silent while facing a hard task."><label for="md_converted_choice_3_3"><input type="checkbox" id="md_converted_choice_3_3">The facilitator should prompt the user to talk aloud, especially if the user becomes silent while facing a hard task.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul><li><p>Formative user testing tries to uncover usability problems to fix in next iteration</p></li>
+<li><p>Treat users with respect</p></li>
+<li><p>Facilitor and observers should play their roles correctly to maximize the value of the test</p></li></ul></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/12-user-testing/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:04:22 GMT -->
+</html><!-- Handout delivered Thu Feb 22 2018 16:11:12 GMT-0500 (EST) -->

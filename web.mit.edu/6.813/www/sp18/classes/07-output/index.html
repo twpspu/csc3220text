@@ -1,0 +1,804 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/07-output/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:56:03 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 07: Output</title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_07_output">Reading 07: Output</a></li><li><a href="#output_representations">Output Representations</a></li><li><a href="#drawing">Drawing</a></li><li><a href="#strokes">Strokes</a></li><li><a href="#pixels">Pixels</a></li><li><a href="#animation_principles">Animation Principles</a></li><li><a href="#animation_implementation">Animation Implementation</a></li><li><a href="#final_words">Final Words</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_07_output">Reading 07: Output</h1>
+
+<div data-outline="reading_07_output"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<img src="figures/01.png"></div>
+
+<p>Today’s hall of fame or shame candidate is the Domino’s Pizza build-your-own-pizza process. You can try it yourself by going to the Domino’s website and clicking Order to start an order (you’ll have to fill in an address to get to the part we care about, the pizza-building UI).</p>
+
+<p>Some aspects to think about:</p>
+
+<ul>
+<li>learnability</li>
+<li>visibility</li>
+<li>efficiency</li>
+</ul></div>
+
+<div class="row"><p>Today’s reading resumes our look into the mechanics of implementing user interfaces, by considering <strong>output</strong> in more detail.</p></div>
+
+<h2 id="output_representations">Output Representations</h2>
+
+<div data-outline="output_representations"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Three Output Representations</p></div>
+
+<ul><li><p>Objects</p>
+
+<ul><li><p>Graphical objects arranged in a tree with automatic redraw</p></li>
+<li><p>Example: Label object, Line object</p></li>
+<li><p>Also called: views, interactors, widgets, controls, elements</p></li></ul></li>
+<li><p>Strokes</p>
+
+<ul><li><p>High-level drawing primitives: lines, shapes, curves, text</p></li>
+<li><p>Example: <code>drawText()</code> method, <code>drawLine()</code> method</p></li>
+<li><p>Also called: vector graphics, structured graphics</p></li></ul></li>
+<li><p>Pixels</p>
+
+<ul><li><p>2D array of pixels</p></li>
+<li><p>Also called: raster, image, bitmap</p></li></ul></li></ul></div>
+
+<p>One goal for these implementation classes is not to teach any one particular GUI system or toolkit, but to give a survey of the issues involved in GUI programming and the range of solutions adopted by various systems.</p>
+
+<p>There are basically three ways to represent the output of a graphical user interface.</p>
+
+<ul>
+<li><p><strong>Objects</strong> are the same as the view tree we discussed previously. Parts of the display are represented by view objects arranged in a spatial hierarchy, with automatic redraw propagating down the hierarchy. There have been many names for this idea over the years; the GUI community hasn’t managed to settle on a single preferred term.</p></li>
+<li><p><strong>Strokes</strong> draw output by making procedure calls to high-level drawing primitives, like <code>drawLine</code>, <code>drawRectangle</code>, <code>drawArc</code>, and <code>drawText</code>. SVG is an example of a stroke output format.</p></li>
+<li><p><strong>Pixels</strong> regard the screen as an array of pixels and deals with the pixels directly.</p></li>
+</ul>
+
+<p>All three output representations appear in virtually every modern GUI application. The object representation always appears at the very top level, for windows, and often for graphical objects within the windows as well. At some point, we reach the leaves of the view hierarchy, and the leaf views draw themselves with stroke calls. A graphics package then converts those strokes into pixels displayed on the screen. For performance reasons, an object may short-circuit the stroke package and draw pixels on the screen directly. On Windows, for example, video players do this using the DirectX interface to have direct control over a particular screen rectangle.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="output_representations/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-07-output"><div class="panel-body"><p>What representation do each of the following technologies use?</p><p>pure HTML (no Javascript, CSS, or other files)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="object"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">object</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="stroke"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">stroke</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="pixel"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">pixel</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><p>Postscript laser printer</p><div class="form-group exercise-part" data-outline="b"><div class="checkbox exercise-choice" data-outline="object"><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">object</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="stroke"><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">stroke</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="pixel"><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">pixel</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><p>Laser cutter</p><div class="form-group exercise-part" data-outline="c"><div class="checkbox exercise-choice" data-outline="object"><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">object</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="stroke"><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">stroke</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="pixel"><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">pixel</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><p>LCD screen</p><div class="form-group exercise-part" data-outline="d"><div class="checkbox exercise-choice" data-outline="object"><label for="md_converted_choice_4_0"><input type="checkbox" id="md_converted_choice_4_0">object</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="stroke"><label for="md_converted_choice_4_1"><input type="checkbox" id="md_converted_choice_4_1">stroke</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="pixel"><label for="md_converted_choice_4_2"><input type="checkbox" id="md_converted_choice_4_2">pixel</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Example: Designing a Graph View</p></div>
+
+<img src="figures/02.png">
+
+<img src="figures/03.png">
+
+<ul>
+<li>Object representation
+
+<ul><li>Each node and edge is an object in the view tree</li>
+<li>A node object might have two child objects: circle and label</li></ul></li>
+<li>Stroke representation
+
+<ul><li>Graph view draws lines, circles and text</li></ul></li>
+<li>Pixel representation
+
+<ul><li>Graph view has pixel images of the nodes</li></ul></li>
+</ul></div>
+
+<p>Since virtually every GUI uses all three representations, the design question becomes: at which points in your application do you want to step down into a lower-level kind of output? Here’s an example. Suppose you want to build a view that displays a graph of nodes and edges.</p>
+
+<p>One way to do it would represent each node and each edge in the graph by an object (as in the tree on the left). Each node in turn might have two child objects, a circle and a text label. Eventually, you’ll get down to the primitive objects available in your GUI toolkit. Most GUI toolkits provide a text label; most don’t provide a primitive circle. (One notable exception is SVG, which has object equivalents for all the common drawing primitives.) This would be a <strong>pure object representation</strong>, at least from your application’s point of view - stroke output and pixel output would still happen, but inside primitive objects that you took from the library.</p>
+
+<p>Alternatively, the top-level window might have no child objects. Instead, it would draw the entire graph by a sequence of stroke calls: <code>drawCircle</code> for the node outlines, <code>drawText</code> for the labels, <code>drawLine</code> for the edges.
+This would be a <strong>pure stroke</strong>.</p>
+
+<p>Finally, your graph view might bypass stroke drawing and set pixels in the window directly. The text labels might be assembled by copying character images to the screen. This <strong>pure pixel representation</strong> is rarely used nowadays, because it’s the most work for the programmer, but it used to be the only way to program graphics.</p>
+
+<p>Hybrid representations for the graph view are certainly possible, in which some parts of the output use one representation, and others use another. The graph view might use objects for nodes, but draw the edges itself as strokes. It might draw all the lines itself, but use label objects for the text.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>How Output Representations Interact</p></div>
+<img src="figures/04.png"></div>
+
+<p>As we said earlier, almost every GUI program uses all three representations. At the highest level, a typical program presents itself in a window, which is an object. At the lowest level, the window appears on the screen as a rectangle of pixels. So a series of steps has to occur that translates that window object (and all its descendents in the view tree) into pixels.</p>
+
+<p>The step from objects down to strokes is usually called <strong>drawing</strong>. We’ll look at that first.</p>
+
+<p>The step from strokes down to pixels is called <strong>rasterization</strong> (or scan conversion). The specific algorithms that rasterize various shapes are beyond the scope of this course (see 6.837 Computer Graphics instead). But we’ll talk about some of the effects of rasterization, and what you need to know as a UI programmer to control those effects.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise_2" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise_2" data-outline="exercise_2" data-ex-id="output_representations/exercise_2" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-07-output"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="A pure object representation is built on top of library functions for drawing and rasterization."><label for="md_converted_choice_5_0"><input type="checkbox" id="md_converted_choice_5_0">A pure object representation is built on top of library functions for drawing and rasterization.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Graphical user interfaces use a mix of the objects, stroke, and pixel representations for output."><label for="md_converted_choice_5_1"><input type="checkbox" id="md_converted_choice_5_1">Graphical user interfaces use a mix of the objects, stroke, and pixel representations for output.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="When using an object representation, objects still need to be transformed into pixels for display on screen."><label for="md_converted_choice_5_2"><input type="checkbox" id="md_converted_choice_5_2">When using an object representation, objects still need to be transformed into pixels for display on screen.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Strokes are at a higher level than objects."><label for="md_converted_choice_5_3"><input type="checkbox" id="md_converted_choice_5_3">Strokes are at a higher level than objects.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+<h2 id="drawing">Drawing</h2>
+
+<div data-outline="drawing"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>How a View Tree is Drawn</p></div>
+
+<ul><li><p>Drawing goes top down</p>
+
+<ul><li><p>Draw self (using strokes or pixels)</p></li>
+<li><p>For each child object,</p><ul><li><p>If child intersects clipping region then</p><ul><li><p>intersect clipping region with child’s bounding box</p></li>
+<li><p>recursively draw child with clip region set to the intersection</p></li></ul><p></p></li></ul><p></p></li></ul></li></ul>
+<img src="figures/05.png">
+<img src="figures/06.png"></div>
+
+<p>Here’s how drawing works in the object representation. Drawing is a top-down process: starting from the root of the view tree, each object draws itself, then draws each of its children recursively. The process is optimized by passing a clipping region to each object, indicating the area of the screen that needs to be drawn. Children that do not intersect the clipping region are simply skipped, not drawn. In the example above, nodes B and C would not need to be drawn. When an object partially intersects the clipping region, it must be drawn - but any strokes or pixels it draws when the clipping region is in effect will be masked against the clip region, so that only pixels falling inside the region actually make it onto the screen.</p>
+
+<p>For the root, the clipping region might be the entire screen. As drawing descends the tree, however, the clipping region is intersected with each object’s bounding box. So the clipping region for an object deep in the tree is the intersection of the bounding boxes of its ancestors.</p>
+
+<p>For high performance, the clipping region is normally rectangular, using <strong>bounding boxes</strong> rather than the graphical object’s actual shape. But it doesn’t have to be that way. A clipping region can be an arbitrary shape on the screen. This can be very useful for visual effects: e.g., setting a string of text as your clipping region, and then painting an image through it like a stencil. Postscript was the first stroke abstraction to allow this kind of nonrectangular clip region. Now many graphics toolkits support nonrectangular clip regions.
+For example, on Microsoft Windows and X Windows, you can create nonrectangular windows, which clip their children into a nonrectangular region.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Redraw Example</p></div>
+<img src="figures/07.png"></div>
+
+<p>Here’s an example of the redraw algorithm running on the graph window (starting with the clipping region shown on the last slide).</p>
+
+<ol>
+<li>First the clip region is intersected with the whole window’s bounding box, and the window is told to draw itself within that intersection. The window draws its titlebar and its gray background. The window background effectively erases the previous contents of the window.</li>
+<li>The window’s clip region is now intersected with its first child’s bounding box (Node A), and Node A is told to draw itself within that. In this particular example (where nodes are represented by circle and label objects), Node A doesn’t do any of its own drawing; all the drawing will be handled by its children.</li>
+<li>Now Node A’s circle child is told to draw itself. In this case, the circle has the same bounding box as Node A itself, so it receives the same clip region that Node A did. It draws a white circle.</li>
+<li>Now Node A’s label child is told to draw itself, again using the same clip region because it has the same bounding box. It draws text on top of the circle just drawn.</li>
+<li>Popping back up the tree, the next child of the window, Edge A-B, is told to draw itself, using the clip region that intersects its own bounding box with the window’s clip region. Only part of the edge falls in this clip region, so the edge only draws part of itself.</li>
+<li>The algorithm continues through the rest of the tree, either drawing children or skipping them depending on whether they intersect the clip region. (Would Node B be drawn? Would Edge A-C be drawn? Would Node C be drawn?)</li>
+</ol>
+
+<p>Note that the initial clip region passed to the redraw algorithm will be different every time the algorithm is invoked. Clip regions generally come from damage rectangles, which will be explained in a moment.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise" data-outline="exercise" data-ex-id="drawing/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-07-output"><div class="panel-body"><img src="../../../../../../i.imgur.com/NzMShon.png" width="600"><p>In the example above, which other objects will be redrawn? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Node B"><label for="md_converted_choice_6_0"><input type="checkbox" id="md_converted_choice_6_0">Node B</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Node C"><label for="md_converted_choice_6_1"><input type="checkbox" id="md_converted_choice_6_1">Node C</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Edge A-C"><label for="md_converted_choice_6_2"><input type="checkbox" id="md_converted_choice_6_2">Edge A-C</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+
+
+</div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Z Order</p></div>
+<img src="figures/08.png">
+<ul><li><p>2D GUIs are really “2 1/2 D”</p>
+
+<ul><li><p>Drawing order produces layers</p></li>
+<li><p>Not a true z coordinate for each object, but merely an <strong></strong></p><p><strong>ordering</strong></p> in the z dimension<p></p></li></ul></li>
+<li><p>View tree and redraw algorithm dictate z order</p>
+
+<ul><li><p>Parents are drawn first, underneath children</p></li>
+<li><p>Older siblings are drawn under younger ones</p><ul><li><p>HTML and most GUI toolkits and drawing programs behave this way</p></li>
+<li><p>Java Swing is backwards: last child added (highest index) is drawn first</p></li>
+<li><p>CSS has a z-index property that overrides tree structure</p></li></ul><p></p></li></ul></li></ul></div>
+
+<p>When the bounding boxes of two objects overlap, like the circle and label objects in the previous example, the redraw algorithm induces an ordering on the objects that makes them appear layered, one on top of the other. For this reason, 2D graphical user interfaces are sometimes called 21/2D. They aren’t fully 3D, in which objects have x, y, and z coordinates; instead the z dimension is merely an ordering, called <strong>z order</strong>.</p>
+
+<p>Z order is a side-effect of the order that the objects are drawn when the redraw algorithm passes over the tree.
+Since drawing happens top-down, parents are generally drawn underneath children (although parents get control back after their children finish drawing, so a parent can draw some more on top of all its children if it wants). Older siblings (with lower indexes in their parent’s array of children) are generally drawn underneath younger ones. Java Swing is a curious exception to this - its redraw algorithm draws the highest-index child first, so the youngest sibling ends up on the bottom of the z order.</p>
+
+<p>Z order can be affected by rearranging the tree, e.g. moving children to a different index position within their parent, or promoting them up the tree if necessary. This is often important for operations like drag-and-drop, since we generally want the object being dragged to appear on top of other objects.</p>
+
+<p>Some GUI toolkits allow you to change the z-order of an element without moving its position in the tree. In
+HTML, the CSS z-index property lets you do that. There’s <a href="http://tjkdesign.com/articles/z-index/teach_yourself_how_elements_stack.asp">a nice page</a> that lets you explore how the z-index property works.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Damage and Automatic Redraw</p></div>
+<img src="figures/09.png"></div>
+
+<p>When a graphical object needs to change its appearance, it doesn’t repaint itself directly. It can’t, because the drawing process has to occur top-down through the view tree: the object’s ancestors and older siblings need to have a chance to paint themselves underneath it. (So, in Java, even though a graphical object can call its own <code>paint()</code> method directly, you generally shouldn’t do it!)</p>
+
+<p>Instead, the object asks the graphics system to repaint it at some time in the future. This request includes a <strong>damaged region</strong>, which is the part of the screen that needs to be repainted. Often, this is just the entire bounding box of the object; but complex objects might figure out which part of the screen corresponds to the part of the model that changed, so that only that part is damaged.</p>
+
+<p>The repaint request is then <strong>queued</strong> for later. Multiple pending repaint requests from different objects are consolidated into a single damaged region, which is often represented just as a rectangle - the bounding box of all the damaged regions requested by individual objects. That means that undamaged screen area is being considered damaged, but there’s a tradeoff between the complexity of the damaged region representation and the cost of repainting.</p>
+
+<p>Eventually - usually after the system has handled all the input events (mouse and keyboard) waiting on the queue – the repaint request is finally satisfied, by setting the clipping region to the damaged region and redrawing the view tree from the root.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Naïve Redraw Causes Flashing Effects</p></div>
+<ul><li><p>Object Moves</p>
+
+<img src="figures/10.png"></li>
+<li><p>Determine damaged region</p>
+
+<img src="figures/11.png"></li>
+<li><p>Redraw parent (children blink out!)</p>
+
+<img src="figures/12.png"></li>
+<li><p>Redraw children</p>
+
+<img src="figures/13.png"></li></ul></div>
+
+<p>There’s an unfortunate side-effect of the automatic damage/redraw algorithm. If we draw a view tree directly to the screen, then moving an object can make the screen appear to flash - objects flickering while they move, and nearby objects flickering as well.</p>
+
+<p>When an object moves, it needs to be erased from its original position and drawn in its new position. The erasure is done by redrawing all the objects in the view hierarchy that intersect this damaged region; typically the drawing of the window background is what does the actual erasure. If the drawing is done directly on the screen, this means that all the objects in the damaged region temporarily disappear, before being redrawn.
+Depending on how screen refreshes are timed with respect to the drawing, and how long it takes to draw a complicated object or multiple layers of the hierarchy, these partial redraws may be briefly visible on the monitor, causing a perceptible flicker.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Double-Buffering</p></div>
+<ul><li><p>Double-buffering solves the flashing problem</p></li></ul>
+<img src="figures/14.png"></div>
+
+<p><strong>Double-buffering</strong> solves this flickering problem. An identical copy of the screen contents is kept in a memory buffer. (In practice, this may be only the part of the screen belonging to some subtree of the view hierarchy that cares about double-buffering.) This memory buffer is used as the drawing surface for the automatic damage/redraw algorithm.</p>
+
+<p>After drawing is complete, the damaged region is just copied to the screen as a block of pixels. Double-buffering reduces flickering for two reasons: first, because the pixel copy is generally faster than redrawing the view hierarchy, so there’s less chance that a screen refresh will catch it half-done; and second, because unmoving objects that happen to be caught, as innocent victims, in the damaged region are never erased from the screen, only from the memory buffer.</p>
+
+<p>It’s a waste for every individual view to double-buffer itself. If any of your ancestors is double-buffered, then you’ll derive the benefit of it. So double-buffering is usually applied to top-level windows.</p>
+
+<p>Why is it called double-buffering? Because it used to be implemented by two interchangeable buffers in video memory. While one buffer was showing, you’d draw the next frame of animation into the other buffer. Then you’d just tell the video hardware to switch which buffer it was showing, a very fast operation that required no copying and was done during a screen’s vertical refresh interval so it produced no flicker at all.</p></div></div>
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="strokes">Strokes</h2>
+
+<div data-outline="strokes"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Going From Objects to Strokes</p></div>
+
+<ul><li><p>Drawing method approach</p>
+
+<ul><li><p>e.g. Java Swing <code>paint()</code> method</p></li>
+<li><p>Drawing method is called directly during redraw; override it to change how object draws itself</p></li></ul></li>
+<li><p>Retained graphics approach</p>
+
+<ul><li><p>e.g. Adobe Flex</p></li>
+<li><p>Stroke calls are recorded and played back at redraw time</p></li></ul></li>
+<li><p>Differences</p>
+
+<ul><li><p>Retained graphics is less error prone</p></li>
+<li><p>Drawing method gives more control and performance</p></li></ul></li></ul></div>
+
+<p>In our description of the redraw algorithm, we said a graphical object “draws itself,” meaning that it produces strokes to show itself on the screen. How that is actually done depends on the GUI toolkit you’re using.
+In Java Swing (and many other desktop GUI toolkits, like Win32 and Cocoa), every object has a <strong>drawing method</strong>. In
+Swing, this method is <code>paint()</code>. The redraw algorithm operates by recursively calling <code>paint()</code> down the view hierarchy.
+Objects can override the <code>paint()</code> method to change how they draw themselves. In fact, Swing breaks the <code>paint()</code> method down into several overridable template methods, like <code>paintComponent()</code> and <code>paintChildren()</code>, to make it easier to affect different parts of the redraw process. More about Swing’s painting process can be found in <a href="http://www.oracle.com/technetwork/java/painting-140037.html">“Painting in AWT and Swing”</a> by Amy Fowler .</p>
+
+<p>In Adobe Flex, there’s no drawing method available to override - the redraw algorithm is hidden from the programmer, much like the event loop is hidden by these toolkits. Instead, you make a sequence of stroke calls into the object, and the object records this sequence of calls. Subsequently, whenever the object needs to redraw itself, it just plays back the recorded sequence of stroke calls. This approach is sometimes called <strong>retained graphics</strong>.
+SVG is an example of a retained graphics mode, while Canvas uses immediate mode.
+Interacting with graphical objects (for example hit testing or collision detection) is often easier with retained mode graphics.</p>
+
+<p>A key difference between these approaches is <em>when</em> stroke calls can be made. With the drawing method approach, drawing should only be done while the drawing method is active. Drawing done at a different time (like during an event handler) will not interact correctly with the redraw algorithm; it won’t respect z order, and it will be ephemeral, overwritten and destroyed the next time the redraw algorithm touches that object. With the retained graphics approach, however, the stroke calls can be recorded at any time, and the toolkit automatically handles playing them back at the right point in the redraw.</p>
+
+<p>The retained graphics approach tends to be less error prone for a programmer; drawing at the wrong time is a common mistake for beginning Swing programmers.</p>
+
+<p>A potential downside of the retained graphics approach is performance. The recorded strokes must be stored in memory.
+Although this recording is not as heavyweight as a view tree (since it doesn’t have to handle input or layout, or even necessarily be represented as objects), you probably wouldn’t want to do it with millions of stroke calls. So if you had an enormous view (like a map) being displayed inside a scrolling pane (so that only a small part of it was visible on screen), you wouldn’t want to stroke the entire map. The drawing method approach gives more control over this; since you have access to the clip region in the drawing method, you can choose not to render strokes that would be clipped. To do the equivalent thing with retained graphics would put more burden on the programmer to determine the visible rectangle and rerecord the stroke calls every time this rectangle changed.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Stroke Representation</p></div>
+
+<ul><li><p>Drawing surface</p>
+
+<ul><li><p>Also called drawable (X Windows), GDI (MS Win)</p></li>
+<li><p>Screen, memory buffer, print driver, file, remote screen</p></li></ul></li>
+<li><p>Graphics context</p>
+
+<ul><li><p>Encapsulates drawing parameters so they don’t have to be passed with each call to a drawing primitive</p></li>
+<li><p>Font, color, line width, fill pattern, etc.</p></li></ul></li>
+<li><p>Coordinate system</p>
+
+<ul><li><p>Origin, scale, rotation</p></li></ul></li>
+<li><p>Clipping region</p></li>
+<li><p>Drawing primitives</p>
+
+<ul><li><p>Line, circle, ellipse, arc, rectangle, text, polyline, shapes</p></li></ul></li></ul></div>
+
+<p>Now let’s look at the drawing capabilities provided by the stroke representation.</p>
+
+<p>Every toolkit’s stroke library has some notion of a <strong>drawing surface</strong>. The screen is only one possible place where drawing might go. Another common drawing surface is a memory buffer, which is an array of pixels just like the screen. Unlike the screen, however, a memory buffer can have arbitrary dimensions. The ability to draw to a memory buffer is essential for double-buffering. Another target is a printer driver, which forwards the drawing instructions on to a printer. Although most printers use a pixel representation internally (when the ink actually hits the paper), the driver often uses a stroke representation to communicate with the printer, for compact transmission. Postscript, for example, uses strokes.</p>
+
+<p>Most stroke libraries also include some kind of a <strong>graphics context</strong>, an object that bundles up drawing parameters like color, line properties (width, end cap, join style), fill properties (pattern), and font.</p>
+
+<p>The stroke library may also provide a current <strong>coordinate system</strong>, which can be translated, scaled, and rotated around the drawing surface. We’ve already discussed the <strong>clipping region</strong>, which acts like a stencil for the drawing. Finally, a stroke library must provide a set of <strong>drawing primitives</strong>, function calls that actually produce graphical output.</p>
+
+<p>Many systems combine all these responsibilities into a single object. The <code>CanvasRenderingContext2D</code> object used by HTML <code>&lt;canvas&gt;</code> is a good example of this approach. In other toolkits, the drawing surface and graphics context are independent objects that are passed along with drawing calls.</p>
+
+<p>When state like graphics context, coordinate system, and clipping region are embedded in the drawing surface, the surface must provide some way to save and restore the context. A key reason for this is so that parent views can pass the drawing surface down to a child’s draw method without fear that the child will change the graphics context. For HTML <code>&lt;canvas&gt;</code>, for example, the context can be saved by the <code>save()</code> method, which pushes the current drawing settings onto a stack, and popped back from the stack by <code>restore()</code>.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Antialiasing and Subpixel Rendering</p></div>
+<ul><li><p>Simple
+  <img src="figures/15.png"></p></li>
+<li><p>Antialiased
+  <img src="figures/16.png"></p></li>
+<li><p>Subpixel Rendering
+  <img src="figures/17.png"></p></li></ul></div>
+
+<p>It’s beyond the scope of this reading to talk about algorithms for converting a stroke into pixels. But you should be aware of some important techniques for making strokes look good.</p>
+
+<p>One of these techniques is antialiasing, which is a way to make an edge look smoother. Instead of making a binary decision between whether to color a pixel black or white, antialiasing uses a shade of gray whose value varies depending on how much of the pixel is covered by the edge. In practice, the edge is between two arbitrary colors, not just black and white, so antialiasing chooses a point on the gradient between those two colors. The overall effect is a fuzzier but smoother edge.</p>
+
+<p>Subpixel rendering takes this a step further. Every pixel on an LCD screen consists of three discrete pixels side-by-side: red, green, and blue. So we can get a horizontal resolution which is three times the nominal pixel resolution of the screen, simply by choosing the colors of the pixels along the edge so that the appropriate subpixels are light or dark. It only works on LCD screens, not CRTs, because CRT pixels are often arranged in triangles, and because CRTs are analog, so the blue in a single “pixel” usually consists of a bunch of blue phosphor dots interspersed with green and red phosphor dots. You also have to be careful to smooth out the edge to avoid color fringing effects on perfectly vertical edges. And it works best for high-contrast edges, like this edge between black and white. Subpixel rendering is ideal for text rendering, since text is usually small, high-contrast, and benefits the most from a boost in horizontal resolution. Windows XP includes ClearType, an implementation of subpixel rendering for Windows fonts. For more about subpixel rendering, see Steve
+Gibson, <a href="http://grc.com/cleartype.htm">“Sub-Pixel Font Rendering Technology”</a>.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_4"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_4-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_4-exercise" data-outline="exercise" data-ex-id="strokes/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-07-output"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Double buffering eliminates the need to redraw objects."><label for="md_converted_choice_7_0"><input type="checkbox" id="md_converted_choice_7_0">Double buffering eliminates the need to redraw objects.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The stroke representation includes a coordinate system that can be rotated and scaled."><label for="md_converted_choice_7_1"><input type="checkbox" id="md_converted_choice_7_1">The stroke representation includes a coordinate system that can be rotated and scaled.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The damaged region is the part of the screen that needs to be redrawn."><label for="md_converted_choice_7_2"><input type="checkbox" id="md_converted_choice_7_2">The damaged region is the part of the screen that needs to be redrawn.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Antialiasing produces smoother edges."><label for="md_converted_choice_7_3"><input type="checkbox" id="md_converted_choice_7_3">Antialiasing produces smoother edges.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+<h2 id="pixels">Pixels</h2>
+
+<div data-outline="pixels"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Pixel Representation</p></div>
+
+<ul><li><p>A rectangular array of pixels where each pixel is a vector (e.g., red, green, blue components), so pixel array is really 3 dimensional</p></li>
+<li><p>Bits per pixel (bpp)</p>
+
+<ul><li><p>1 bpp: black/white, or bit mask</p></li>
+<li><p>4-8 bpp: each pixel is an index into a color palette</p></li>
+<li><p>24 bpp: 8 bits for each color</p></li>
+<li><p>32 bpp: 8 bits for each color + alpha channel</p></li></ul></li>
+<li><p>Color components (e.g. RGB) are also called channels or bands</p></li>
+<li><p>Pixels can be arranged in many ways</p>
+
+<ul><li><p>Packed into words (RGBR GBRG …) or loosely (RGB- RGB- …)</p></li>
+<li><p>Separate planes (RRR…GGG…BBB…) vs. interleaved (RGB RGB RGB…)</p></li>
+<li><p>Scanned from top to bottom vs. bottom to top</p></li></ul></li></ul></div>
+
+<p>Finally, let’s talk in more detail about what a pixel image looks like.</p>
+
+<p>Put simply, it’s a rectangular array of pixels - but pixels themselves are not always so simple. A pixel itself has a <strong>depth</strong>, encoding its color, so the pixel representation is really three dimensional. Depth is often expressed in <strong>bits per pixel</strong> (bpp). The simplest kind of pixel representation has 1 bit per pixel; this is suitable for representing black and white images. It’s also used for <strong>bitmasks</strong>, where the single-bit pixels are interpreted as boolean values (pixel present or pixel missing). Bitmasks are useful for clipping - you can think of a bitmask as a stencil.</p>
+
+<p>Another kind of pixel representation uses each pixel value as an index into a palette, which is just a list of colors. In the 4-bpp representation, for example, each of the 16 possible pixel values represents a different color. This kind of representation, often called Indexed Color, was useful when memory was scarce; you still see it in the
+GIF file format, but otherwise it isn’t used much today.</p>
+
+<p>The most common pixel representation is often called “true color” or “direct color.””  In this representation, each pixel represents a color directly. The color value is usually split up into multiple components: red, green, and blue. (Color components are also called <strong>channels</strong> or <strong>bands</strong>; the red channel of an image, for example, is a rectangular array of the red values of its pixels.)</p>
+
+<p>A pixel representation can be arranged in memory (or a file) in various ways: packed tightly together to save memory, or spread out loosely for faster access; with color components interleaved or separated; and scanned from the top (so that the top-left pixel appears first) or the bottom (the bottom-left pixel appearing first).</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Transparency</p></div>
+
+<ul><li><strong><p>Alpha</p></strong> is a pixel’s transparency
+<ul><li><p>from 0.0 (transparent) to 1.0 (opaque)</p></li>
+<li><p>so each pixel has red, green, blue, and alpha values</p></li></ul></li>
+<li><p>Uses for alpha</p>
+
+<ul><li><p>Antialiasing</p></li>
+<li><p>Nonrectangular images</p></li>
+<li><p>Translucent objects</p></li>
+<li><p>Clipping regions with antialiased edges</p></li></ul></li></ul></div>
+
+<p>Many pixel representations have a fourth channel in addition to red, green, and blue: the pixel’s <strong>alpha</strong> value, which represents its degree of transparency.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>BitBlt</p></div>
+
+<ul><li><p>BitBlt (bit block transfer) copies a block of pixels from one image to another</p>
+
+<ul><li><p>Drawing images on screen</p></li>
+<li><p>Double-buffering</p></li>
+<li><p>Scrolling</p></li>
+<li><p>Clipping with nonrectangular masks</p></li></ul></li>
+<li><p>Compositing rules control how pixels from source and destination are combined</p>
+
+<ul><li><p>More about this in a later class</p></li></ul></li></ul></div>
+
+<p>The primary operation on the pixel representation is copying a block of pixels from one place to another - often called <strong>bitblt</strong> (pronounced “bit blit”). This is used for drawing pictures and icons on the screen, for example. It’s also used for double-buffering - after the offscreen buffer is updated, its contents are transferred to the screen by a bitblt.</p>
+
+<p>Bitblt is also used for screen-to-screen transfers. To do fast scrolling, for example, you can bitblt the part of the window that doesn’t change upwards or downwards, to save the cost of redrawing it. (For example, look at Swing’s <code>JViewport.BLIT_SCROLL_MODE</code>.)</p>
+
+<p>It’s also used for sophisticated drawing effects. You can use bitblt to combine two images together, or to combine an image with a mask, in order to clip it or composite them together.</p>
+
+<p>Bitblt isn’t always just a simple array copy operation that replaces destination pixels with source pixels. There are various different rules for combining the destination pixels with the source pixels. These rules are called alpha compositing, where the alpha channel of
+an object is used to paint it on top of the background. We may talk about them in a later reading.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Image File Formats</p></div>
+
+<ul><li><p>GIF</p>
+
+<ul><li><p>8 bpp, palette uses 24-bit colors</p></li>
+<li><p>1 color in the palette can be transparent (1-bit alpha channel)</p></li>
+<li><p>lossless compression</p></li>
+<li><p>suitable for screenshots, stroked graphics, icons</p></li></ul></li>
+<li><p>JPEG</p>
+
+<ul><li><p>24 bpp, no alpha</p></li>
+<li><p>lossy compression: visible artifacts (dusty noise, moire patterns)</p></li>
+<li><p>suitable for photographs</p></li></ul></li>
+<li><p>PNG</p>
+
+<ul><li><p>lossless compression</p></li>
+<li><p>1, 2, 4, 8 bpp with palette</p></li>
+<li><p>24 or 48 bpp with true color</p></li>
+<li><p>32 or 64 bpp with true color and alpha channel</p></li>
+<li><p>suitability same as GIF</p></li>
+<li><p>better than GIF, but no animation</p></li></ul></li></ul></div>
+
+<p>Here are a few common image file formats. It’s important to understand when to use each format. For user interface graphics, like icons, JPG generally should not be used, because it’s lossy compression - it doesn’t reproduce the original image exactly. When every pixel matters, as it does in an icon, you don’t want lossy compression. JPG also can’t represent transparent pixels, so a JPG image always appears rectangular in your interface.</p>
+
+<p>For different reasons, GIF is increasingly unsuitable for interface graphics.
+Provided you start with an image which is already reduced to 8-bit color (256 colors or less) and only binary transparency (on/off), GIF isn’t lossy.
+However, its color space is very limited. GIF images use 8-bit color, which means that there can be at most 256 different colors in the image.
+That’s fine for some low-color icons, but not for graphics with gradients or blurs. GIF has limited support for transparency - pixels can either be opaque (alpha 1) or transparent (alpha 0), but not translucent (alpha between 0 and 1). So you can’t have fuzzy edges in a GIF file, that blend smoothly into the background. GIF files can also represent simple animations.</p>
+
+<p>PNG is the best current format for interface graphics. It supports a variety of color depths, and can have a full alpha channel for transparency and translucency.</p>
+
+<p>If you want to take a screenshot, PNG is the best format to store it.</p></div></div>
+
+
+
+
+
+
+
+<h2 id="animation_principles">Animation Principles</h2>
+
+<div data-outline="animation_principles"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Why Animation?</p></div>
+
+<ul>
+<li>Not just for stealing user attention</li>
+<li>Not just aesthetics or eye candy</li>
+</ul></div>
+
+<p>Let’s turn to another kind of output: animation, or time-changing output.</p>
+
+<p>Some might say, based on bad experiences with the Web, that animation has no place in a usable interface.  Indeed, the <code>&lt;blink&gt;</code> tag originally introduced by the Netscape browser was an abomination.  And many advertisements on the Web use animation to grab your attention, which distracts you from what you’re really trying to do and makes you annoyed.  So animation has gotten a bad rap in UI.</p>
+
+<p>Others complain that animation is just eye candy – it makes interfaces prettier, but that’s all.</p>
+
+<p>But neither of those viewpoints is completely fair.  Used judiciously, animation can make an important contribution to the usability of an  interface.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Using Animation for Feedback</p></div>
+
+<ul>
+<li>Visualizing changes not made by user</li>
+</ul>
+
+<img src="figures/animation-feedback-1.png" style="width:30%">
+
+<ul>
+<li>Keeping the user oriented during transitions</li>
+</ul>
+
+<img src="figures/animation-feedback-2.png">
+
+<ul>
+<li>Displaying progress</li>
+</ul>
+
+<img src="figures/animation-feedback-3.png" style="width: 100%"></div>
+
+<p>One important use of animation is to enhance feedback, by drawing attention to and explaining changes in the display that would otherwise be hard to follow and understand.
+An example is a change that was not made by the user – due to actions by other users in a multi-user application, or actions by the software itself.
+A move made on a checkerboard by another player is an example of a change that might be animated.</p>
+
+<p>Another change is a major transition in the viewpoint of the display, because a sudden drastic shift can disorient the user.  What happened?  Which direction did I go?  How would I get back to where I was before?  Scrolling around a large space, or zooming in or out, are examples of these transitions.  Problems tend to occur not when the transition is under direct manipulation control (e.g. dragging a scrollbar thumb), but rather when it happens abruptly due to a button press (Page Up) or other action (Zoom pulldown menu, hyperlink press, another user or computer action, etc.)  Animating the transition as if the user had done it with fast direct manipulation helps the user stay oriented.</p>
+
+<p>Animation can also be used for progress feedback, to show that something is still happening.  Here, the animation basically reassures the user that the program hasn’t crashed.  The loading indicator on a web browser is an example of this kind of animation; it’s probably the most trivial kind to do.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Animation Isn’t Always Needed</p></div>
+
+<ul>
+<li>Existing events are often enough to provide incremental screen changes
+
+<ul><li>User’s mouse events drive scrolling</li>
+<li>Program events can drive a progress bar
+
+<ul><li>But bursty or slow events may need animation</li></ul></li></ul></li>
+<li>Short distances and short time periods
+
+<ul><li>time &lt; 100 ms</li>
+<li>distance &lt; width of the moving object</li></ul></li>
+</ul></div>
+
+<p>Fortunately, it turns out that in many cases, you don’t need to do anything special to obtain the benefits of animation.</p>
+
+<p>Many event-driven parts of a GUI are <em>already</em> incremental.  If the user is dragging the scrollbar thumb, then they’re basically animating the interface themselves – you don’t need to do anything special.  (Although we’ll discuss something called <em>motion blur</em> in a moment that may be worth adding to enhance the visual effect.)  Similarly, backend events (like bytes read from a file or files copied) may be able to make progress feedback appear animated, simply by coming often enough so that the progress bar fills in smoothly.  But if the backend events are bursty or have long gaps between them, you may need to supplement with animation.  That’s why web browsers have an animated throbber – because sometimes network connections just sit there generating no backend events to drive the progress.</p>
+
+<p>If feedback is very brief, or a transition very short in distance, then animation is likewise unnecessary. If an object moves on the screen by a distance less than its width, then it’s probably not worth animating that transition. Animations shorter than 100 msec will probably be too fast to be noticed.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Frame Rate</p></div>
+
+<ul>
+<li><p>Frame rate &gt; 20 frames per second</p>
+
+<ul><li>10 fps is convincing but looks jerky</li>
+<li>Film is 24 fps, TV (NTSC) 30 fps</li></ul></li>
+<li><p>Refresh rate vs. frame rate</p></li>
+</ul></div>
+
+<p>Let’s talk about a few good design rules.
+First, the frame rate should be at least 20 frames per second – i.e., the animation should make an incremental change at least 20 times per second.  If animation is the main purpose of the program, then it should be willing to throw CPU cycles into even higher frame rates to improve smoothness and realism.  As a guideline, film and TV signals are typically at least 24-30 fps. Video games typically expect a minimum of 60fps for smooth animation.</p>
+
+<p>But for feedback, 20 fps is plenty.  Feedback animation should be secondary to the real work of the program, and shouldn’t dominate CPU time.</p>
+
+<p>Keep in mind that there’s a difference between the <strong>frame rate</strong> of an animation and the <strong>refresh rate</strong> of the whole display system.  The refresh rate of a display system is the rate at which the screen is reilluminated.  For CRTs, this was the rate that the electron guns swept across the entire screen illuminating phosphors.  Since the phosphors fade if not repeatedly hit by the electron gun, a slow refresh rate will cause the screen to darken between sweeps – producing a noticeable flicker that the eye can perceive.  The shutter on a film projector has a similar problem, since it makes the movie screen flash between bright and dark.  So it actually opens and closes faster than 24 times a second – typically 48 Hz or 72 Hz – in order to make the flicker less perceptible.  As a result, each frame of a film is illuminated 2 or 3 times before the projector stutters ahead to the next frame.</p>
+
+<p>So a 20fps animation may be <em>convincing</em>, but if it’s displayed on a CRT using a 20Hz refresh rate, it will have a very noticeable <em>flicker</em>.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Motion Blur</p></div>
+
+<ul>
+<li>Big discontinuous jumps are disruptive</li>
+</ul>
+
+<img src="figures/motion-blur-1.png">
+
+<ul>
+<li>Use motion blur if object moves more than its width between frames
+
+<ul><li>Smear of color
+
+<img src="figures/motion-blur-2.png" style="width:30%"></li>
+<li>Multiple overlapping images
+
+<img src="figures/motion-blur-3.png" style="width:30%"></li></ul></li>
+</ul></div>
+
+<p>Big jumps are disruptive, so pay attention when you’re using low frame rates with high object speeds.  In the real world, an object doesn’t disappear from one place and reappear in another – it passes through the intervening points, and even if it moves too fast for us to focus on it, it leaves an impression of its path in our visual system – a smear.  That smear is called <strong>motion blur</strong>.  If an object is moving so fast that it moves more than its own width between frames, leaving a visible gap between subsequent images of the object, then you should consider filling in the gap with simulated motion blur.  Two common ways to do it: (1) a smear of the object’s color, and (2) simply drawing multiple overlapping images of the object.  Another solution is to crank up the frame rate, if that’s possible.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Cartooning Principles</p></div>
+
+<ul>
+<li>Solidity (motion blur, fading in/out)
+
+<img src="figures/cartoon1.png"></li>
+<li>Anticipation (wind up before starting to move)
+
+<img src="figures/cartoon2.png"></li>
+<li>Slow-in/slow-out
+
+<img src="figures/cartoon3.png"></li>
+<li>Follow through (wiggle back and forth when stopping)
+
+<img src="figures/cartoon4.png" style="width:50px; margin-left:80%"></li>
+</ul></div>
+
+<p>There are several useful ways to use animation to enhance the illusion of direct manipulation (Chang &amp; Ungar, “<a href="http://doi.acm.org/10.1145/168642.168647">Animation: From Cartoons to the User Interface</a>”, UIST ’93), which were originally drawn from the experience of Disney cartoonists (J. Lasseter, “<a href="http://doi.acm.org/10.1145/37401.37407">Principles of Traditional Animation applied to 3D Computer Animation</a>”, SIGGRAPH ‘87).</p>
+
+<p>The principle of <strong>solidity</strong> says that the animated behavior of an object should give clues about its squishiness – so a ball, when it strikes the ground, should flatten out into an ellipse before rebounding (<a href="http://www.siggraph.org/education/materials/HyperGraph/animation/character_animation/principles/bouncing_ball_example_of_slow_in_out.htm">example</a>). Most objects in GUIs are rigid, so the solidity principle is mostly about preventing high-speed GUI objects from appearing to teleport across the screen (using motion blur), and having them fade into and out of view rather than appearing and disappearing abruptly.</p>
+
+<p><strong>Anticipation</strong> means that an object winds up a bit (moving backwards to get more leverage) before starting a motion.  The wind-up draws the user’s attention, and resembles what animate creatures in the real world do when they move.</p>
+
+<p><strong>Slow-in, slow-out</strong> describes how a realistic animation should be paced – rather than keeping a constant speed throughout, the object should accelerate up to a cruising speed, and then decelerate to a stop.</p>
+
+<p>Finally, <strong>follow-through</strong> says that objects should wiggle back and forth a bit when they finish a motion, to expend the remaining kinetic energy of the motion</p>
+
+<p>For examples of all these effects, see Daniel Bodinof, “<a href="http://www.kirupa.com/developer/flash8/principles_animation_pt2_pg1.htm">Principles of Animation</a>“.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Short and Simple</p></div>
+
+<ul>
+<li>Keep feedback animation short
+
+<ul><li>Many users will wait for it to stop before continuing</li></ul></li>
+<li>Use animation sparingly
+
+<ul><li>Constant motion is distracting and agitating</li></ul></li>
+</ul></div>
+
+<p>In general, feedback animations should be kept short.  Many users will wait for it to stop before continuing, so there’s a tradeoff between the duration of the animation and the efficiency of the interface.  Don’t block user control – allow the user to start on their action while the animation is still going on.</p>
+
+<p>Finally, use animation judiciously.  As we know from ads on web sites, constant motion is distracting and agitating.</p></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="animation_implementation">Animation Implementation</h2>
+
+<div data-outline="animation_implementation"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Pixel Approach: Frame Animation</p></div>
+
+<ul>
+<li>Animated GIF</li>
+<li>Or loop through a sequence of images yourself, using drawImage() or showing/hiding image objects</li>
+</ul>
+
+<img src="figures/animation-feedback-3.png" style="width:50px"></div>
+
+<p>Now let’s focus on how to implement animation, starting with animations in the pixel representation.</p>
+
+<p>Frame animation is probably the easiest kind of animation.  It consists of a sequence of images, each a little different from the previous, that are displayed at regular intervals.  Most of the moving pictures you know – movies, television, digital video – work this way.  Animated GIFs are an easy and widely supported way to put frame animation into a GUI.  GIFs have only 8-bit color resolution, unfortunately; if you need richer color, look at APNG (Animated PNG), which is supported by most browsers.
+An alternative format,  MNG, was technically more capable but also more complex, and lacks support.
+HTML and SVG can also be animated, with CSS Animations.
+Still another choice is to do it yourself, by displaying a sequence of PNGs.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Pixel/Stroke Approach: Timer and Redraw</p></div>
+
+<ul>
+<li>Approach
+
+<ul><li>Set a periodic timer for 1/frame rate</li>
+<li>Repaint your canvas every timer tick</li>
+<li>Use the current clock time to compute positions/sizes/etc to draw animated objects</li>
+<li>Stop timer when animation complete or interrupted
+
+<img src="figures/cartoon1.png"></li></ul></li>
+<li>May be hard to achieve smooth animation
+
+<ul><li>Event-handling may be bursty</li>
+<li>Processing user input events has priority over animation repaints</li></ul></li>
+</ul></div>
+
+<p>Suppose you can’t use animated GIFs.  How do you animate changes to a pixel  or stroke representation?</p>
+
+<p>When animation is merely used as a feedback or help effect in an application that otherwise isn’t concerned with animation, the best solution is the timer and redraw approach.  The basic idea is to use a timer (such as <code>setTimeout</code> or <code>setInterval</code> in Javascript), which delivers periodic events to the GUI event queue.  Set the timer interval to the desired frame rate (e.g. 50 msec for 20 fps).  Every time the timer fires, use the current clock time to determine where to redraw the objects.  Stop the timer when the animation is done.</p>
+
+<p>This technique integrates very well with an existing GUI application, because automatic-redraw and input-handling support of the GUI toolkit continue to be supported even while the animation runs.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Object Approach: Property Animation</p></div>
+
+<ul>
+<li>Every timer tick, update object properties as a function of current clock time
+
+<ul><li>position, size, color, opacity</li></ul></li>
+<li>CSS animations do this declaratively:</li>
+</ul>
+
+<pre><code class="language-css hljs"><span class="hljs-selector-id">#menu</span> {
+    <span class="hljs-attribute">animation</span>: <span class="hljs-number">200ms</span> close; <span class="hljs-comment">/* duration &amp; keyframes ref */</span>
+}
+
+@<span class="hljs-keyword">keyframes</span> close {
+    <span class="hljs-selector-tag">to</span> {
+        <span class="hljs-attribute">opacity</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* target values */</span>
+        <span class="hljs-attribute">width</span>: <span class="hljs-number">0</span>;   <span class="hljs-comment">/* for CSS properties */</span>
+    }
+}</code></pre></div>
+
+<p>The object approach to output enables a more modular approach to animation.  Rather than putting animation code into the redraw, we can simply update the changing properties of the component (position, size, etc.) on every timer tick.  This technique is called <em>property animation</em>.</p>
+
+<p>CSS animations help you animate between different CSS values. You can set up an animation using a <code>@keyframes</code> rule,
+which takes a set of keyframes and their target values.
+For example, if you specify “opacity: 0.0”, then the animation will change the opacity property steadily from its initial value (which might be 1.0 if the object is currently opaque) until it reaches the target value.
+To apply that animation to an element, you use the <code>animation</code> property, with a duration (in seconds or milliseconds) and an animation name.
+There are many more optional parameters that this property accepts, which you can look up in the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation">documentation</a>.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Easing and Path</p></div>
+
+<ul>
+<li>Easing function maps time t to parameter s [0,1]
+
+<ul><li><p>Linear</p>
+
+<pre><code class="hljs ini"><span class="hljs-attr">s</span> = t / duration</code></pre></li>
+<li><p>Slow-in/slow-out</p>
+
+<pre><code class="hljs nginx"><span class="hljs-attribute">s</span> <span class="hljs-regexp">~ atan(t)</span>
+s <span class="hljs-regexp">~ 1/(1+e^-t)</span></code></pre></li></ul></li>
+</ul>
+
+<img src="figures/slow-in-slow-out.png" style="width: 20%">
+
+<ul>
+<li>Path function maps s to property value v
+
+<ul><li><p>Linear</p>
+
+<pre><code class="hljs bash">[x,y] = (1<span class="hljs-_">-s</span>) [x0,y0] + s [x1,y1]</code></pre></li>
+<li><p>Quadratic Bezier curve</p>
+
+<pre><code class="hljs bash">[x,y] =   (1<span class="hljs-_">-s</span>)^2 [x0,y0]
+        + 2s(1<span class="hljs-_">-s</span>) [x1,y1]
+        +   s^2   [x2,y2]</code></pre></li>
+<li><p>Color: red/green/blue vs. hue/saturation/value</p></li></ul></li>
+</ul></div>
+
+<p>Easing and path are relevant to animating both stroke and object approaches.</p>
+
+<p><strong>Easing</strong> concerns how the animation evolves over time.  It’s a function that maps clock time to an abstract parameter, usually in the range [0,1], representing the completeness of the animation (0% to 100%).  Easing is how you can implement the slow-in/slow-out cartooning principle.  Slow-in/slow-out is done with a sigmoid (S-shaped) function.  The arctangent is a good, easy sigmoid; so is 1/(1+e^-x).  Note that you have to tweak the domain and range of these functions so that the desired time domain (0 to the duration of the animation) maps to the desired s-parameter range (typically 0..1).  Normally arctangent maps the domain [-inf, +inf] to the range [–PI/2, PI/2].</p>
+
+<p><strong>Path</strong> describes how the animated property moves through its value space.  For position, this is easy – it’s the curve of points that the position traces out.  If you want to add some visual appeal to a moving object, make it move through an arc.  A quadratic Bezier curve has this effect and is trivial to implement – you just need a control point between the start point and end point.  The control point pulls the curve away from the straight line between the endpoints – to be precise, the curve is tangent at each endpoint to the line that connects the endpoint with the control point.</p>
+
+<p>For multidimensional properties like color, you’ll want to think about what color space the path should go through, and whether you want the path to be simply a line in that color space or something more complicated.  We’ll talk more about different color spaces in a future reading.</p>
+
+<p>By default, CSS uses a slow-out easing, but you can switch to linear easing by using the <code>linear</code> keyword or provide your own custom <code>cubic-bezier()</code> function.
+You can use this app to generate <a href="http://cubic-bezier.com/"><code>cubic-bezier()</code></a> values.
+See <a href="http://easings.net/">a great demo of  various easing functions</a> that graphs their actual behavior.
+Unfortunately, easing functions with more than 2 points cannot be represented by the CSS <code>cubic-bezier()</code> function. You can either emulate them by using multiple keyframes, or you can use JavaScript. A popular animation library for more complex effects than what CSS animations can provide is <a href="https://greensock.com/">Greensock</a>.</p></div></div>
+
+
+
+
+
+
+
+<h2 id="final_words">Final Words</h2>
+
+<div data-outline="final_words"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hints for Debugging Output</p></div>
+<ul><li><p>Something you’re drawing isn’t appearing on the screen.  Why not?</p>
+
+<ul><li><p>Wrong visibility setting</p>
+
+<ul><li><p>CSS display property</p></li></ul></li>
+
+<li><p>Wrong place</p>
+
+<ul><li><p>left/top, position properties</p></li></ul></li>
+
+<li><p>Wrong size</p>
+
+<ul><li><p>width/height</p></li></ul></li>
+
+<li><p>Wrong color</p>
+
+<ul><li><p>color, background-color, background-image</p></li></ul></li>
+
+<li><p>Wrong z-order</p></li></ul></li></ul></div>
+
+<p>A final word about debugging the output of a graphical user interface, which can sometimes be tricky. A common problem is that you try to draw something, but it never appears on the screen. Here are some possible reasons why.</p>
+
+<ul>
+<li><p><strong>Wrong place:</strong> what’s the origin of the coordinate system? What’s the scale? Where is the object located in its parent?</p></li>
+<li><p><strong>Wrong size:</strong> if an object has zero width and zero height, it will be completely invisible no matter what it tries to draw- everything will be clipped. <strong>Zero width and zero height tend to be the defaults for primitive objects!</strong> If you make a div or a span with nothing in it, it’ll be zero width and height. You have to give it content, or manually set its size, to make it more reasonable size. Check whether the object (and its ancestors) have nonzero sizes.</p></li>
+<li><p><strong>Wrong color:</strong> is the drawing using the same color as the background? Is it using 100% alpha, so that it’s completely transparent?</p></li>
+<li><p><strong>Wrong z-order:</strong> is something else drawing on top?</p></li>
+</ul></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Issues in Choosing Output Representations</p></div>
+
+<ul><li><p>Layout</p></li>
+<li><p>Input</p></li>
+<li><p>Redraw</p></li>
+<li><p>Drawing order</p></li>
+<li><p>Heavyweight objects</p></li>
+<li><p>Device dependence</p></li></ul></div>
+
+<ul>
+<li><p><strong>Layout:</strong> Objects remember where they were put, and draw themselves there. They also support automatic layout. With strokes or pixels, you have to figure out (at drawing time) where each piece goes, and put it there.</p></li>
+<li><p><strong>Input:</strong> Objects participate in event dispatch and propagation, and the system automatically does hit-testing (determining whether the mouse is over the object when an event occurs) for objects, but not for strokes.
+If a graph node is an object, then it can receive its own click and drag events. If you stroked the node instead, then you have to write code to determine which node was clicked or dragged.</p></li>
+<li><p><strong>Redraw:</strong> An automatic redraw algorithm means that objects redraw themselves automatically when they have to. Furthermore, the redraw algorithm is efficient: it only redraws objects whose extents intersect the damaged region. The stroke or pixel representations would have to do this test by hand. In practice, most stroked objects don’t bother, simply redrawing everything whenever some part of the view needs to be redrawn.</p></li>
+<li><p><strong>Drawing order:</strong> It’s easy for a parent to draw before (underneath) or after (on top of) all of its children. But it’s not easy to interleave parent drawing with child drawing. So if you’re using a hybrid representation, with some parts of your view represented as objects and others as strokes, then the objects and strokes generally fall in two separate layers, and you can’t have any complicated layering relationships between strokes and objects.</p></li>
+<li><p><strong>Heavyweight objects:</strong> Objects may be big—even an object with no fields costs about 20 bytes in Java. As we’ve seen, the view tree is overloaded not just with drawing functions but also with event dispatch, automatic redraw, and automatic layout, so the properties and state used by those processes further bulks up the class.</p>
+
+<p>Views derived from large amounts of data - say, a 100,000-node graph - generally can’t use an object for every individual data item. The “flyweight” pattern can help, by storing redundant information in the object’s context (i.e., its parent) rather than in each object, but few toolkits support flyweight objects. (See “<a href="http://dl.acm.org/citation.cfm?id=97935">Glyphs: Flyweight Objects for User Interfaces</a>” by Paul R. Calder and Mark A. Linton. <em>UIST ‘90</em>.)</p></li>
+<li><p><strong>Device dependence:</strong> The stroke representation is largely device independent. In fact, it’s useful not just for displaying to screens, but also to printers, which have dramatically different resolution. The pixel representation, on the other hand, is extremely device dependent. A directly-mapped pixel image won’t look the same on a screen with a different resolution.</p></li>
+</ul>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_5"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_5-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_5-exercise" data-outline="exercise" data-ex-id="final_words/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-07-output"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Event dispatch occurs at the stroke level."><label for="md_converted_choice_8_0"><input type="checkbox" id="md_converted_choice_8_0">Event dispatch occurs at the stroke level.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-group exercise-part" data-outline="b"><div class="checkbox exercise-choice" data-outline="The alpha value is either a 0 or a 1."><label for="md_converted_choice_9_0"><input type="checkbox" id="md_converted_choice_9_0">The alpha value is either a 0 or a 1.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-group exercise-part" data-outline="c"><div class="checkbox exercise-choice" data-outline="Incorrect z-order can cause an object to not appear on screen."><label for="md_converted_choice_10_0"><input type="checkbox" id="md_converted_choice_10_0">Incorrect z-order can cause an object to not appear on screen.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-group exercise-part" data-outline="d"><div class="checkbox exercise-choice" data-outline="PNGs use lossy compression."><label for="md_converted_choice_11_0"><input type="checkbox" id="md_converted_choice_11_0">PNGs use lossy compression.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div></div>
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/07-output/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:57:05 GMT -->
+</html><!-- Handout delivered Mon Feb 19 2018 19:19:56 GMT-0500 (EST) -->

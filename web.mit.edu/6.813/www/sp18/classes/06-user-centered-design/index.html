@@ -1,0 +1,378 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/06-user-centered-design/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:54:19 GMT -->
+<head>
+<meta charset="UTF-8">
+ 
+<title>Reading 6: User Centered Design</title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_6_user_centered_design">Reading 6: User Centered Design</a></li><li><a href="#iterative_design">Iterative Design</a></li><li><a href="#needfinding">Needfinding</a></li><li><a href="#idea_generation">Idea Generation</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_6_user_centered_design">Reading 6: User Centered Design</h1>
+
+<div data-outline="reading_6_user_centered_design"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+<img src="figures/01.png"></div>
+
+<p>The candidate for today’s User Interface Hall of Fame is <strong>tabbed browsing</strong>, a feature found in almost all web browsers. With tabbed browsing, multiple browser windows are grouped into a single top-level window and accessed by a row of tabs.</p>
+
+<p>One advantage of tabbed browsing is that each browser window can then be dedicated to a particular task, e.g., apartment hunting, airfare searching, programming documentation, web surfing. It’s an easy and natural way for you to create task-specific groupings of your browser windows.</p>
+
+<p>Another neat feature of tabbed browsing is that you can bookmark a set of tabs so you can recover them again later—a nice <strong>shortcut</strong> for task-oriented users.</p>
+
+<p>What are the downsides of tabbed browsing? For one thing, you can’t compare the contents of one tab with another. External windows let you do this by resizing and repositioning the windows.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hall of Shame</p></div>
+<img src="figures/02.png"></div>
+
+<p>Another problem is that tabs don’t really scale up either—you can’t have more than 5-10 without shrinking their labels so much that they’re unreadable. Some designers have tried using <strong>multiple rows of tabs</strong>, but if you stick slavishly to the tabbing metaphor, this turns out to be a horrible idea. Here’s the Microsoft Word 6 option dialog. Clicking on a tab in a back row (like Spelling) moves the whole row forward in order to maintain the tabbing metaphor. What’s the problem with this?</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hall of Fame or Shame?</p></div>
+<img src="figures/03.png"></div>
+
+<p>Here’s how Eclipse tries to address the tab scaling problem: it shows a few tabs, and the rest are found in a pulldown menu on the right end of the tab bar.</p>
+
+<p>The menu tries to distinguish between the visible tabs and the hidden tabs using boldface. Quick, before studying the names of the tabs carefully – which do you think is which? Was that a good decision?</p>
+
+<p>Picking an item from the menu will make it appear as a tab - replacing one of the tabs that’s currently showing.
+Which tab will get replaced?</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>User-Centered Design</p></div>
+<ul><li><p>Iterative design</p></li>
+<li><p>Early focus on users and tasks</p></li>
+<li><p>Constant evaluation</p></li></ul></div>
+
+<p>The standard approach to designing user interfaces is <strong>user-centered design</strong>, which has three components.
+We’ll talk about the first two today; we’ll defer evaluation (testing with users) until a later reading.</p></div>
+
+<h2 id="iterative_design">Iterative Design</h2>
+
+<div data-outline="iterative_design"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Iterative Design</p></div>
+
+<ul><li><p>Lather, rinse, repeat!</p></li></ul>
+<img src="figures/04.png"></div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Traditional Software Engineering Process: Waterfall Model</p></div>
+<img src="figures/05.png"></div>
+
+<p>Let’s contrast the iterative design process against another way. The <strong>waterfall model</strong> was one of the earliest carefully-articulated design processes for software development. It models the design process as a sequence of stages. Each stage results in a concrete product - a requirements document, a design, a set of coded modules - that feeds into the next stage. Each stage also includes its own <strong>validation</strong>: the design is validated against the requirements, the code is validated (unit-tested) against the design, etc.</p>
+
+<p>The biggest improvement of the waterfall model over previous (chaotic) approaches to software development is the discipline it puts on developers to <strong>think first, and code second</strong>. Requirements and designs generally precede the first line of code.</p>
+
+<p>If you’ve taken a software engineering course, you’ve experienced this process yourself. The course staff probably handed you a set of requirements for the software you had to build — e.g., the specification of a chat client or a pinball game. (In the real world, identifying these requirements would be part of your job as software developers.) You were then expected to meet certain milestones for each stage of your project, and each milestone had a concrete product: (1) a design document; (2) code modules that implemented certain functionality; (3) an integrated system.
+Validation is not always sufficient; sometimes problems are missed until the next stage. Trying to code the design may reveal flaws in the design - e.g., that it can’t be implemented in a way that meets the performance requirements. Trying to integrate may reveal bugs in the code that weren’t exposed by unit tests. So the waterfall model implicitly needs <strong>feedback between stages</strong>.</p>
+
+<p>The danger arises when a mistake in an early stage - such as a missing requirement - isn’t discovered until a very late stage - like acceptance testing. Mistakes like this can force costly rework of the intervening stages. (That box labeled “Code” may look small, but you know from experience that it isn’t!)</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Waterfall Model Is Bad for UI Design</p></div>
+
+<ul><li><p>User interface design is risky</p>
+
+<ul><li><p>So we’re likely to get it wrong</p></li></ul></li>
+<li><p>Users are not involved in validation until acceptance testing</p>
+
+<ul><li><p>So we won’t find out until the end</p></li></ul></li>
+<li><p>UI flaws often cause changes in requirements and design</p>
+
+<ul><li><p>So we have to throw away carefully-written and tested code</p></li></ul></li></ul></div>
+
+<p>Although the waterfall model is useful for some kinds of software development, it’s very poorly suited to user interface development.</p>
+
+<p>First, UI development is inherently <strong>risky</strong>. UI design is hard for all the reasons we discussed in the first class. (You are not the user; the user is always right, except when the user isn’t; users aren’t designers either.) We don’t (yet) have an easy way to predict whether a UI design will succeed.</p>
+
+<p>Second, in the usual way that the waterfall model is applied, <strong>users appear in the process in only two places</strong>: requirements analysis and acceptance testing. Hopefully we asked the users what they needed at the beginning (requirements analysis), but then we code happily away and don’t check back with the users until we’re ready to present them with a finished system. So if we screwed up the design, the waterfall process won’t tell us until the end.</p>
+
+<p>Third, when UI problems arise, they often <strong>require dramatic fixes</strong>: new requirements or new design. We saw in Lecture 1 that slapping on patches doesn’t fix serious usability problems.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Iterative Design</p></div>
+<img src="figures/04.png"></div>
+
+<p><strong>Iterative design</strong> offers a way to manage the inherent risk in user interface design. In iterative design, the software is refined by repeated trips around a design cycle: first imagining it (design), then realizing it physically (implementation), then testing it (evaluation).</p>
+
+<p>In other words, we have to admit to ourselves that we aren’t going to get it right on the first try, and plan for it.
+Using the results of evaluation, we redesign the interface, build new prototypes, and do more evaluation.
+Eventually, hopefully, the process produces a sufficiently usable interface.</p>
+
+<p>Sometimes you just iterate until you’re satisfied or run out of time and resources, but a more principled approach is to set usability goals for your system. For example, an e-commerce web site might set a goal that users should be able to complete a purchase in less than 30 seconds.</p>
+
+<p>Many of the techniques we’ll learn in this course are optimizations for the iterative design process: design guidelines reduce the number of iterations by helping us make better designs; cheap prototypes and discount evaluation techniques reduce the cost of each iteration. But even more important than these techniques is the basic realization that in general, <strong>you won’t get it right the first time</strong>. If you learn nothing else about user interfaces from this class, I hope you learn this.</p>
+
+<p>You might object to this, though. At a high level, iterative design just looks like the worst-case waterfall model, where we made it all the way from design to acceptance testing before discovering a design flaw that <em>forced</em> us to repeat the process. Is iterative design just saying that we’re going to have to repeat the waterfall over and over and over? What’s the trick here?</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Spiral Model</p></div>
+<img src="figures/06.png"></div>
+
+<p>The <strong>spiral model</strong> offers a way out of the dilemma. We build room for several iterations into our design process, and we do it by making the early iterations as cheap as possible.</p>
+
+<p>The radial dimension of the spiral model corresponds to the cost of the iteration step - or, equivalently, its <strong>fidelity</strong> or <strong>accuracy</strong>. For example, an early implementation might be a paper sketch or mockup. It’s low fidelity, only a pale shadow of what it would look and behave like as interactive software. But it’s incredibly cheap to make, and we can evaluate it by showing it to users and asking them questions about it.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Early Prototyping</p></div>
+<p><strong></strong></p><p><strong>Sketches</strong></p><p></p>
+<img src="figures/07.png">
+<img src="figures/08.png">
+<p><strong></strong></p><p><strong>Paper Prototypes</strong></p><p></p>
+<img src="figures/09.jpg">
+<img src="figures/10.jpg">
+<p><strong></strong></p><p><strong>Computer Mockups</strong></p><p></p>
+<img src="figures/11.png">
+<img src="figures/12.png"></div>
+
+<p>Here are some examples of early-stage prototyping for graphical user interfaces. We’ll talk about these techniques and more in a future Prototyping reading.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Early Prototypes Can Detect Usability Problems</p></div>
+<img src="figures/13.png"></div>
+
+<p>Remember this Hall of Shame candidate from the first class? This dialog’s design problems would have been easy to catch if it were only tested as a simple paper sketch, in an early iteration of a spiral design. At that point, changing the design would have cost only another sketch, instead of a day of coding.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Iterative Design of User Interfaces</p></div>
+
+<ul><li><p>Early iterations use cheap prototypes</p>
+
+<ul><li><p><strong></strong></p><p><strong>Parallel design</strong></p> is feasible: build &amp; test multiple prototypes to explore design alternatives<p></p></li></ul></li>
+<li><p>Later iterations use richer implementations, after UI risk has been mitigated</p></li>
+<li><p>More iterations generally mean better UI</p></li>
+<li><p>Only mature iterations are seen by the world</p></li></ul></div>
+
+<p>Why is the spiral model a good idea? Risk is greatest in the early iterations, when we know the least. So we put our least commitment into the early implementations. Early prototypes are made to be thrown away. If we find ourselves with several design alternatives, we can build multiple prototypes (<strong>parallel design</strong>) and evaluate them, without much expense. The end of this reading will make more arguments for the value of parallel design.</p>
+
+<p>After we have evaluated and redesigned several times, we have (hopefully) learned enough to avoid making a major UI design error. Then we actually implement the UI - which is to say, we build a prototype that we intend to keep. Then we evaluate it again, and refine it further.</p>
+
+<p>The more iterations we can make, the more refinements in the design are possible. We’re hill-climbing here, not exploring the design space randomly. We keep the parts of the design that work, and redesign the parts that don’t. So we should get a better design if we can do more iterations.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Case Study of User-Centered Design: The Olympic Message System</p></div>
+
+<ul><li><p>Cheap prototypes</p>
+
+<ul><li><p>Scenarios </p></li>
+<li><p>User guides</p></li>
+<li><p>Simulation (Wizard of Oz)</p></li>
+<li><p>Prototyping tools (IBM Voice Toolkit)</p></li></ul></li>
+<li><p>Iterative design</p>
+
+<ul><li><p>200 (!) iterations for user guide</p></li></ul></li>
+<li><p>Evaluation at every step</p></li>
+<li><p>You are not the user</p>
+
+<ul><li><p>Non-English speakers had trouble with alphabetic entry on telephone keypad</p></li></ul></li></ul>
+
+<img src="figures/14.png"></div>
+
+<p>The Olympic Message System is a classic demonstration of the effectiveness of user-centered design (Gould et al, <a href="http://staffweb.itsligo.ie/staff/jkelleher/hci/notes/Olympic_Messaging_System_Gould.pdf">“The 1984 Olympic Message System”</a>, CACM, v30 n9, Sept 1987). The OMS designers used a variety of cheap prototypes: scenarios (stories envisioning a user interacting with the system), manuals, and simulation (in which the experimenter read the system’s prompts aloud, and the user typed responses into a terminal). All of these prototypes could be (and were) shown to users to solicit reactions and feedback.</p>
+
+<p>Iteration was pursued aggressively. The user guide went through 200 iterations!</p>
+
+<div class="video-status panel panel-info"><div class="panel-body text-center"><p>A video about OMS can be found on YouTube. Check it out—it includes a mime demonstrating the system.</p>
+
+<a class="video-play" href="https://courses.csail.mit.edu/6.005/video/reading_6_user_centered_design,iterative_design/W6UYpXc4czM"><strong>▶︎ Play video</strong></a></div></div>
+
+<p>The OMS also has some interesting cases reinforcing the point that the designers cannot rely entirely on themselves for evaluating usability. Most prompts requested numeric input (“press 1, 2, or 3”), but some prompts needed alphabetic entry (“enter your three-letter country code”). Non-English speakers - particularly from countries with non-Latin languages - found this confusing, because, as one athlete reported in an early field test, “you have to read the keys differently.” The designers didn’t remove the alphabetic prompts, but they did change the user guide’s examples to use only uppercase letters, just like the telephone keys.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="iterative_design/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-06-user-centered-design"><div class="panel-body"><p>Which of the following are aspects of the spiral model but not the waterfall model? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Frequent interaction with users throughout the process"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Frequent interaction with users throughout the process</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Building prototypes intended to be thrown away"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Building prototypes intended to be thrown away</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Repetition of steps"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Repetition of steps</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Unit testing"><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">Unit testing</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="needfinding">Needfinding</h2>
+
+<div data-outline="needfinding"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Techniques for Understanding Users &amp; Tasks</p></div>
+
+<ul><li><p>Interviews &amp; observation</p></li>
+<li><p>Contextual inquiry technique</p>
+
+<ul><li><p>Interviews &amp; observation conducted “in context”, i.e., with real people dealing with the real problem in the real environment</p></li>
+<li><p>Establish a master-apprentice relationship</p><ul><li><p>User shows how and talks about it</p></li>
+<li><p>Interviewer watches and asks questions</p></li></ul><p></p></li></ul></li>
+<li><p>Participatory design technique</p>
+
+<ul><li><p>Including a user directly on the design team</p></li></ul></li></ul></div>
+
+<p>The best sources of information for needfinding are user interviews and direct observation. Usually, you’ll have to observe how users currently solve the problem. For the OMS example, we would want to observe athletes interacting with each other, and with family and friends, while they’re training for or competing in events. We would also want to interview the athletes, in order to understand better their goals.</p>
+
+<p>A good collection of information-collection techniques is summarized by <a href="http://hci.stanford.edu/courses/cs447/docs/NeedFindingCribSheet.pdf">Need Finding Tools</a>.</p>
+
+<p><strong>Contextual inquiry</strong> is a technique that combines interviewing and observation, in the user’s actual work environment, discussing actual work products. Contextual inquiry fosters strong collaboration between the designers and the users. (Wixon, Holtzblatt &amp; Knox, <a href="https://www.researchgate.net/profile/Dennis_Wixon2/publication/221518256_Contextual_design_an_emergent_view_of_system_design/links/544928a70cf2ea6541302f37/Contextual-design-an-emergent-view-of-system-design.pdf">“Contextual design: an emergent view of system design”</a>, CHI ‘90)</p>
+
+<p><strong>Participatory design</strong> includes users directly on the design team - participating in needfinding, proposing design ideas, helping with evaluation. This is particularly vital when the target users have much deeper domain knowledge than the design team. It would be unwise to build an interface for stock trading without an expert in stock trading on the team, for example.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Know Your User</p></div>
+
+<ul><li><p>Things to learn</p>
+
+<ul><li><p>Age, gender, culture, language</p></li>
+<li><p>Education (literacy? numeracy?)</p></li>
+<li><p>Physical limitations</p></li>
+<li><p>Computer experience (typing? mouse?)</p></li>
+<li><p>Motivation, attitude</p></li>
+<li><p>Domain experience</p></li>
+<li><p>Application experience</p></li>
+<li><p>Work environment and other social context</p></li>
+<li><p>Relationships and communication patterns with other people</p></li></ul></li>
+<li><p>Pitfall</p>
+
+<ul><li><p>describing what you <em></em></p><p><em>want</em></p> your users to be, rather than what they actually are<ul><li><p>“Users should be literate in English, fluent in spoken Swahili, right-handed, and color-blind”</p></li></ul><p></p></li></ul></li></ul></div>
+
+<p>The reason for user analysis is straightforward: since you’re not the user, you need to find out who the user actually is.</p>
+
+<p>User analysis seems so obvious that it’s often skipped. But failing to do it explicitly makes it easier to fall into the trap of assuming every user is like you. It’s better to do some thinking and collect some information first.
+Knowing about the user means not just their individual characteristics, but also their situation. In what environment will they use your software? What else might be distracting their attention? What is the social context? A movie theater, a quiet library, inside a car, on the deck of an aircraft carrier; environment can place widely varying constraints on your user interface.</p>
+
+<p>Other aspects of the user’s situation include their relationship to other users in their organization, and typical communication patterns. Can users ask each other for help, or are they isolated? How do students relate differently to lab assistants, teaching assistants, and professors?</p>
+
+<p>Many problems in needfinding are caused by jumping too quickly into a system design. This sometimes results in wishful thinking, rather than looking at reality. Saying “OMS users should all have touchtone phones” is stating a requirement on the system, not a characteristic of the existing users. One reason we do needfinding is to see whether these requirements can actually be satisfied, or whether we’d have to add something to the system to make sure it’s satisfied. For example, maybe we’d have to offer touchtone phones to every athlete’s friends and family…</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Multiple Classes of Users</p></div>
+
+<ul><li><p></p><p>Many applications have several kinds of users</p><p></p>
+
+<ul><li><p>By role (student, teacher)</p></li>
+<li><p>By characteristics (age, motivation)</p></li></ul></li>
+<li><p></p><p>Example: Olympic Message System</p><p></p>
+
+<ul><li><p>Athletes</p></li>
+<li><p>Friends &amp; family</p></li>
+<li><p>Telephone operators</p></li>
+<li><p>Sysadmins</p></li></ul></li></ul></div>
+
+<p>Many, if not most, applications have to worry about multiple classes of users.</p>
+
+<p>Some user groups are defined by the roles that the user plays in the system: student, teacher, reader, editor.
+Other groups are defined by characteristics: age (teenagers, middle-aged, elderly); motivation (early adopters, frequent users, casual users). You have to decide which user groups are important for your problem, and do a user analysis for every class.</p>
+
+<p>The Olympic Message System case study we saw in an earlier reading identified several important user classes by role.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Identify the User’s Goals</p></div>
+
+<ul><li><p></p><p>Identify the goals involved in the problem</p><p></p>
+
+<ul><li><p>Decompose them into subtasks</p></li>
+<li><p>Abstract them into goals </p></li></ul></li>
+<li><p></p><p>Example: Olympic Message System</p><p></p>
+
+<ul><li><p>send message to an athlete</p></li>
+<li><p>find out if I have messages</p></li>
+<li><p>listen to my messages</p></li></ul></li></ul></div>
+
+<p>The best sources of information are user interviews and direct observation. Usually, you’ll have to observe how users currently perform the task. For the OMS example, we would want to observe athletes interacting with each other, and with family and friends, while they’re training for or competing in events. We would also want to interview the athletes, in order to understand better their goals in the task.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Common Errors in Needfinding</p></div>
+
+<ul><li><p>Thinking from the system’s point of view, rather than the user’s</p>
+
+<ul><li><p>“Notify user about appointment”</p></li>
+<li><p>vs. “Get a notification about appointment”</p></li></ul></li>
+<li><p>Fixating too early on a UI design vision</p>
+
+<ul><li><p>“The system bell will ring to notify the user about an appointment…”</p></li></ul></li>
+<li><p>Bogging down in what users do now (<strong></strong></p><p><strong>concrete</strong></p> tasks), rather than why they do it (<strong><p>essential</p></strong> tasks or goals)<p></p>
+
+<ul><li><p>“Save file to disk”</p></li>
+<li><p>vs. “Make sure my work is kept”</p></li></ul></li>
+<li><p>Duplicating a bad existing procedure in software</p></li>
+<li><p>Failing to capture good aspects of existing procedure </p></li></ul></div>
+
+<p>The premature-system-design mindset can affect this part too. If you’re writing down tasks from the system’s point of view, like “Notify user about appointment”, then you’re writing requirements (what the system should do), not user goals. Sometimes this is merely semantics, and you can just write it the other way; but it may also mean you’re focusing too much on what the system can do, rather than what the user wants. Tradeoffs between user goals and implementation feasibility are inevitable, but you don’t want them to dominate your thinking at this early stage of the game.</p>
+
+<p>Needfinding derived from observation may give too much weight to the way things are currently done. The steps of a current system are <strong>concrete</strong> tasks, like “save file to disk.” But if we instead generalize that to a user goal, like “make sure my work is kept”, then we have an <strong>essential</strong> task, which admits much richer design possibilities when it’s time to translate this task into a user interface.</p>
+
+<p>A danger of concrete analysis is that it might preserve tasks that are inefficient or could be done a completely different way in software. Suppose we observed users interacting with paper manuals. We’d see a lot of page flipping: “Find page N” might be an important subtask. We might naively conclude from this that an online manual should provide really good mechanisms for paging &amp; scrolling, and that we should pour development effort into making those mechanisms as fast as possible. But page flipping is an artifact of physical books! It might pay off much more to have fast and effective searching and hyperlinking in an online manual. That’s why it’s important to focus on <strong>why</strong> users do what they do (the essential tasks), not just what they do (the concrete tasks).</p>
+
+<p>Conversely, an incomplete analysis may fail to capture important aspects of the existing procedure. In one case, a dentist’s office converted from manual billing to an automated system. But the office assistants didn’t like the new system, because they were accustomed to keeping important notes on the paper forms, like “this patient’s insurance takes longer than normal.” The automated system provided no way to capture those kinds of annotations. That’s why interviewing and observing real users is still important, even though you’re observing a concrete task process.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Example: IDEO Shopping Cart</p></div>
+<img src="figures/15.png"></div>
+
+<div class="video-status panel panel-info"><div class="panel-body text-center"><p>Watch this video about the design firm IDEO’s process.</p>
+
+<a class="video-play" href="https://courses.csail.mit.edu/6.005/video/reading_6_user_centered_design,needfinding/M66ZU2PCIcM"><strong>▶︎ Play video</strong></a></div></div>
+
+<p>In the video, where does IDEO collect information from users and observation? What problems and goals do they discover from their observation?</p></div><div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="needfinding/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-06-user-centered-design"><div class="panel-body"><p>What’s the fastest speed that a wind-blown shopping cart has been clocked crossing a parking lot? (choose one best answer)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="5 mph"><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">5 mph</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="25 mph"><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">25 mph</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="15 mph"><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">15 mph</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="35 mph"><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">35 mph</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="idea_generation">Idea Generation</h2>
+
+<div data-outline="idea_generation"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Generating Ideas</p></div>
+
+<ul><li><p>Generate ideas individually first</p></li>
+<li><p>Then come together as a group and brainstorm</p></li>
+<li><p>Write down everything on a board</p></li></ul></div>
+
+<p>After you collect information about the users and their goals, you’ll have to identify a key <strong>problem</strong> that you’re going to solve by building new software. Sometimes the problem will jump out at you; if so great. If not, you’ll need to generate some ideas for problems to solve. That means reading and thinking about all the information you’ve collected, and then doing some idea generation. These slides talk about the <strong>idea generation</strong> process. You’ll find this useful not just at this stage, but also for the next step in your project, when you’ll have to generate ideas for solutions to the problem you’ve identified.</p>
+
+<p>Note that <strong>group brainstorming by itself is not the best approach</strong>. It’s been shown that you’ll generate more ideas if you and your teammates first think about it privately, write down your individual ideas, then come together as a group to synthesize and build on each other’s ideas. At top design firms like IDEO, if you don’t bring in at least 5 ideas to every ideation meeting, then you won’t last long as a designer.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>IDEO’s Rules for Brainstorming</p></div>
+
+<ul><li><p>Be visual</p></li>
+<li><p>Defer judgment</p></li>
+<li><p>Encourage wild ideas</p></li>
+<li><p>Build on the ideas of others</p></li>
+<li><p>Go for quantity</p></li>
+<li><p>One conversation at a time</p></li>
+<li><p>Stay focused on the topic</p></li></ul></div>
+
+<p>IDEO has developed a list of rules for good brainstorming as a group. Read more about them <a href="http://www.openideo.com/fieldnotes/openideo-team-notes/seven-tips-on-better-brainstorming">here</a>.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Keep Multiple Alternatives Around</p></div>
+<img src="figures/16.png">
+<img src="figures/17.png">
+<img src="figures/06.png"></div>
+
+<p>Don’t fixate on one approach too early. Instead, keeping multiple alternatives on the table helps with all parts of the user-centered design process - design, implementation, and evaluation. Human beings need multiple alternatives to be creative and give good feedback. Here’s some evidence.</p>
+
+<ul>
+<li>For individual designers: designers produce designs that are more creative and divergent when they keep multiple designs around throughout the iterative process. They also feel more confident about their designs, and the resulting final design is objectively better. (Dow et al, <a href="http://isites.harvard.edu/fs/docs/icb.topic1003903.files/The Design Process/Dow-2010-Parallel Prototyping Leads to Better.pdf">“Parallel Prototyping Leads to Better Design Results, More Divergence, and Increased Self-Efficacy”</a>, TOCHI, 2010).</li>
+<li>For groups: when you’re sharing ideas with a group, sharing multiple ideas is better than sharing your single favorite. The group is more likely to integrate parts of multiple ideas together, the group explore more of the design space, and others in the group provide more productive critiques. (Dow et al., <a href="http://truonex-images.s3.amazonaws.com/uploads/attachment/attachment_file/19/PrototypingDynamics-CHI11.pdf">“Prototyping Dynamics: Sharing Multiple Designs Improves Exploration, Group Rapport, and Results,”</a> CHI 2011).</li>
+<li>For users: users give more constructive critiques when they’re asked to use multiple alternative prototypes. (Tohidi et al, “Getting the Right Design and the Design Right: Testing Many Is Better Than One.” CHI 2006.)</li>
+</ul>
+
+<p>Two reasons why multiple alternatives help. First, humans are better at comparing things than they are at judging the absolute value of one thing in isolation. Second, presenting only one idea puts a lot of emotional weight on it, so the idea’s presenter feels obliged to defend it, and others feel reluctant to criticize it.</p></div><div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise" data-outline="exercise" data-ex-id="idea_generation/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-06-user-centered-design"><div class="panel-body"><p>Which of the following are good approaches for idea generation? (choose all good answers)</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Start by thinking alone, then combine ideas in a group"><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">Start by thinking alone, then combine ideas in a group</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Generate crappy ideas too"><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">Generate crappy ideas too</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Arrive at a consensus idea as soon as possible"><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">Arrive at a consensus idea as soon as possible</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Don’t write anything down so that the ideas flow faster"><label for="md_converted_choice_3_3"><input type="checkbox" id="md_converted_choice_3_3">Don’t write anything down so that the ideas flow faster</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul><li><p>Iterative design</p>
+
+<ul><li><p>early focus on users and tasks</p></li>
+<li><p>plan to iterate with cheap, fast prototypes</p></li>
+<li><p>evaluate frequently</p></li></ul></li>
+<li><p>Needfinding</p>
+
+<ul><li><p>learn about the users</p></li>
+<li><p>don’t fixate on a system design (either current or envisioned)</p></li>
+<li><p>seek essential goals</p></li></ul></li>
+<li><p>Brainstorming</p></li></ul></div></div></div>
+
+
+
+
+
+
+
+</div></div>
+
+<div class="video-player col-md-6 col-sm-9 col-xs-12"><button class="close video-close">×</button><div class="video-portal panel panel-default"><div class="video-embed embed-responsive embed-responsive-16by9"></div></div></div></main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/06-user-centered-design/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 21:56:03 GMT -->
+</html><!-- Handout delivered Sun Feb 18 2018 10:58:24 GMT-0500 (EST) -->

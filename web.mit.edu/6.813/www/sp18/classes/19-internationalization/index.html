@@ -1,0 +1,293 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/19-internationalization/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:14:22 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 19: Internationalization</title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_19_internationalization">Reading 19: Internationalization</a></li><li><a href="#internationalization_localization">Internationalization &amp; Localization</a></li><li><a href="#design_challenges">Design Challenges</a></li><li><a href="#implementation_techniques">Implementation Techniques</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_19_internationalization">Reading 19: Internationalization</h1>
+
+<div data-outline="reading_19_internationalization"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/hof-laundry-example.gif">
+  <p></p><p>Source: <a href="../../../../../../www.i18nguy.com/images/laundry-bidi.html">i18nguy.com</a></p><p></p></div>
+
+<p>Today’s reading concerns <strong>internationalization</strong>: supporting users who speak different languages and have different cultural conventions. For instance, consider our two hall of fame or shame candidates on the left: The first one shows an advertisement for a laundry detergent. A Western reader will clearly be able to parse this frequence of images: put dirty shirt into laundry machine, add detergent, get clean shirt. But what if the same advertisement was displayed in the Middle East or in Asia where people follow different reading conventions?</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+
+   <img src="figures/hof-vcr-example.jpg">
+  <p></p><p>Source: <a href="../../../../../../www.i18nguy.com/images/vcr.html">i18nguy.com</a></p><p></p></div>
+
+<p>Consider this second example: The all too familiar VCR player that uses arrows to depict first, previous, next, and last functions. What would a Western user expect when pushing the outer left button? What would an Eastern user expect?</p></div>
+
+<div class="row"><h2 id="internationalization_localization">Internationalization &amp; Localization</h2>
+
+<div data-outline="internationalization_localization"><p>In the next sections, we will talk more about the reasons why internationalization can be hard, and discuss some of the support that exists in GUI toolkits for making it easier.</p><p>A good source of information about this problem is <em>Java Internationalization</em>, by Andy Deitsch and David Czarnecki (O’Reilly, 2001).  There’s also <a href="http://java.sun.com/docs/books/tutorial/i18n/index.html">a trail in the Java Tutorial</a> about Java’s internationalization features.</p></div>
+
+</div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Internationalization and Localization</p></div>
+  <img src="figures/02.png">
+  <img src="figures/03.png">
+  <img src="figures/04.png"></div>
+
+<p>Interfaces with international user populations - such as Microsoft Word, shown here - have to be carefully designed to make them easy to adapt to other languages and cultures.  The process of making a user interface <em>ready</em> for translation is called <strong>internationalization</strong> (often called <strong>i18n</strong> for short - “18” because it replaces 18 characters in the middle of “internationalization”).</p>
+
+<p>Essentially, internationalization separates the language-specific parts of the interface from the rest of the code, so that those parts can be easily replaced.  The translation is usually done by nonprogrammers, so their job is easier if the textual messages are separate from the code.  Actually doing this translation for a particular language and culture is called <strong>localization</strong>.</p>
+
+<p>One way to understand the difference between these two technical terms is by analogy to portability across operating system platforms.  If you write your program carefully so that it doesn’t depend on specific features of an operating system or processor, you’ve made it portable.  Making a program portable is analogous to internationalizing it.  Actually <em>porting</em> it to another particular platform, e.g., by recompiling it, is analogous to localizing it.</p>
+
+<p>Unfortunately localization is much harder than merely knowing what words to substitute (and online translators like Babelfish and Google Translate can only barely do that, so don’t rely on them!)  You can’t necessarily rely on bilingual members of your design team, either.  They may be reasonably fluent in the other language, but not sufficiently immersed in the <strong>culture</strong> or <strong>national standards</strong> to notice all the places where the application needs to change.  <strong>You are not the user</strong> is especially true in internationalization.</p></div>
+
+<h2 id="design_challenges">Design Challenges</h2>
+
+<div data-outline="design_challenges"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Translation</p></div>
+
+<ul><li><p>All user-visible text has to be translated</p>
+
+<ul><li><p>Object approach<br>
+<code>&lt;button&gt; OK &lt;/button&gt;</code></p></li>
+<li><p>Stroke approach<br>
+<code>canvas.fillText("Name:",...)</code></p></li>
+<li><p>Pixel approach</p>
+
+<img src="figures/05.png"></li></ul></li>
+<li><p>Error messages too</p></li></ul></div>
+
+<p>Here are some of the reasons why internationalization is hard.</p>
+
+<p>First, every piece of text that might be shown to the user is a potential candidate for translation.  That means not just properties of components (like menu items and button labels), but also text drawn with stroke drawing calls, and text embedded in pixel images (like this one taken from the MIT EECS web page).  Translation can easily change the size or aspect ratio of the text; German labels tend to be much longer than English ones, for example.</p>
+
+<p>Error messages also need to be translated, of course - which is another reason not to expose internal system names in error messages.  An English-reading user might be able to figure out what FileNotFoundException means, but it won’t internationalize well.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Risks of Translation</p></div>
+    <img src="figures/06.png">
+    <p></p><p>Source: <a href="http://news.bbc.co.uk/2/hi/uk_news/wales/7702913.stm"></a></p><p><a href="http://news.bbc.co.uk/2/hi/uk_news/wales/7702913.stm">BBC</a></p><p></p><p></p></div>
+
+<p>Here’s a sign from Wales, where official signs are required to be bilingual (English and Welsh).  The English is clear enough to English-speaking lorry drivers - but the Welsh actually reads “I am not in the office at the moment. Send any work to be translated.”  The translation was outsourced by email, you see…</p>
+
+<p>There’s a larger lesson here that translation without sufficient context can lead to errors.  The BBC article cited just above has some amusing examples of other English/Welsh signs that are mistranslated (“staff” → “wooden stick”) because the translator wasn’t fully aware of the context.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Different Scripts</p></div>
+
+<ul><li><p>Cyrillic</p>
+
+<img src="figures/07.png"></li>
+<li><p>Hangul (Korean)</p>
+
+<img src="figures/08.png"></li>
+<li><p>Chinese</p>
+
+<img src="figures/09.png"></li>
+<li><p>Greek</p>
+
+<img src="figures/10.png"></li>
+<li><p>Arabic</p>
+
+<img src="figures/11.png"></li></ul></div>
+
+<p>Different languages obviously use scripts other than the Latin alphabet.  Here are some of the scripts that Windows, Mac, and web browsers all support.</p>
+
+<p>It’s important to distinguish between <strong>script</strong> (or alphabet) and <strong>language</strong>. Western languages like English, French, German, and Italian are different languages that all use the Latin alphabet (basically). Russian, Ukrainian, and Bulgarian (among others) use the Cyrillic alphabet.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Text Direction</p></div>
+
+<ul><li><p>Some scripts don’t read left-to-right</p>
+
+<ul><li><p>Arabic, Hebrew are right-to-left</p></li>
+<li><p>Affects drawing, screen layout, even icons</p></li></ul></li></ul>
+<img src="figures/12.png"></div>
+
+<p>Many scripts are not even written left-to-right; Arabic and Hebrew are the most common languages with scripts written right-to-left.  CJK (Chinese, Japanese, Korean) characters are usually written left-to-right, but can also appear vertically (top-to-bottom) and occasionally even right-to-left.  Reversing the direction of reading requires reversing the entire layout of your screen, since the user is now accustomed to starting from the right edge when they scan.  It might even affect the “natural” direction of arrow icons.  The picture above shows the Hebrew version of Firefox.  Notice that the menu bar is reversed (it starts from the right, and the rightmost menu is the File menu), the toolbar is reversed, and the Back button (which is now the rightmost button) is now pointing to the right!  The URL box isn’t reversed, however, because it uses the Latin alphabet, not Hebrew.  This is another common wrinkle in right-to-left languages: when they embed foreign words, or Arabic numbers, the embedded words go in left-to-right order.  So the text might be constantly switching direction.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Sort Order</p></div>
+
+<ul><li><p>Unicode order isn’t even right for English</p></li>
+<li><p>Uppercase/lowercase, accents affect order</p></li>
+<li><p>Norwegian: … x y z æ ø å </p></li>
+<li><p>Traditional Spanish: c, ch, d, …, l, ll, m, …</p></li></ul>
+<img src="figures/13.png"></div>
+
+<p>Sorting, or collation, is another way that languages differ.  In software, each character is represented by a number (or a short sequence of numbers).  This mapping is the <strong>character encoding</strong>.
+Modern programming languages use the Unicode character set, and may represent each character internally by a 16-bit or 32-bit number (since Unicode has now outgrown its original 16 bits).</p>
+
+<p>But the ordering of these numbers doesn’t necessarily match the conventional ordering of the characters in the language, so sorting text with <code>&lt;</code> or <code>String.compareTo()</code> is almost certainly wrong.  It’s even wrong for English!   Unicode groups the uppercase and lowercase letters separately, so that the sort order by <code>&lt;</code> would be ABC…XYZ…abc…xyz…</p>
+
+<p>Similarly, in most European languages, accented characters are sorted with the plain version of the character, even though the Unicode characters may be nowhere near each other in numerical order. And that general rule is not true in Norwegian, where å actually appears at the <em>end</em> of the alphabet, after z.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Formatting</p></div>
+
+<ul><li><p>Numbers</p>
+
+<table><tbody><tr><th><p>US/UK</p></th><td><p>72,350.55</p></td></tr>
+<tr><th><p>France</p></th><td><p>72 350.55</p></td></tr>
+<tr><th><p>Germany</p></th><td><p>72.350,55</p></td></tr></tbody></table></li>
+<li><p>Date &amp; time formatting</p>
+
+<table><tbody><tr><th><p>US</p></th><td><p>10/31/2006</p></td><td><p>(M/D/Y)</p></td></tr>
+<tr><th><p>Everywhere else</p></th><td><p>31/10/2006</p></td><td><p>(D/M/Y)</p></td></tr></tbody></table></li></ul></div>
+
+<p>Number formats and date formats also vary - not just by language, but by country.  In the US, commas are used for millions and thousands, and a period for the decimal point, as in “72,350.55”.  But the convention in Germany is precisely the opposite: “72.350,55”.  Even countries that share the same language may differ on conventional formats.  Americans tend to write dates as MM/DD/YY, but British write DD/MM/YY (as does most of the rest of the world).</p>
+
+<p>The target for localization therefore needs to be specified by a language/country pair, also called a <strong>locale</strong>, such as US English, UK English, or Canadian French.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Color Conventions</p></div>
+<table><tbody><tr><td></td>
+<td><p>US</p></td>
+<td><p>China</p></td></tr>
+<tr><td><p>White</p></td>
+<td><img src="figures/14.jpg"></td>
+<td><img src="figures/15.png"></td></tr>
+<tr><td><p>Red</p></td>
+<td><img src="figures/16.png"></td>
+<td><img src="figures/17.png"></td></tr></tbody></table></div>
+
+<p>Localizing a user interface requires knowing about the cultural associations attached to symbols or colors, and making sure you don’t send the wrong message.</p>
+
+<p>For example, <strong>colors</strong> have different meanings in different cultures.  In East Asia, particularly China, white is associated with death, and is used as a color theme for funerals.  In the West, on the other hand, white is a symbol of purity, and brides wear white at their weddings. Traditional Chinese weddings involve a lot of red, because it symbolizes luck.  Western cultures don’t have the same association for red.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Icons</p></div>
+<ul><li><p>Familiar icons in one culture aren’t in others</p></li></ul>
+
+
+
+<div class="inline-content"><img src="figures/18.jpg">
+<img src="figures/19.jpg">
+<img src="figures/20.jpg">
+<img src="figures/21.png">
+<img src="figures/22.jpg">
+<img src="figures/23.png">
+<img src="figures/24.png">
+<img src="figures/26.png">
+<img src="figures/27.jpg"></div></div>
+
+<p>Icons must also be carefully chosen, or replaced when the interface is localized.  Metaphorical icons that refer to everyday objects like mailboxes and stop signs aren’t necessarily recognizable, because the objects may look different in different countries.  (Stop signs are actually pretty universal, however  - I had to look hard to find a stop sign that wasn’t a red octagon, like this Japanese inverted triangle.)  Hand gestures pictured as icons may actually be offensive in some countries.  And visual puns are always a bad idea - an English-speaking designer might think it’s cute to use a picture of a table (the furniture) to represent table (the 2D grid), because the words are the same in English.  But the words in German are tisch (furniture) and tabelle (grid), so a German may find the joke incomprehensible.</p></div><div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="design_challenges/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-19-internationalization"><div class="panel-body"><p>When localizing a website, it is important to pay attention to (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Non-text icons"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Non-text icons</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The formatting of dates and numbers"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">The formatting of dates and numbers</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The cultural perception of colors"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">The cultural perception of colors</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="The directionality of the source code"><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">The directionality of the source code</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Pixel output"><label for="md_converted_choice_1_4"><input type="checkbox" id="md_converted_choice_1_4">Pixel output</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="implementation_techniques">Implementation Techniques</h2>
+
+<div data-outline="implementation_techniques"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Implementation Support for I18N</p></div>
+
+<ul><li><p>Message files</p></li>
+<li><p>Unicode</p></li>
+<li><p>Bidirectionality</p></li>
+<li><p>Formatting libraries</p></li>
+<li><p>Separating structure from presentation</p></li></ul></div>
+
+<p>Now that we’ve surveyed the challenges, let’s talk about some solutions. Modern UI toolkits provide support that make it easier to implement internationalized interfaces.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Message Files</p></div>
+
+<ul><li><p>A message file separates localizable messages from source code</p>
+
+<ul><li><p>Also called resource files or resource bundles</p></li></ul></li>
+<li><p>Human translators generate a message file for each supported locale</p>
+
+<ul><li><p>Doesn’t require translators to read source code or recompile</p></li></ul></li>
+<li><p>Messages with dynamic parts can be tricky</p>
+
+<ul><li><p><code>{N}</code> users have visited since <code>{date}</code></p></li></ul></li></ul></div>
+
+<p>The most basic feature for internationalization is supporting translation into different languages.
+UI toolkits that support this allow textual messages to be stored separately from the code, as dynamically loadable, structured text files, so that an application can be localized simply by replacing those text messages.  The messages are referred to by names, such as <code>"file-menu-label"</code>.</p>
+
+<p>This is an example of the general strategy for internationalization.  First, use abstraction to isolate the parts of your system that need to change from one locale to another, separating it from the rest of your program.  (This is an application of a familiar software engineering rule - if you know something will change, isolate it.)  Second, as much as possible, design these locale-specific parts so that they don’t require reading source code or recompiling the program, so that localization can be done by nonprogrammers.</p>
+
+<p>Internationalization gets a little tricky when a message has dynamic parts, like “25 users have visited since January 1”.  In an uninternationalized program, you might simply concatenate in your source code: <code>num + " users have visited since " + date</code>. For internationalization, you need to give the translator flexibility to put the dynamic parts anywhere, using a format like “%1 users have visited since %2”, so that it could be rewritten as “Since %2, %1 users have visited” if the language demands it.  And you also need to think about plurals, usually by having different versions of the entire message that depend on the value of num:</p>
+
+<p><code>num == 0</code> → “%1 users have visited since %2”</p>
+
+<p><code>num == 1</code> → “%1 user has visited since %2”</p>
+
+<p><code>num &gt; 1</code> → “%1 users have visited since %2”</p>
+
+<p>Format.js supports <a href="https://formatjs.io/guides/message-syntax/#plural-format">pluralization rules</a> that make this task somewhat easier.  But be careful - Arabic <a href="http://en.wikipedia.org/wiki/Grammatical_number">has a different plural form</a> when <code>num == 2</code> than when <code>num &gt; 2</code>.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Bidirectionality</p></div>
+
+<ul><li><p>Bidirectional text display and editing</p>
+
+<ul><li><p>String in memory: This is <strong></strong></p><p><strong>arabic text</strong></p><p></p></li>
+<li><p>Drawn on screen:</p>
+
+<table><tbody><tr><td><p>(base direction English)</p></td>
+<td><p>This is txet cibara</p></td></tr>
+<tr><td><p>(base direction Arabic)</p></td>
+<td><p>txet cibara This is</p></td></tr></tbody></table></li></ul></li>
+<li><p>Bidirectional layout</p></li></ul></div>
+
+<p>To handle languages that read right-to-left, UI toolkits like HTML/CSS provide support for bidirectional text (sometimes called “BiDi” or BIDI for short).  The trickiest part here is that Unicode strings may (and often do!) mix characters from multiple scripts: Arabic and English, for example.  A good UI toolkit will ensure that when you draw such a string to the screen, it draws the appropriate characters in the appropriate order.  There must be a <em>base direction</em> that determines whether the whole string starts at the left or the right; if the interface is primarily English, for example, then the base direction should be left to right, but if it’s primarily Arabic, the base direction should be right to left.  To avoid messing up bidirectionality, don’t try to draw a sentence in little pieces; instead, put together a string first, and draw it all at once, letting the toolkit figure it out.  (If you’re using message files properly, of course, this will happen anyway.)</p>
+
+<p>International toolkits must also support bidirectional text editing, making (for example) arrow keys and selection work in the correct direction for the script.</p>
+
+<p>Automatic layout managers can also support bidirectionality.  In CSS, for example, table cells are laid out either left-to-right or right-to-left, depending on the HTML <code>dir</code> attribute or CSS <code>direction</code> property of the parent.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Formatting Libraries</p></div>
+
+<ul><li><p>Javascript library support for parsing and printing numbers and dates:</p>
+
+<ul><li><a href="https://formatjs.io/"><p>format.js</p></a></li>
+  <li><p></p><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl">Intl</a> API</p><p></p></li></ul></li></ul></div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Separating Structure From Presentation</p></div>
+
+<ul><li><p>Replaceable icons and images</p></li>
+<li><p>Fonts</p></li>
+<li><p>Colors</p></li></ul></div>
+
+<p>Finally, to handle other changes that localization might impose, it helps to isolate details of the presentation.  Images and icons might need language translation (if they contain text) or cultural translation (if they use unfamiliar symbols).  Fonts might need to change to handle different scripts, since fonts rarely have glyphs for every script in Unicode.  And colors might need to change if they have cultural problems.</p>
+
+<p>For web programming, CSS makes this kind of separation easier.</p></div><div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="implementation_techniques/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-19-internationalization"><div class="panel-body"><p>Which of the following are useful implementation techniques for localization? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Separating source code files and comments"><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">Separating source code files and comments</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Using formatting libraries for handling currencies and dates"><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">Using formatting libraries for handling currencies and dates</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Separating structure from presentation"><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">Separating structure from presentation</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Having translators read the source code file"><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">Having translators read the source code file</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul><li><p>Internationalization abstracts a user interface so that it can be localized for different locales</p>
+
+<ul><li><p>Languages</p></li>
+<li><p>Scripts</p></li>
+<li><p>Formatting conventions</p></li>
+<li><p>Cultures</p></li></ul></li></ul></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/19-internationalization/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:15:29 GMT -->
+</html><!-- Handout delivered Thu Feb 22 2018 16:11:42 GMT-0500 (EST) -->

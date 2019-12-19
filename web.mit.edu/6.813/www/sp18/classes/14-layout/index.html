@@ -1,0 +1,254 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/14-layout/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:05:43 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 14: Layout </title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_14_layout_">Reading 14: Layout </a></li><li><a href="#grouping_and_hierarchy">Grouping and Hierarchy</a></li><li><a href="#whitespace">Whitespace</a></li><li><a href="#alignment_and_grids">Alignment and Grids</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_14_layout_">Reading 14: Layout </h1>
+
+<div data-outline="reading_14_layout_"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/01.png"></div>
+
+<p>Today’s Hall of Fame and Shame is a comparison of two generations of Google Advanced Search.  This is the old interface.</p></div>
+
+<div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/02.png"></div>
+
+<p>And this is the new interface.  (If you can’t read the image, visit the <a href="http://www.google.com/advanced_search">Google Advanced Search page</a>.)</p>
+
+<p>Let’s compare and contrast these two interfaces in terms of:</p>
+
+<ul>
+<li>visibility (specifically self-disclosure)</li>
+<li>graphic design</li>
+<li>task analysis</li>
+<li>efficiency</li>
+</ul></div>
+
+<h2 id="grouping_and_hierarchy">Grouping and Hierarchy</h2>
+
+<div data-outline="grouping_and_hierarchy"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>The Gestalt Principles of Grouping</p></div>
+
+<ul><li><p>Gestalt principles explain how the eye creates a whole (<em></em></p><p><em>gestalt</em></p>) from parts<p></p></li></ul>
+<img src="figures/03.png"></div>
+
+<p>The power of white space for grouping derives from the Gestalt principle of proximity.  These principles, discovered in the 1920’s by the Gestalt school of psychologists, describe how early visual processing groups elements in the visual field into larger wholes.  Here are the six principles identified by the Gestalt psychologists:</p>
+
+<ol>
+<li><p><strong>Proximity</strong>.  Elements that are closer to each other are more likely to be grouped together.  You see four vertical columns of circles, because the circles are closer vertically than they are horizontally.</p></li>
+<li><p><strong>Similarity</strong>.  Elements with similar attributes are more likely to be grouped.  You see four <em>rows</em> of circles in the Similarity example, because the circles are more alike horizontally than they are vertically.</p></li>
+<li><p><strong>Continuity</strong>.  The eye expects to see a contour as a continuous object.  You primarily perceive the Continuity example above as two crossing lines, rather than as four lines meeting at a point, or two right angles sharing a vertex.</p></li>
+<li><p><strong>Closure</strong>.  The eye tends to perceive complete, closed figures, even when lines are missing.  We see a triangle in the center of the Closure example, even though its edges aren’t complete.</p></li>
+<li><p><strong>Area</strong>. When two elements overlap, the smaller one will be interpreted as a figure in front of the larger ground.  So we tend to perceive the Area example as a small square in front of a large square, rather than a large square with a hole cut in it.</p></li>
+<li><p><strong>Symmetry</strong>.  The eye prefers explanations with greater symmetry.  So the Symmetry example is perceived as two overlapping squares, rather than three separate polygons.</p></li>
+</ol>
+
+<p>A good paper about perceptual grouping in HCI and information visualization is Rosenholtz et al, “<a href="http://web.mit.edu/rruth/www/Papers/RosenholtzEtAlCHI2009PO.pdf">An Intuitive Model of Perceptual Grouping for HCI Design</a>“, CHI 2009.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Grouping</p></div>
+
+  <ul><li><p>Use Gestalt principles to visually group related items</p></li></ul>
+
+  <img src="figures/04.png"></div>
+
+<p>The Gestalt principles - particularly <em>similarity</em> and <em>proximity</em> - are useful for putting structure on a visual display, helping the viewer chunk it.  The calculator shown here (which we’ve criticized for other reasons, but we’ll praise it now) uses both similarity and proximity to group what might otherwise be a grid of identical-looking buttons into functional units.  The MC/MR/MS/M+ buttons all share the same label color, shape, size, and even the prefix “M” (similarity), and furthermore each button is closer to the other M buttons than it is to the rest of the calculator (proximity).  The effect is to group the M buttons strongly together into a memory function.  Similarity is likewise used to group Backspace/CE/C together, to group the central number pad together, and to group the key operators /, *, -, + together.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Hierarchy</p></div>
+
+  <ul><li><p>Establish a hierarchy of importance among items in the design</p></li></ul>
+  <img src="figures/05.png">
+  <img src="figures/06.png"></div>
+
+<p>Establish a hierarchy of importance among the elements of your design.  One kind of hierarchy is visual: use visual variables to make the more important elements pop out.  Hacker News (top) does this effectively and simply.  The highest element in the hierarchy is the header bar, which pops out because of its position, its drastically contrasting hue (the only non grayscale on the page!), and value (the boldfaced title in it).  The next elements in the hierarchy are the items on the list.  Within each item, the most important element is the article title, which pops out.  Other data fields of the article have less importance, so they are given less salience.</p>
+
+<p>Article formats (like the one shown on the bottom) also demonstrate hierarchy.  Here, not only are visual variables used to put some elements (like the title) at a higher level than others (like body text), but the <em>position</em> of the elements is also important.  More important elements appear first in the order that the display is likely to be scanned by the reader.  In this case that order is top-to-bottom, left-to-right, but be aware that your design can <em>change</em> the scanning order. For a newspaper with a big banner headline or a central “hero” image, the viewer’s eyes will start there.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="grouping_and_hierarchy/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-14-layout"><div class="panel-body"><p>Which of the following contrasting visual variables would be useful for establishing hierarchy? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Hue, e.g. green vs. red"><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Hue, e.g. green vs. red</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Orientation, e.g. horizontal vs. diagonal"><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Orientation, e.g. horizontal vs. diagonal</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Size, e.g. small vs. large"><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Size, e.g. small vs. large</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Value, e.g. light vs. dark"><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">Value, e.g. light vs. dark</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Position, e.g. top vs. bottom"><label for="md_converted_choice_1_4"><input type="checkbox" id="md_converted_choice_1_4">Position, e.g. top vs. bottom</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="exercise-explain exercise-remote"><p>(missing explanation)</p></div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+
+
+</div></div></div>
+
+
+
+
+
+<h2 id="whitespace">Whitespace</h2>
+
+<div data-outline="whitespace"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>White Space</p></div>
+
+  <ul><li><p>Use white space for grouping, instead of lines</p></li>
+  <li><p>Use margins to draw eye around design</p></li>
+  <li><p>Integrate figure and ground
+  </p><ul><li><p>Object should be scaled proportionally to its background</p></li></ul><p></p></li>
+  <li><p>Don’t crowd controls together
+  </p><ul><li><p>Crowding creates spatial tension and inhibits scanning</p></li></ul><p></p></li></ul></div>
+
+<p>White space plays an essential role in composition.  Screen real estate is at a premium in many graphical user interfaces, so it’s a constant struggle to balance the need for white space against a desire to pack information and controls into a display.  But insufficient white space can have serious side-effects, making a display more painful to look at and much slower to scan.</p>
+
+<p>Put <strong>margins</strong> around all your content.  Labels and controls that pack tightly against the edge of a window are much slower to scan.  When an object is surrounded by white space, keep a sense of proportion between the object (the <strong>figure</strong>) and its surroundings (<strong>ground</strong>). Don’t crowd controls together, even if you’re grouping the controls.  Crowding inhibits scanning, and produces distracting effects when two lines (such as the edges of text fields) are too close.  Many UI toolkits unfortunately encourage this crowding by packing controls tightly together by default - that’s one problem with the default HTML/CSS, in fact.  Better toolkits like Twitter Bootstrap (mentioned later) automatically add margins to your controls that give them a chance to breathe.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Crowded Dialog</p></div>
+  <img src="figures/07.jpg">
+  <p></p><p>Source: Mullet &amp; Sano, p. 110</p><p></p></div>
+
+<p>Here’s an example of an overcrowded dialog.  The dialog has no <strong>margins</strong> around the edges; the controls are <strong>tightly packed</strong> together; and <strong>lines are used for grouping</strong> where white space would be more appropriate.  Screen real estate isn’t terribly precious in a transient dialog box.</p>
+
+<p>The crowding leads to some bad perceptual effects.  Lines appearing too close together - such as the bottom of the Spacing text field and the group line that surround it - blend together into a thicker, darker line, making a wart in the design.  A few pixels of white space between the lines would completely eliminate this problem.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Using White Space to Set Off Labels</p></div>
+  <img src="figures/08.png">
+  <p class="center"></p><p>(a)</p><p></p>
+  <img src="figures/09.png">
+  <p class="center"></p><p>(b)</p><p></p>
+  <p></p><p>Source: Mullet &amp; Sano, p. 96</p><p></p></div>
+
+<p>A particularly effective use of white space is to put labels in the left margin, where the white space sets off and highlights them. In dialog box (a), you can’t scan the labels and group names separately; they interfere with each other, as do the grouping lines.  In the redesigned dialog (b), the labels are now alone on the left, making them much easier to scan.</p>
+
+<p>For the same reason, when space allows, you should put labels to the left of controls, rather than above.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>White Space Avoids Visual Noise</p></div>
+  <img src="figures/10.png">
+  <img src="figures/11.png"></div>
+
+<p>Here’s an interesting idea from Tufte: get rid of the grid rules on a standard bar chart, and use whitespace to show where the grid lines would cross the bars.  It’s much less noisy.  (But alas, impossible to do automatically in most graphing packages.)</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Balance &amp; Symmetry</p></div>
+
+  <ul><li><p>Choose an axis (usually vertical)</p></li>
+  <li><p>Distribute elements equally around the axis
+  </p><ul><li><p>Equalize both mass and extent</p></li></ul><p></p></li></ul>
+  <img src="figures/12.png"></div>
+
+<p>Balance and symmetry are valuable tools in a designer’s toolkit.  In graphic design, symmetry rarely means exact, mirror-image equivalence. Instead, what we mean by symmetry is more like balance: is there the same amount of stuff on each side of the axis of symmetry.  We measure “stuff” by both mass (quantity of nonwhite pixels) and extent (area covered by those pixels); both mass and extent should be balanced.</p>
+
+<p>An easy way to achieve balance is to simply center the elements of your display.  That automatically achieves balance around a vertical axis.  If you look at Google’s home page, you’ll see this kind of approach in action.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_2"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_2-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_2-exercise" data-outline="exercise" data-ex-id="whitespace/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-14-layout"><div class="panel-body"><p>Using whitespace well in layout design exercises which Gestalt principle of grouping? (choose one best answer):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Proximity"><label for="md_converted_choice_2_0"><input type="checkbox" id="md_converted_choice_2_0">Proximity</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Closure"><label for="md_converted_choice_2_1"><input type="checkbox" id="md_converted_choice_2_1">Closure</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Similarity"><label for="md_converted_choice_2_2"><input type="checkbox" id="md_converted_choice_2_2">Similarity</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Continuity"><label for="md_converted_choice_2_3"><input type="checkbox" id="md_converted_choice_2_3">Continuity</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div></div></div>
+
+
+
+
+
+
+
+
+
+<h2 id="alignment_and_grids">Alignment and Grids</h2>
+
+<div data-outline="alignment_and_grids"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Alignment</p></div>
+
+  <ul><li><p>Align labels on left or right</p></li>
+  <li><p>Align controls on left <em></em></p><p><em>and</em></p> right
+  <ul><li><p>Expand as needed</p></li></ul><p></p></li>
+  <li><p>Align text baselines</p></li></ul>
+  <img src="figures/13.png"></div>
+
+<p>Finally, simplify your designs by aligning elements horizontally and vertically.  Alignment contributes to the simplicity of a design. Fewer alignment positions means a simpler design.  The dialog box shown has totally haphazard alignment, which makes it seem more complicated than it really is.</p>
+
+<p><strong>Labels</strong> (e.g. “Wait” and “Retry after”). There are two schools of thought about label alignment: one school says that the left edges of labels should be aligned, and the other school says that their right edges (i.e., the colon following each label) should be aligned.  Both approaches work, and experimental studies haven’t found any significant differences between them.  Both approaches also fail when long labels and short labels are used in the same display.  You’ll get best results if you can make all your labels about the same size, or else break long labels into multiple lines.</p>
+
+<p><strong>Controls</strong> (e.g., text fields, combo boxes, checkboxes). A column of controls should be aligned on both the left and the right.  Sometimes this seems unreasonable—should a short date field be expanded to the same length as a filename?  It doesn’t hurt the date to be larger than necessary, except perhaps for reducing its perceived affordance for receiving a date.  You can also solve these kinds of problems by rearranging the display, moving the date elsewhere, although be careful of disrupting your design’s functional grouping or the expectations of your user.</p>
+
+<p>So far we’ve only discussed left-to-right alignment.  Vertically, you should ensure that labels and controls on the same row share the same <strong>text baseline</strong>. Java Swing components are designed so that text baselines are aligned if the components are centered vertically with respect to each other, but not if the components’ tops or bottoms are aligned.  Java AWT components are virtually impossible to align on their baselines.  The dialog shown here has baseline alignment problems, particularly among the controls in the last row: the checkbox “Use custom editor”, the text field, and the Browse button.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Grid-Based Design</p></div>
+  <img src="figures/14.png"></div>
+
+<p>A <strong>grid</strong> is one effective way to achieve both alignment and balance, nearly automatically. A grid means that you divide the user interface into equal-width columns (separated by gaps, and with margins on both sides of the window), and align content and controls on the column boundaries.  Some elements may span multiple columns, but they align (start or end at) column boundaries.</p>
+
+<p>Newspapers are famous for designing with grids, but if you look carefully at magazines, posters, and many other print designs, you’ll often see a grid guiding the design.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Responsive Design</p></div>
+  <img src="figures/16.png"></div>
+
+<p>A discussion of layout would not be complete without talking a bit about responsive design, which means a layout design that responds appropriately to the size and aspect ratio of the screen.  Responsive designs don’t merely rescale when shown on a small phone screen or on a widescreen desktop monitor.  Instead, a responsive design rearranges its layout, possibly changing what was a 12-column grid on a big wide screen into a 3-column grid on a narrow small screen.  Responsive design is implemented with CSS <strong>media queries</strong> that select different CSS rules depending on the kind of device, its screen size and resolution, and its aspect ratio.</p>
+
+<div class="reading-exercises exercises panel-group converted" id="ex_3"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex_3-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex_3-exercise" data-outline="exercise" data-ex-id="alignment_and_grids/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-14-layout"><div class="panel-body"><p>Aligning controls with each other is an example of applying which overall design principle to which visual variable? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Regularity to position"><label for="md_converted_choice_3_0"><input type="checkbox" id="md_converted_choice_3_0">Regularity to position</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Simplicity to size"><label for="md_converted_choice_3_1"><input type="checkbox" id="md_converted_choice_3_1">Simplicity to size</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Double-duty to value"><label for="md_converted_choice_3_2"><input type="checkbox" id="md_converted_choice_3_2">Double-duty to value</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Reduction to hue"><label for="md_converted_choice_3_3"><input type="checkbox" id="md_converted_choice_3_3">Reduction to hue</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div></div><div class="row"><div class="slide col-sm-6"><p></p><div class="slideTitle"><p>CSS Grids</p></div>
+  <style class="no-markdown">
+  .fakebody {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto 1fr auto;
+      grid-gap: 3px;
+      margin-bottom: 1em;
+      overflow: hidden;
+      resize: both;
+  }
+  .fakebody > * {
+      background: hsl(210, 10%, 90%);
+	  padding: 1em;
+  }
+  </style>
+  <div class="fakebody"><div style="grid-row: 1; grid-column: 1 / 3"><p>header</p></div>
+      <div><p>main</p></div>
+      <div style="grid-row: 2 / 4; grid-column: 2"><p>sidebar</p></div>
+      <div><p>footer</p></div></div><p></p>
+
+<pre><code class="language-html hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>header<span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>main<span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">aside</span>&gt;</span>sidebar<span class="hljs-tag">&lt;/<span class="hljs-name">aside</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>footer<span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span></code></pre>
+
+<pre><code class="language-css hljs"><span class="hljs-selector-tag">body</span> {
+    <span class="hljs-attribute">display</span>: grid;
+    <span class="hljs-attribute">grid-template-columns</span>: <span class="hljs-number">1</span>fr auto;
+    <span class="hljs-attribute">grid-template-rows</span>: auto <span class="hljs-number">1</span>fr auto;
+    <span class="hljs-attribute">grid-gap</span>: <span class="hljs-number">3px</span>;
+}
+<span class="hljs-selector-tag">header</span> {
+    <span class="hljs-attribute">grid-row</span>: <span class="hljs-number">1</span>;
+    <span class="hljs-attribute">grid-column</span>: <span class="hljs-number">1</span> / <span class="hljs-number">3</span>;
+}
+<span class="hljs-selector-tag">aside</span> {
+    <span class="hljs-attribute">grid-row</span>: <span class="hljs-number">2</span> / <span class="hljs-number">4</span>;
+    <span class="hljs-attribute">grid-column</span>: <span class="hljs-number">2</span>;
+}</code></pre></div>
+
+<p>CSS provides layout methods that make gridding easy, namely <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox">Flexbox</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout">Grid Layout</a>.
+To enable them you apply <code>display: flex;</code> or <code>display: grid;</code> respectively, on the element that contains the grid cells / columns.
+To make your layout responsive, you resize your window, notice at what window size it starts to not work well and add a media query that overrides <code>flex-flow</code> for Flexbox or the <code>grid-template-*</code> properties for Grid Layout.</p>
+
+<p>Try resizing the layout on the left (from the bottom right corner) to see how the grid adapts.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+  <ul><li><p>Establish grouping and hierarchy between items</p></li>
+  <li><p>Use whitespace &amp; alignment to preserve simplicity</p></li>
+  <li><p>Use grid-based design for simplicity and responsive design</p></li></ul></div></div></div>
+
+
+
+
+
+
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Lea Verou, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/14-layout/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:07:38 GMT -->
+</html><!-- Handout delivered Wed Mar 14 2018 23:46:58 GMT-0400 (EDT) -->

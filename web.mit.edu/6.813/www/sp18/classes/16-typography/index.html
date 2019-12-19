@@ -1,0 +1,277 @@
+<!DOCTYPE html><html>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/16-typography/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:12:27 GMT -->
+<head>
+<!--
+  Character encoding note: This file should be saved and opened in UTF-8. If
+  this is done correctly, then the following string should not be garbled in
+  your editor (it should be rendered as shown in chartest.png):
+
+  Character encoding test: «ÆØÅÉÈÑÜæøåéèñü¢~§'»
+-->
+<meta charset="UTF-8">
+
+<!-- Lecture title entered here: -->
+<title>Reading 16: Typography </title>
+
+<link href="../../web/handout-style.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body><header><a href="http://web.mit.edu/6.813/www/sp18/">6.813/6.831 — User Interface Design &amp; Implementation</a><div>Spring 2018</div></header>
+<nav class="table-of-contents col-sm-2"><ul class="nav"><li><a href="#reading_16_typography_">Reading 16: Typography </a></li><li><a href="#readability">Readability</a></li><li><a href="#fonts">Fonts</a></li><li><a href="#whitespace">Whitespace</a></li><li><a href="#typeface">Typeface</a></li><li><a href="#choosing_fonts">Choosing Fonts</a></li></ul></nav>
+<main class="container-fluid"><iframe class="exercises-status" src="https://rcm.scripts.mit.edu/handx/sp18/status.php"></iframe><h1 class="handout-title col-sm-8 col-sm-offset-2" id="reading_16_typography_">Reading 16: Typography </h1>
+
+<div data-outline="reading_16_typography_"><div class="markdown col-sm-8 col-sm-offset-2 converted"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>UI Hall of Fame or Shame?</p></div>
+  <img src="figures/01.png"></div>
+
+<p>Consider the web interface for Google Drive. Analyze its usability with respect to:</p>
+
+<ul>
+<li>Graphical layout: the squint test, visual variables, spacing, etc.</li>
+<li>Adherence to user interface conventions</li>
+<li>Simplicity (what functionality is offered, how simply is it expressed?)</li>
+<li>Learnability and efficiency; information scent</li>
+</ul></div>
+
+<div class="row"><p><strong>Typography</strong> is the art and science of displaying text (or “setting type” as print designers call it). The key decisions of typography concern font (the shapes of letters and other characters) and spacing (the white space around letters, words, lines, and paragraphs). Both are important to successful text display; without adequate spacing, the shape of the text is much harder for the eye to discriminate.</p>
+
+<p>For typography, an outstanding book is Robert Bringhurst, <a href="http://www.amazon.com/Elements-Typographic-Style-Robert-Bringhurst/dp/0881791326">The Elements of Typographic Style</a>, Hartley &amp; Marks, 2002. Also useful is “<a href="http://dl.acm.org/citation.cfm?id=287825">Principles of Typography for User Interface Design</a>” by Paul Kahn and Krzysztof Lenk, <em>interactions</em>.</p></div>
+
+<h2 id="readability">Readability</h2>
+
+<div data-outline="readability"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Readability</p></div>
+
+<ul><li><p>Reading process consists of fixations and saccades</p></li>
+<li><p>Readability vs. legibility</p></li>
+<li><p>Metrics of readability</p>
+
+<ul><li><p>Speed</p></li>
+<li><p>Comprehension</p></li>
+<li><p>Subjective preference</p></li></ul></li></ul></div>
+
+<p>In keeping with our brief tours of cognitive science for each design topic, let’s say a bit about what’s known about reading. Note that these high-level comments are applicable to most written languages, not just English. Most of the rest of the reading will be specific to languages that use the Latin alphabet and its corresponding fonts, however.</p>
+
+<p>First, reading is not a smoothly linear process, even though it may feel that way to introspection. The eye does not move steadily along a line of text; it proceeds in fits and starts, called <strong>fixations</strong> (stopping and focusing on one place to recognize a word or several words at a time) and <strong>saccades</strong> (an abrupt jump to the next fixation point). At the end of a line, the eye must saccade back to the beginning of the next line.</p>
+
+<p>Researchers studying reading and typography often make a distinction between <em>legibility</em>, which is low-level and concerns how easy it is to recognize and distinguish individual letter shapes, and <em>readability</em>, which concerns the effectiveness of the whole reading process. A single fixation can consume whole words or multiple words, so fluent readers recognize the shape of an entire word, not necessarily its individual letters. Readability can be measured by several metrics, including speed, comprehension, error rate, and subjective preference. Readability is essentially the usability of a display of text.</p>
+
+<p>A good discussion of the reading process can be found <a href="http://www.microsoft.com/typography/ctfonts/wordrecognition.aspx">here</a>.</p></div></div>
+
+<h2 id="fonts">Fonts</h2>
+
+<div data-outline="fonts"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Dimensions of a Font</p></div>
+  <img src="figures/02.png"></div>
+
+<p>Now a few definitions. Characters in the Latin alphabet all sit on a common baseline. Some characters have descenders dipping below the baseline; others have ascenders rising above the typical height of a lowercase character (the x-height). Capital letters also ascend above the <strong>x-height</strong>. The typical height of ascenders above the baseline is called the <strong>ascent</strong>, and the typical height of descenders below it is called the <strong>descent</strong> of the font.</p>
+
+<p>The <strong>font size</strong> is typically ascent + descent (but not always, alas, so two fonts with the same numerical size but using different typefaces may not line up in height!). Font size is denoted in points; a point is 1/72 inch, so a 12-point font occupies 1/6 of an inch vertically.</p>
+
+<p>X-height, m-width, and n-width are useful font-dependent length metrics. You can find them used in CSS, for example. They allow specifying lengths in a way that will automatically adapt when the font is changed.</p>
+
+<p><a href="../../../../../../www.davidairey.com/images/design/letterform.gif">More font terminology</a> is on the web.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Measurements in CSS</p></div>
+
+<ul><li><p>Device-dependent</p>
+
+<ul><li><p>px</p></li></ul></li>
+<li><p>Resolution-dependent</p>
+
+<ul><li><p>in, cm, mm</p></li>
+<li><p>pt = 1/72 in</p></li>
+<li><p>pc (“pica”) = 12pt = 1/6 in</p></li></ul></li>
+<li><p>Font-dependent</p>
+
+<ul><li><p>em = font size</p></li>
+<li><p>ex = x-height</p></li></ul></li></ul></div></div></div>
+
+
+
+<h2 id="whitespace">Whitespace</h2>
+
+<div data-outline="whitespace"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Spacing</p></div>
+  <img src="figures/03.png"></div>
+
+<p>Several kinds of spacing matter in typography. At the lowest level is character spacing. The gaps between characters must be managed to prevent uneven gaps or characters appearing to run into each other. <strong>Kerning</strong> is the process of adjusting character spacing for <em>particular pairs</em> of characters; sometimes it needs to be narrowed (as V and o shown here), and sometimes widened (e.g., to keep “rn” from looking too much like “m”). Note that <em>kerning</em> is now widely misused to refer to <strong>letter-spacing</strong>, or <strong>tracking</strong>, which refers to the overall density of a set of words; use “kerning” to refer to the spacing between two individual letters.</p>
+
+<p>A good font has kerning rules built into it, and a good GUI toolkit uses them automatically, so this is rarely something GUI programmers need to worry about, except when choosing a font. In the slide above, the top Vott is displayed in Georgia, which at least on my system appears not to have any kerning for V and o. The second Vott is displayed in Times New Roman.</p>
+
+<p>Spacing between words and lines matters too. Words must have adequate space around them to allow the word shape to be easily recognized, but too much space interferes with the regular rhythm of reading. Similarly, adequate line spacing is necessary to make word shapes recognizable in a vertical dimension, but too much line spacing makes it harder for the eye to track back to the start of the next line. Line spacing is also called <strong>leading</strong> (pronounced like “ledding”).  The leading is the distance between baselines of adjacent lines. Both font size and leading are important. Print designers say, for example, “12 point type on 14 points of leading” (or “12/14”) to indicate that the font size is 12 points (typically ascent + descent) with 2 points of space between the descent of one line and the ascent of the next. Using the same line height as font size (like 20/20) is almost always a mistake; characters from adjacent lines touch each other, and the paragraph is much too crowded. Note that leading also strongly affects the overall <strong>value</strong> of the body text (which type designers somewhat confusingly call the “color” of the text; historically print is mainly black-and-white, of course, but it’s confusing when talking about modern printing and modern computer displays). Tight spacing looks much darker than loose spacing.</p>
+
+<p>In most toolkits, choosing a font size implicitly chooses a leading, but the default leading may not always be the best choice. Look at it and adjust if necessary. CSS makes this possible using the <code>line-height</code> property.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Spacing Guidelines</p></div>
+
+<ul><li><p>Use whitespace</p>
+
+<ul><li><p>Always leave margins around body text; never pack it tightly against an edge</p></li></ul></li>
+<li><p>Use generous leading</p>
+
+<ul><li><p>Make sure body text is not overcrowded</p></li>
+<li><p>e.g., CSS: <code></code></p><p><code>line-height: 140%;</code></p><p></p></li></ul></li>
+<li><p>Keep text paragraphs narrow</p>
+
+<ul><li><p>About 60-75 characters / 12-15 words / 30-45 em</p></li></ul></li></ul></div>
+
+<p>Here is some advice for choosing spacing for body text (text set in paragraphs). Always leave margins around body text; never pack it tightly against a rule, an edge, or a window boundary. The margin helps frame the text and also helps the reader find the ends of the lines, which is essential for the saccade back to the beginning of the next line.</p>
+
+<p>Use generous leading, but not too generous.
+The traditional rule of thumb for print typesetting is 120% of the font size.
+Modern websites often use 140% to 160%.
+The <a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-visual-presentation.html">W3C accessibility guidelines</a> recommend at least 150% to make it easier to track back to the start of the next line.
+This reading is at the high end, with 180%.</p>
+
+<p>Line length (or equivalently, paragraph width) is another important consideration. Hundreds of years of experience from print typography suggest that fairly short lines (3-4 inches) are both faster to read and preferred by users. Unfortunately the studies of onscreen reading yield mixed answers; apparently, on screen, longer lines (about twice the ideal length for print) help users read faster, but users still prefer the short lines (perhaps because their consistent feel with print). These same studies show that onscreen reading is slower than print reading, however, and recent studies have shown less and less effect of line length on speed, possibly because display and font technology is improving rapidly. So it’s possible that making the lines longer merely offsets the poorer resolution and legibility of computer displays relative to print, and as the displays approach print in quality, this distinction will go away. (Bailey, “Optimal Line Length: Research Supporting How Line Length Affects Usability 
+“, December 2002)</p>
+
+<p>Translating the 3-4 inch rule into characters or m-widths for typical 10-point to 12-point type gives 60-75 characters or 30-45 em widths.</p></div></div>
+
+
+
+<h2 id="typeface">Typeface</h2>
+
+<div data-outline="typeface"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Typeface</p></div>
+  <img src="figures/04.png"></div>
+
+<p>After spacing, a key decision is what <strong>typeface</strong> to use. Typeface refers to a family of fonts sharing the same name, like “Arial” or “Georgia.” A <strong>font</strong> is a choice of typeface and size and style, like roman, italic, oblique, boldface, etc.</p>
+
+<p>Typefaces can be classified in many ways, and can convey strong associations that influence how the user perceives the text. One important classification you should know is between <strong>serif</strong> fonts, like Georgia and Times, and <strong>sans serif</strong> fonts, like Verdana and Arial. Historically, in print typography, serif fonts have been used for <strong>body text</strong> (text set in paragraphs), because they offer stronger cues to word shape that allow measurably faster reading. Sans serif fonts were generally used for <strong>display text</strong> (text that stands alone, like headings and labels), for which reading speed is less important and contrast from body text is useful.</p>
+
+<p>In the early days of computer typography, sans serif fonts were often preferred for all uses, because their simpler letter shapes were far more legible on low-resolution displays. As displays become higher resolution, however, serif text may once again assert itself; even now, there is evidence that serif fonts are faster to read on screen (Bernard et al, “A Comparison of Popular Online Fonts: Which is Best and When? 
+“, Usability News, 2001).</p>
+
+<p>Another key distinction is between proportional fonts (in which each character has a different width) and monospace fonts (in which all characters have the same width, like Courier New shown here). Monospace fonts waste screen space and generally look worse than well-designed proportional fonts, so avoid them unless you have a good reason.</p>
+
+<p>Your choice of font family conveys a tone. Some designers think Times and Arial look cheap because they’re so widely used; using Georgia or Garamond will give your UI a more “designed” look (i.e., you actually made an informed choice, rather than choosing a default). Another consideration is whether the font was designed for screen use. On this slide, Verdana, Georgia, Tahoma, and Trebuchet were commissioned by Microsoft primarily for onscreen use. Most of the other fonts shown here are digital updates of old fonts originally designed for print. Note some distinct features of Georgia/Verdana/etc. relative to the others - larger x-height (as a fraction of total ascent) and generous bowls and apertures, intended to make the fonts more legible at small sizes on lower-resolution displays.</p>
+
+<p>All the fonts shown here are appropriate and useful for body text (though they aren’t the only possibilities, of course). Fonts for body text are designed to have evenly-distributed “color” (the value of the text in a squint test) so that they look good in bulk. You will find many other fonts installed on your computer, some of them very wacky. Some of these may be useful for occasional display text, but certainly not body text. Unfortunately today’s word processors give users many fonts but very little help selecting the right one for the right use. Instead we get a long undifferentiated list of installed fonts that hides gems like Garamond and Georgia in a sea of Comic Sans, Goudy Stout, and Old English Text MT – some of which probably should not be used in any imaginable circumstance.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Typeface Categories</p></div>
+  <img src="figures/05.png"></div>
+
+<p>To help you sort through the profusion of typefaces out there, here is a commonly-used classification, based on visual characteristics of the faces. (See <a href="http://graphicdesign.spokanefalls.edu/tutorials/process/type_basics/type_families.htm">this page</a> for more discussion of this classification.)</p>
+
+<p>Old Style fonts mimic calligraphy - drawing letters with a pen that has a slanted tip – very closely. Calligraphy was the writing technology that preceded the printing press, so Old Style fonts were maintaining consistency with it. If you look carefully at the a’s in Garamond, you’ll see that the diagonal strokes in one direction are very thin, and diagonal strokes in the other direction are very fat. This is characteristic of a pen held at an angle by a calligrapher’s hand. Other characteristic of Old Style fonts are low contrast (in thickness) between the thick and thin strokes, and small x-heights (relative to the full ascent).</p>
+
+<p>Transitional fonts moved toward greater contrast between thick and thin strokes. The Modern class of fonts is the full evolution of this move - not only are the thick parts of the letters much thicker than the thin parts, but the serifs are virtually hairlines, with sharp corners between the serif and the rest of the letter rather than a graceful curve. Sharp contrasts are typical of Modern fonts.</p>
+
+<p>The Slab Serif family have fat, rather than hairline, serifs, and x-heights tend to be large.</p>
+
+<p>The Sans Serif family is the most recent and modern-looking. Not only have Sans Serif fonts done away with serifs, but they also do away with the variation within a stroke - no more calligraphic contrasts of thick and thin. Instead the letters are geometric, smooth, shaped.</p>
+
+<p>The first five categories are suitable body fonts, readable in long texts. The last category, Decorative, should only be used for headings, titles, or logos, where it’s important to be eye-catching but ease of reading is not so important.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Style</p></div>
+  <img src="figures/06.png"></div>
+
+<p>We said that a font consists of typeface, size, and <strong>style</strong>. Here are a few common styles you can use to establish contrast.</p>
+
+<p>Italic and boldface create contrast in orientation and value, respectively, without substantially changing the shape of the typeface. Some typefaces lack a true italic, and instead substitute an oblique font which is just a slanted version of the normal roman style (sometimes even automatically-transformed from the roman font, not hand-designed). Georgia, shown on the left, has a true italic - notice that the b loses its lower serif, and the g actually changes shape. Sans serif fonts have an oblique rather than italic; look at Arial for an example.</p>
+
+<p>Small caps is another useful style. Small caps are uppercase letters that are as tall as the x-height, rather than the full ascent of the font. Like italic, small caps are sometimes a hand-designed font included with the typeface family (often slightly wider and lighter than capital letters), and sometimes simply automatically generated by shrinking the font.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>All Caps vs. Mixed Uppercase/Lowercase</p></div>
+  <img src="figures/07.png"></div>
+
+<p>While we’re talking about capital letters, it’s worth discussing when it’s appropriate to set text in all capitals. All-caps has very little variation in word shape, because all the letters have the same top (the full ascent of the font) and the same bottom (the baseline, with almost no descenders). For this reason, it’s both slow and unsatisfying to read body text set in all-caps. All-caps should be reserved only for display text (headings, labels, etc), and even then used very sparingly.</p>
+
+<p>Older print typography actually had lowercase digits, not just letters. Notice that the lowercase digits predominantly follow the x-height, with ascenders and descenders for certain digits, just like lowercase letters. You may have seen typesetting like this in older books, published in the first half of the 20th century or earlier. Lowercase digits fell out of fashion in print in favor of more uniform uppercase digits, which may be monospaced horizontally as well, so that columns of digits line up easily; all the digits in Times New Roman have equal width, for example, even though the rest of the typeface is proportional. But lowercase digits are worth some consideration. They are more readable in body text than uppercase digits, for the same reasons as lowercase letters, and they convey a feel that is simultaneously retro and “designed.” Unfortunately the character sets we use (ASCII and Unicode) make no distinction between lowercase 5 and uppercase 5 (unlike a and A), so when you choose a typeface, you either get <em>only</em> lowercase digits (like Georgia on the bottom) or <em>only</em> uppercase digits (like Times on top).</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Character Sets and Encodings</p></div>
+
+<ul><li><p>Character sets</p>
+
+<ul><li><p>ASCII: A-Z, a-z, 0-9, punctuation, control characters</p></li>
+<li><p>Latin-1: ASCII + accented Latin alphabet</p></li>
+<li><p>Unicode: Latin-1 + Greek, Cyrilic, CJK, math symbols, …</p></li></ul></li>
+<li><p>Fonts map characters to visual appearance</p></li>
+<li><p>Encodings map characters to numbers</p>
+
+<ul><li><p>ASCII: A-Z map to 65-90</p></li>
+<li><p>Latin-1: À maps to 192</p></li>
+<li><p>UCS-2: each character maps to 2 bytes</p></li>
+<li><p>UTF-8: each character maps to 1-3 bytes</p></li></ul></li></ul></div>
+
+<p>Note the difference between <strong>character sets</strong> and <strong>fonts</strong>. The Unicode character ‘A’ doesn’t actually say how to <em>draw</em> A on the screen; a font does that. So even though you can represent many different alphabets in a single Unicode string, the <em>font</em> you’re drawing the string with doesn’t necessarily know how to draw all those characters. The appearance of a particular character in a font is called a glyph. Many fonts only have glyphs for a small subset of Unicode. For characters that aren’t supported by the font, you’ll see an error glyph, which might look like a little empty square or a question mark.</p>
+
+<p>Note also the difference between character sets and <strong>encodings</strong>. A character set is an abstract set of possible characters. ASCII had 128 characters; Latin-1 had 256 characters, and Unicode has thousands of characters. An encoding maps each character in a character set to a number (or a small sequence of numbers). Internally, Java uses a 16-bit encoding for Unicode characters, representing each character by two bytes in memory. But the most common encoding for Unicode text in files and web pages is UTF-8, which does not use two bytes per character. Instead, UTF-8 uses 1, 2, or 3 bytes to represent each character. Single bytes are used to represent all the 7-bit ASCII characters, so UTF-8 can be thought of as an extension to ASCII.</p>
+
+<p>There are other encodings as well. ASCII maps its characters to the numbers 0-127, which are stored in bytes. Latin-1 (also called ISO 8859-1 after its ISO standard) maps its characters to 0-255 (compatibly).</p>
+
+<p>In general, <strong>you cannot correctly interpret a text file or web page without knowing its encoding</strong>. If your code ignores encodings and assumes everything is ASCII, you will find that it mostly works as long as you only use English, because encodings generally strive for backwards compatibility with ASCII. In other words, an English text would probably look identical in ASCII, UTF-8, and Latin-1. But it may break horribly on text in other languages. Even English text has problems when the author uses punctuation that isn’t available in the basic ASCII character set. For example, ASCII only had one kind of double-quote mark (a vertical one), but many word processors now use left and right double quotes that are available in Unicode and other character sets, which often turn into garbage characters when you load the text into encoding-ignorant programs.</p>
+
+<p>For more about encodings, Joel Spolsky has <a href="http://www.joelonsoftware.com/articles/Unicode.html">a good article</a>.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Tricky Characters in Online Typesetting</p></div>
+
+<ul><li><p>Asterisk (*) vs. multiply (×) </p></li>
+<li><p>Quotes            ‘… ’     “…”     “…”</p>
+
+<ul><li><p>ASCII only has the straight quotes, not the curly ones</p></li></ul></li>
+<li><p>Hyphens &amp; dashes</p>
+
+<ul><li><p>hyphens (-), en-dashes (–), em-dashes (—)</p></li></ul></li>
+<li><p>Spaces</p>
+
+<ul><li><p>nonbreaking spaces are different from ordinary spaces</p></li></ul></li></ul></div></div></div>
+
+
+
+
+
+
+
+
+
+
+
+<h2 id="choosing_fonts">Choosing Fonts</h2>
+
+<div data-outline="choosing_fonts"><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Font Selection</p></div>
+
+<ul><li><p>Simplicity &amp; contrast</p>
+
+<ul><li><p>Don’t use more than 2 or 3 typefaces</p>
+
+<ul><li><p>e.g., one for body text, one for display text</p></li></ul></li>
+<li><p>Don’t use two faces from the same font category</p>
+
+<ul><li><p>e.g., only one sans serif</p></li></ul></li>
+<li><p>Use size, weight, style (e.g., italic/small caps), hue to establish essential contrasts</p>
+
+<ul><li><p>But 4-5 font varieties should be enough</p></li></ul></li></ul></li></ul></div>
+
+<p>In general, decisions about typography are like other decisions in graphic design: use font selection to make important contrasts, and otherwise keep your font choices simple. Don’t use more than 2 or 3 typefaces (if that many). You might use a serif face for body text, and a sans serif face for display text. Many interfaces have no real need for body text at all, in which case you can easily get away with a single typeface.</p>
+
+<p>Within the typefaces you chose, use variation of size and style (and color) to establish the necessary contrasts. Size, in particular, makes it easy to establish a hierarchy, such as headings and subheadings. Even so, 4-5 fonts in all should be all you need.</p></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Font Properties in CSS</p></div>
+
+<ul><li><p><code>font-family: Georgia, "Times New Roman", serif</code></p>
+
+<ul><li><p>listed in order of priority</p></li>
+<li><p>generic families include serif, sans-serif, monospace</p></li></ul></li>
+<li><p><code>font-weight: bold</code></p></li>
+<li><p><code>font-style: italic</code></p></li>
+<li><p><code>line-height: 120%</code></p></li>
+<li><pre><p><code>@font-face {
+  font-family: 'Droid Sans';
+  src: local('Droid Sans'), url('http://...')
+}</code></p></pre></li>
+<li><p>Google web fonts</p></li></ul></div></div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Tools</p></div>
+<ul><li><p>Use browser developer tools to examine CSS style</p></li>
+<li><p><a href="http://www.identifont.com/"></a></p><p><a href="http://www.identifont.com/">Indentifont </a></p> (20 questions about fonts)<p></p></li>
+<li><p><a href="http://www.myfonts.com/WhatTheFont/"></a></p><p><a href="http://www.myfonts.com/WhatTheFont/">WhatTheFont </a></p> (image lookup)<p></p></li></ul></div></div><div class="reading-exercises exercises panel-group converted" id="ex"><h4 class="text-danger">reading exercises</h4>
+
+<div class="panel panel-danger"><div class="panel-heading" data-target="#ex-exercise" data-toggle="collapse"><span class="panel-title">Exercise</span></div><div class="panel-collapse collapse exercise-panel" id="ex-exercise" data-outline="exercise" data-ex-id="choosing_fonts/exercise" data-ex-category="reading-exercises" data-ex-remote="https://rcm.scripts.mit.edu/handx/sp18/submit.php" data-ex-handout="classes-16-typography"><div class="panel-body"><p>Which of the following statements are true? (choose all good answers):</p><div class="form-group exercise-part" data-outline="a"><div class="checkbox exercise-choice" data-outline="Using small leading makes text appear darker."><label for="md_converted_choice_1_0"><input type="checkbox" id="md_converted_choice_1_0">Using small leading makes text appear darker.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Numbers can be uppercase or lowercase."><label for="md_converted_choice_1_1"><input type="checkbox" id="md_converted_choice_1_1">Numbers can be uppercase or lowercase.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="Setting a paragraph’s text-width to at least 100em makes it easy to read."><label for="md_converted_choice_1_2"><input type="checkbox" id="md_converted_choice_1_2">Setting a paragraph’s text-width to at least 100em makes it easy to read.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+<div class="checkbox exercise-choice" data-outline="A badly-kerned font can lead to reading errors."><label for="md_converted_choice_1_3"><input type="checkbox" id="md_converted_choice_1_3">A badly-kerned font can lead to reading errors.</label><span class="exercise-answer exercise-remote" style="display: none;">(missing answer)</span></div>
+</div><div class="form-inline"><div class="form-group"><button class="btn btn-default exercise-submit">check</button> <button class="btn btn-default exercise-reveal" style="display: none;">explain</button></div><div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div><div class="exercise-error"></div></div></div></div></div>
+
+</div><div class="row"><div class="slide col-sm-6"><div class="slideTitle"><p>Summary</p></div>
+
+<ul><li><p>Whitespace matters for text</p>
+
+<ul><li><p>Use generous margins, line spacing, short lines</p></li></ul></li>
+<li><p>Keep font choices simple</p>
+
+<ul><li><p>Few typefaces, few sizes and styles</p></li></ul></li></ul></div></div></div>
+
+
+
+
+
+
+
+</div></div>
+
+</main>
+<footer class="col-sm-2 footer-margin"><div>Collaboratively authored with contributions from: Elena Glassman, Philip Guo, Daniel Jackson, David Karger, Juho Kim, Rob Miller, Stefanie Mueller, Clayton Sims, and Haoqi Zhang. This work is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC&nbsp;BY-SA&nbsp;4.0</a>.</div></footer>
+<script charset="utf-8" src="../../../../../../ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+<script charset="utf-8" src="../../../../../../maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script charset="utf-8" src="../../web/client.js"></script><footer>MIT EECS</footer><script charset="utf-8" src="../../web/handout-run.js"></script></body>
+<!-- Mirrored from web.mit.edu/6.813/www/sp18/classes/16-typography/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 19 Dec 2019 22:13:32 GMT -->
+</html><!-- Handout delivered Thu Feb 22 2018 16:11:34 GMT-0500 (EST) -->
