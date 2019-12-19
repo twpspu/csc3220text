@@ -1,0 +1,148 @@
+/*
+ * Course Handout Style
+ */
+
+/*@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic);*/
+@import url(http://fonts.googleapis.com/css?family=Roboto:400italic,300,700,300italic,400);
+
+body {
+    font-size: 1.6em;
+    line-height: 1.8em;
+    font-weight: 300;
+    font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+body header { background: #353B56; }
+body footer { background: #999; }
+body .nav > li.active > a {
+  background-color: #64C9DC;
+  border-right: 5px solid #0FACCB;
+}
+body .remark-slide-content.chapter h1 { background: #933; }
+body .remark-slide-content.chapter p { color: #999; }
+
+/* typography */
+header, footer, h1, h2, h3, h4, h5, h6, nav {
+  font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+.remark-slide, .video-status {
+  font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+img, video {
+    max-width: 100%;
+}
+
+/* tweak headers */
+h3 { font-size: 22px; }
+h4 { font-size: 17px; }
+.exercises h4 { text-transform: uppercase; }
+
+/* syntax highlighting with Eclipse colors */
+.hljs,
+.hljs-subst { color: #333; }
+.hljs-keyword,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-meta-keyword,
+.hljs-doctag,
+.hljs-name { color: rgb(127,0,85); }
+.hljs-built_in,
+.hljs-bullet,
+.hljs-code,
+.hljs-addition { color: #2C6F2C; }
+.hljs-literal { color: #4D974D; }
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo { color: #BC6060; }
+.hljs-type,
+.hljs-string,
+/* .hljs-number, */
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion { color: rgb(41,0,255); }
+.hljs-title,
+.hljs-section { color: #333; }
+.hljs-comment { color: rgb(63,127,95); }
+.hljs-meta { color: rgb(100,100,100); }
+/* .hljs-meta-string { color: #6CA8D6; } */
+.hljs-emphasis { font-style: italic; }
+.hljs-strong { font-weight: bold; }
+.handout-javadoc-comment { color: rgb(63,95,191); }
+.handout-javadoc-comment .hljs-doctag { color: rgb(127,159,191); }
+
+
+/* 6.813 rules */
+.row {
+    margin-bottom: 2em;
+}
+.slide {
+    border: 1px solid #b4b4c8;
+    float: left;
+    margin-right: 2em;
+    padding: 1em;
+    /*counter-increment: section;*/
+    /*width: 50%;*/
+    max-width: 700px;
+    /*margin-left: 50px;*/
+}
+
+.slide .slideTitle {
+    color: #0FACCB;
+    font-size: 120%;
+    line-height: 1em;
+    margin: 0.5em 0;
+}
+.slide p {
+    margin: 0;
+}
+.slide .caption {
+    font-size: 0.8em;
+    font-style: italic;
+    line-height: 0.8em;
+    text-align: center;
+}
+.slide img,
+.slide video {
+    height: auto;
+    max-width: 100%;
+    width: auto;
+    display: inherit;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+
+.nav > li > a {
+    font-weight: 400;
+    font-size: 0.9em;
+    line-height: 1.3em;
+}
+
+
+.handout-title {
+    border-bottom: 1px solid #0FACCB;
+    margin-top: 1em;
+    padding-bottom: 5px;
+}
+
+.due-info {
+  border: 1px solid rgb(160, 159, 129);
+  padding: 0.5em 1em;
+  background: rgb(250, 255, 226) none repeat scroll 0% 0%;
+}
+
+figure {
+    width: fit-content;
+    margin: 1em auto;
+}
+
+.caption, figcaption {
+  font-weight: bold;
+  text-align: center;
+}

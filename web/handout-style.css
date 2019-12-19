@@ -3,7 +3,7 @@
  */
 
 @import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css);
-@import url(http://web.mit.edu/6.813/www/sp18/web/course-style.css);
+@import url(course-style.css);
 
 body {
   position: relative; /* required for scrollspy */
